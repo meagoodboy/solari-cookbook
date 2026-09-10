@@ -27,6 +27,11 @@ believable suspects.
    run to run.
 7. Rich, the terminal rendering library, at its current tip: two problems
    nobody had reported before this work found them.
+8. FastAPI, one of the most popular web frameworks in the world, at its
+   current tip: a third unreported problem, found by sweeping famous
+   projects and convicting the cause. Flask, Click, Jinja, NumPy and
+   pandas were swept the same way and came back clean, which is the
+   honest half of the story.
 
 ## What we found
 
@@ -57,6 +62,10 @@ released the innocent suspects every time.
   (convicted at p that has thirteen zeros), and one test permanently
   rewrites a shared box style so unrelated tests fail when the order
   shuffles. Neither had ever been reported.
+- FastAPI's shipped test suite turned out to be order-dependent: several
+  tests share one mutable state dict and only pass in the order the file
+  happens to list them. Convicted at a p value with thirteen zeros, with
+  a randomly-varying decoy released, and unreported anywhere before this.
 - Every conviction was re-checked: bundles replay end to end with
   `crux verify`, and the flagship cases hold at a fresh seed.
 

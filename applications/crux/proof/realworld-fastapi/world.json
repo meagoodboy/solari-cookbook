@@ -1,0 +1,58 @@
+{
+  "cmd": [
+    "/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/famous/fastapi/src/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:codspeed",
+    "-p",
+    "no:randomly",
+    "-p",
+    "no:cacheprovider"
+  ],
+  "concurrency": 1,
+  "cwd": "/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/famous/fastapi/src",
+  "kind": "command",
+  "specs": [
+    {
+      "active": {
+        "PYTEST_ADDOPTS": "tests/test_dependency_contextmanager.py::test_sync_async_state tests/test_dependency_contextmanager.py::test_async_state"
+      },
+      "factor_id": "reversed_test_order",
+      "neutral": {
+        "PYTEST_ADDOPTS": "tests/test_dependency_contextmanager.py::test_async_state tests/test_dependency_contextmanager.py::test_sync_async_state"
+      }
+    },
+    {
+      "active": {
+        "PYTHONHASHSEED": "{seed32}"
+      },
+      "factor_id": "hash_randomization",
+      "neutral": {
+        "PYTHONHASHSEED": "1"
+      }
+    },
+    {
+      "active": {
+        "TZ": "Asia/Kolkata"
+      },
+      "factor_id": "timezone",
+      "neutral": {
+        "TZ": "UTC"
+      }
+    },
+    {
+      "active": {
+        "LANG": "en_US.UTF-8",
+        "LC_ALL": "en_US.UTF-8"
+      },
+      "factor_id": "locale",
+      "neutral": {
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8"
+      }
+    }
+  ],
+  "timeout_s": 120.0
+}

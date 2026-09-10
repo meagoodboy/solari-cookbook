@@ -1,0 +1,16 @@
+{
+  "conviction": "no-reversed_test_order",
+  "gaps": {
+    "no-hash_randomization": 0.0,
+    "no-locale": 0.0,
+    "no-reversed_test_order": 1.0,
+    "no-timezone": 0.0
+  },
+  "rates": {
+    "baseline": 0.0,
+    "no-hash_randomization": 0.0,
+    "no-locale": 0.0,
+    "no-reversed_test_order": 1.0,
+    "no-timezone": 0.0
+  }
+}

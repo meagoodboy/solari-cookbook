@@ -51,14 +51,15 @@ hand-written scenario, because it is the same investigation. With
 
 ## What it catches, with receipts
 
-Eight investigations across five failure families, six of them in real
-well-known software, including an open PyTorch bug and two previously
-unreported findings at rich HEAD. Every verdict beat a lineup that included
-decoy suspects, the p value is always the one from the fresh confirmation
-batch, and each bundle replays.
+Nine investigations across five failure families, seven of them in real
+well-known software, including an open PyTorch bug and three previously
+unreported findings at the current tips of fastapi and rich. Every verdict
+beat a lineup that included decoy suspects, the p value is always the one
+from the fresh confirmation batch, and each bundle replays.
 
 | Failure family | Where | Verdict | Confirmation p | Receipts |
 | --- | --- | --- | --- | --- |
+| Test-order dependence, new find | fastapi/fastapi HEAD, ~102k stars, previously unreported | reversed_test_order | 3.1e-14 | [proof/realworld-fastapi/](proof/realworld-fastapi/) |
 | Hash randomization | pytorch/pytorch, ~103k stars, OPEN issue 196512, unfixed at HEAD | hash_randomization | 0.000013 | [proof/realworld-pytorch/](proof/realworld-pytorch/) |
 | Hash randomization | home-assistant/core, ~90k stars, real July 2026 bug | hash_randomization | 0.0047 | [proof/realworld/](proof/realworld/) |
 | Env-conditional, new find | Textualize/rich HEAD, ~57k stars, previously unreported | columns_exported | 3.1e-14 | [proof/realworld-rich-columns/](proof/realworld-rich-columns/) |
@@ -68,7 +69,18 @@ batch, and each bundle replays.
 | Agent context truncation | a real sampled LLM on a Solari cloud browser | context_trim | 0.0000226 | [proof/agent/](proof/agent/) |
 | Environment and layout factors | the calibrated offline demo and the Solari sandbox run | two_column_layout | 0.0047 and 0.0012 | [proof/offline/](proof/offline/), [proof/live/](proof/live/) |
 
-Three rows deserve a word. The PyTorch case is a live bug: issue 196512,
+The fastapi row is a discovery made while building this tool: at v0.141.1,
+tests/test_dependency_contextmanager.py keeps a module-level state dict that
+yield-dependencies mutate, test_async_state asserts the pristine
+precondition at line 217, and any order that runs a sibling first breaks it;
+three more test files carry the same pattern, so shuffled runs of their
+suite fail with 7 to 12 errors depending on the seed. No issue or pull
+request mentions any of it. The same sweep that found this reported clean
+nulls on flask, click, jinja, numpy and pandas across dozens of documented
+runs each, which is worth as much as the find: the method does not
+manufacture findings where there are none.
+
+Three more rows deserve a word. The PyTorch case is a live bug: issue 196512,
 filed two days before this investigation ran, still open, reproduced through
 the same public API the issue names, where node names collected into a set
 make the simulated backward schedule follow string-hash order. The two rich
