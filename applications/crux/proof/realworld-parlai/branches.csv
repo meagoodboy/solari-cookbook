@@ -1,0 +1,7 @@
+branch_id,neutralized,trials,successes,rate,wilson_low,wilson_high,p_value,status
+baseline,,40,21,0.525000,0.374971,0.670648,,baseline
+no-hash_randomization,hash_randomization,16,7,0.437500,0.230984,0.668218,0.76025611981785,dropped for futility
+no-locale,locale,16,7,0.437500,0.230984,0.668218,0.76025611981785,dropped for futility
+no-malloc_allocator,malloc_allocator,16,6,0.375000,0.184810,0.613594,0.8574184045498473,dropped for futility
+no-timezone,timezone,16,9,0.562500,0.331782,0.769016,0.5,live
+no-unseeded_global_rng,unseeded_global_rng,40,40,1.000000,0.912375,1.000000,0.0012235817575083426,cause

@@ -1,0 +1,3068 @@
+{
+  "investigation_id": "parlai-unseeded-rng-seed7",
+  "scenario": "parlai-unseeded-rng",
+  "factors": [
+    {
+      "id": "unseeded_global_rng",
+      "description": "global random module left on OS entropy"
+    },
+    {
+      "id": "hash_randomization",
+      "description": "per-process string hash randomization"
+    },
+    {
+      "id": "timezone",
+      "description": "host timezone applied through TZ"
+    },
+    {
+      "id": "locale",
+      "description": "UTF-8 host locale"
+    },
+    {
+      "id": "malloc_allocator",
+      "description": "default pymalloc allocator"
+    }
+  ],
+  "config": {
+    "alpha": 0.05,
+    "max_trials": 240,
+    "max_rounds": 6,
+    "round_trials_per_branch": 8,
+    "confirm_trials": 24,
+    "futility_min_trials": 16,
+    "pairwise_top_k": 3,
+    "seed": 7
+  },
+  "branches": {
+    "baseline": {
+      "branch_id": "baseline",
+      "neutralized": [],
+      "trials": 40,
+      "successes": 21,
+      "p_value": null,
+      "dropped_for_futility": false,
+      "confirmation_failed": false,
+      "rate": 0.525
+    },
+    "no-unseeded_global_rng": {
+      "branch_id": "no-unseeded_global_rng",
+      "neutralized": [
+        "unseeded_global_rng"
+      ],
+      "trials": 40,
+      "successes": 40,
+      "p_value": 0.0012235817575083426,
+      "dropped_for_futility": false,
+      "confirmation_failed": false,
+      "rate": 1.0
+    },
+    "no-hash_randomization": {
+      "branch_id": "no-hash_randomization",
+      "neutralized": [
+        "hash_randomization"
+      ],
+      "trials": 16,
+      "successes": 7,
+      "p_value": 0.76025611981785,
+      "dropped_for_futility": true,
+      "confirmation_failed": false,
+      "rate": 0.4375
+    },
+    "no-timezone": {
+      "branch_id": "no-timezone",
+      "neutralized": [
+        "timezone"
+      ],
+      "trials": 16,
+      "successes": 9,
+      "p_value": 0.5,
+      "dropped_for_futility": false,
+      "confirmation_failed": false,
+      "rate": 0.5625
+    },
+    "no-locale": {
+      "branch_id": "no-locale",
+      "neutralized": [
+        "locale"
+      ],
+      "trials": 16,
+      "successes": 7,
+      "p_value": 0.76025611981785,
+      "dropped_for_futility": true,
+      "confirmation_failed": false,
+      "rate": 0.4375
+    },
+    "no-malloc_allocator": {
+      "branch_id": "no-malloc_allocator",
+      "neutralized": [
+        "malloc_allocator"
+      ],
+      "trials": 16,
+      "successes": 6,
+      "p_value": 0.8574184045498473,
+      "dropped_for_futility": true,
+      "confirmation_failed": false,
+      "rate": 0.375
+    }
+  },
+  "round_log": [
+    {
+      "round": 1,
+      "alpha_spent": 0.008333333333333333,
+      "allocations": {
+        "baseline": 8,
+        "no-hash_randomization": 8,
+        "no-locale": 8,
+        "no-malloc_allocator": 8,
+        "no-timezone": 8,
+        "no-unseeded_global_rng": 8
+      },
+      "p_values": {
+        "no-unseeded_global_rng": 0.038461538461538464,
+        "no-hash_randomization": 0.6903651903651904,
+        "no-timezone": 0.3041958041958042,
+        "no-locale": 0.8426573426573427,
+        "no-malloc_allocator": 0.6903651903651904
+      }
+    },
+    {
+      "round": 2,
+      "alpha_spent": 0.008333333333333333,
+      "allocations": {
+        "baseline": 8,
+        "no-hash_randomization": 8,
+        "no-locale": 8,
+        "no-malloc_allocator": 8,
+        "no-timezone": 8,
+        "no-unseeded_global_rng": 8
+      },
+      "p_values": {
+        "no-unseeded_global_rng": 0.0012235817575083426,
+        "no-hash_randomization": 0.76025611981785,
+        "no-timezone": 0.5,
+        "no-locale": 0.76025611981785,
+        "no-malloc_allocator": 0.8574184045498473
+      },
+      "confirmations": [
+        {
+          "branch": "no-unseeded_global_rng",
+          "trials_per_arm": 24,
+          "branch_successes": 24,
+          "baseline_successes": 13,
+          "p": 0.00011047231090435976,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "verdict": {
+    "cause": [
+      "unseeded_global_rng"
+    ],
+    "confirmation_p": 0.00011047231090435976,
+    "baseline_rate": 0.525,
+    "cause_rate": 1.0,
+    "alpha": 0.05,
+    "trials_total": 144,
+    "rounds": 2,
+    "summary": "Neutralizing global random module left on OS entropy flipped the outcome. The baseline passed 21 of 40 trials, a rate of 52%, while this branch passed 40 of 40, a rate of 100%; those totals include the confirmation trials, and the search phase alone tends to flatter the winner. The fresh confirmation batch is the unbiased read: 24 of 24 passed on this branch against 13 of 24 at baseline, with p = 0.0001105 against an alpha of 0.05."
+  },
+  "trials": [
+    {
+      "branch_id": "baseline",
+      "seed": 6146956900983434659,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 6146956900983434659,
+        "env_overrides": {
+          "CRUX_SEED": "3300978083",
+          "PYTHONHASHSEED": "3300978083",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:28:46,832 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 647
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 4580982551428688069,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 4580982551428688069,
+        "env_overrides": {
+          "CRUX_SEED": "69953733",
+          "PYTHONHASHSEED": "69953733",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:28:47,474 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 641
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 16563075434872036064,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 16563075434872036064,
+        "env_overrides": {
+          "CRUX_SEED": "1670109920",
+          "PYTHONHASHSEED": "1670109920",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:28:48,128 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 81, in test_stochastic\n    assert ratio > 18\nAssertionError\n"
+      },
+      "duration_ms": 652
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 6828173287599872071,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 6828173287599872071,
+        "env_overrides": {
+          "CRUX_SEED": "2285082695",
+          "PYTHONHASHSEED": "2285082695",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:28:48,767 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 638
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 4831076991042889339,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 4831076991042889339,
+        "env_overrides": {
+          "CRUX_SEED": "1571595899",
+          "PYTHONHASHSEED": "1571595899",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:28:49,406 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 643
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 13317875009488921845,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 13317875009488921845,
+        "env_overrides": {
+          "CRUX_SEED": "2409866485",
+          "PYTHONHASHSEED": "2409866485",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:28:50,063 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 650
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 3971218388630458281,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 3971218388630458281,
+        "env_overrides": {
+          "CRUX_SEED": "2211532713",
+          "PYTHONHASHSEED": "2211532713",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:28:50,729 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 667
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 13950555085495062471,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 13950555085495062471,
+        "env_overrides": {
+          "CRUX_SEED": "3799240647",
+          "PYTHONHASHSEED": "3799240647",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:28:51,392 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 664
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 1805104459177360152,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 1805104459177360152,
+        "env_overrides": {
+          "CRUX_SEED": "398293784",
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:28:52,065 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 671
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 13315735865549601680,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 13315735865549601680,
+        "env_overrides": {
+          "CRUX_SEED": "1292057488",
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:28:52,707 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 644
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 14120676925722647957,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 14120676925722647957,
+        "env_overrides": {
+          "CRUX_SEED": "1908465045",
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:28:53,385 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 677
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 14228474015999595349,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 14228474015999595349,
+        "env_overrides": {
+          "CRUX_SEED": "1535644501",
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:28:54,050 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 661
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 5391068462494817375,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 5391068462494817375,
+        "env_overrides": {
+          "CRUX_SEED": "449879135",
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:28:54,676 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 630
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 2305284256918736956,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 2305284256918736956,
+        "env_overrides": {
+          "CRUX_SEED": "1475416124",
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:28:55,345 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 81, in test_stochastic\n    assert ratio > 18\nAssertionError\n"
+      },
+      "duration_ms": 667
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 7237539185536301444,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 7237539185536301444,
+        "env_overrides": {
+          "CRUX_SEED": "165443972",
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:28:56,009 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 664
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 13058093908599554298,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 13058093908599554298,
+        "env_overrides": {
+          "CRUX_SEED": "2714026234",
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:28:56,650 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 640
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 2232366814192801401,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 2232366814192801401,
+        "env_overrides": {
+          "CRUX_SEED": "945100409",
+          "PYTHONHASHSEED": "945100409",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:28:57,315 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 665
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 1909946097074742613,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 1909946097074742613,
+        "env_overrides": {
+          "CRUX_SEED": "541631829",
+          "PYTHONHASHSEED": "541631829",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:28:57,971 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 654
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 8362210581355975578,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 8362210581355975578,
+        "env_overrides": {
+          "CRUX_SEED": "113005466",
+          "PYTHONHASHSEED": "113005466",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:28:58,626 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 655
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 13406610079895185631,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 13406610079895185631,
+        "env_overrides": {
+          "CRUX_SEED": "508750047",
+          "PYTHONHASHSEED": "508750047",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:28:59,304 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 682
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 4724058598514551402,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 4724058598514551402,
+        "env_overrides": {
+          "CRUX_SEED": "647424618",
+          "PYTHONHASHSEED": "647424618",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:28:59,942 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 637
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 1759451076917308773,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 1759451076917308773,
+        "env_overrides": {
+          "CRUX_SEED": "3075845477",
+          "PYTHONHASHSEED": "3075845477",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:00,585 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 639
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 681075868580827063,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 681075868580827063,
+        "env_overrides": {
+          "CRUX_SEED": "3688484791",
+          "PYTHONHASHSEED": "3688484791",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:01,266 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 81, in test_stochastic\n    assert ratio > 18\nAssertionError\n"
+      },
+      "duration_ms": 682
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 17162402120193442422,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 17162402120193442422,
+        "env_overrides": {
+          "CRUX_SEED": "1250591350",
+          "PYTHONHASHSEED": "1250591350",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:01,919 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 654
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 14469411488201790404,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 14469411488201790404,
+        "env_overrides": {
+          "CRUX_SEED": "389632964",
+          "PYTHONHASHSEED": "389632964",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": "2026-09-11 01:29:02,624 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 704
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 9755327296148088365,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 9755327296148088365,
+        "env_overrides": {
+          "CRUX_SEED": "1788093997",
+          "PYTHONHASHSEED": "1788093997",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": "2026-09-11 01:29:03,291 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 81, in test_stochastic\n    assert ratio > 18\nAssertionError\n"
+      },
+      "duration_ms": 664
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 5822150596136872611,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 5822150596136872611,
+        "env_overrides": {
+          "CRUX_SEED": "3213961891",
+          "PYTHONHASHSEED": "3213961891",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": "2026-09-11 01:29:03,982 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 81, in test_stochastic\n    assert ratio > 18\nAssertionError\n"
+      },
+      "duration_ms": 688
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 13680092126189545554,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 13680092126189545554,
+        "env_overrides": {
+          "CRUX_SEED": "4230309970",
+          "PYTHONHASHSEED": "4230309970",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": "2026-09-11 01:29:04,674 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 81, in test_stochastic\n    assert ratio > 18\nAssertionError\n"
+      },
+      "duration_ms": 696
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 10398066464653124784,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 10398066464653124784,
+        "env_overrides": {
+          "CRUX_SEED": "3096257712",
+          "PYTHONHASHSEED": "3096257712",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": "2026-09-11 01:29:05,381 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 704
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 12424284832696299096,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 12424284832696299096,
+        "env_overrides": {
+          "CRUX_SEED": "2300767832",
+          "PYTHONHASHSEED": "2300767832",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": "2026-09-11 01:29:06,068 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 686
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 6110689755061894180,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 6110689755061894180,
+        "env_overrides": {
+          "CRUX_SEED": "3608493092",
+          "PYTHONHASHSEED": "3608493092",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": "2026-09-11 01:29:06,755 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 692
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 5535282890478571389,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 5535282890478571389,
+        "env_overrides": {
+          "CRUX_SEED": "843435901",
+          "PYTHONHASHSEED": "843435901",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": "2026-09-11 01:29:07,444 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 683
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 8192595954500815278,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 8192595954500815278,
+        "env_overrides": {
+          "CRUX_SEED": "1213385134",
+          "PYTHONHASHSEED": "1213385134",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-10 19:59:08,109 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 664
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 16868606267962972409,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 16868606267962972409,
+        "env_overrides": {
+          "CRUX_SEED": "3923532025",
+          "PYTHONHASHSEED": "3923532025",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-10 19:59:08,771 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 663
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 17015203901322900700,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 17015203901322900700,
+        "env_overrides": {
+          "CRUX_SEED": "1060189404",
+          "PYTHONHASHSEED": "1060189404",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-10 19:59:09,440 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 666
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 9122230237712632950,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 9122230237712632950,
+        "env_overrides": {
+          "CRUX_SEED": "3459271798",
+          "PYTHONHASHSEED": "3459271798",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-10 19:59:10,092 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 652
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 154114252050254871,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 154114252050254871,
+        "env_overrides": {
+          "CRUX_SEED": "2152188951",
+          "PYTHONHASHSEED": "2152188951",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-10 19:59:10,769 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 676
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 4847321783870926498,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 4847321783870926498,
+        "env_overrides": {
+          "CRUX_SEED": "4020481698",
+          "PYTHONHASHSEED": "4020481698",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-10 19:59:11,421 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 653
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 768649581382363933,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 768649581382363933,
+        "env_overrides": {
+          "CRUX_SEED": "3339479837",
+          "PYTHONHASHSEED": "3339479837",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-10 19:59:12,077 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 654
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 236827630567677234,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 236827630567677234,
+        "env_overrides": {
+          "CRUX_SEED": "2835078450",
+          "PYTHONHASHSEED": "2835078450",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-10 19:59:12,726 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 81, in test_stochastic\n    assert ratio > 18\nAssertionError\n"
+      },
+      "duration_ms": 651
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 2260679484916581889,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 2260679484916581889,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "2440513025",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:13,401 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 673
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 4683595514658551473,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 4683595514658551473,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "1255536305",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:14,042 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 634
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 15482774702028415511,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 15482774702028415511,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "1808720407",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:14,662 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 619
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 6828605224038962829,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 6828605224038962829,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "2453149325",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:15,271 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 610
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 15806745636942930779,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 15806745636942930779,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "3102761819",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:15,868 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 597
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 7170657649266653328,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 7170657649266653328,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "3866753168",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:16,512 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 643
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 11061402444442143117,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 11061402444442143117,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "3667691917",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:17,118 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 605
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 10434730711890149749,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 10434730711890149749,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "17973621",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:17,738 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 625
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 6877687089306930629,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 6877687089306930629,
+        "env_overrides": {
+          "CRUX_SEED": "3664645573",
+          "PYTHONHASHSEED": "3664645573",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:18,360 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 625
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 17723479835678296978,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 17723479835678296978,
+        "env_overrides": {
+          "CRUX_SEED": "3982969746",
+          "PYTHONHASHSEED": "3982969746",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:19,021 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 651
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 12340623627778309668,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 12340623627778309668,
+        "env_overrides": {
+          "CRUX_SEED": "1485094436",
+          "PYTHONHASHSEED": "1485094436",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:19,671 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 649
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 4566410738542030464,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 4566410738542030464,
+        "env_overrides": {
+          "CRUX_SEED": "1901309568",
+          "PYTHONHASHSEED": "1901309568",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:20,288 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 617
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 10403908207552291023,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 10403908207552291023,
+        "env_overrides": {
+          "CRUX_SEED": "2062344399",
+          "PYTHONHASHSEED": "2062344399",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:20,910 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 81, in test_stochastic\n    assert ratio > 18\nAssertionError\n"
+      },
+      "duration_ms": 622
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 4594193564741186608,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 4594193564741186608,
+        "env_overrides": {
+          "CRUX_SEED": "3217601584",
+          "PYTHONHASHSEED": "3217601584",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:21,536 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 622
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 12586850893440380578,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 12586850893440380578,
+        "env_overrides": {
+          "CRUX_SEED": "408055458",
+          "PYTHONHASHSEED": "408055458",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:22,138 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 603
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 9468472596172478423,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 9468472596172478423,
+        "env_overrides": {
+          "CRUX_SEED": "4234254295",
+          "PYTHONHASHSEED": "4234254295",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:22,782 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 644
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 12242316292859058743,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 12242316292859058743,
+        "env_overrides": {
+          "CRUX_SEED": "1205295671",
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:23,408 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 625
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 12660958187341196852,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 12660958187341196852,
+        "env_overrides": {
+          "CRUX_SEED": "143371828",
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:24,014 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 81, in test_stochastic\n    assert ratio > 18\nAssertionError\n"
+      },
+      "duration_ms": 607
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 9535950215852787118,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 9535950215852787118,
+        "env_overrides": {
+          "CRUX_SEED": "2612463022",
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:24,614 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 597
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 17620154983769732802,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 17620154983769732802,
+        "env_overrides": {
+          "CRUX_SEED": "653031106",
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:25,213 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 599
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 17246123747243636273,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 17246123747243636273,
+        "env_overrides": {
+          "CRUX_SEED": "2598549041",
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:25,855 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 81, in test_stochastic\n    assert ratio > 18\nAssertionError\n"
+      },
+      "duration_ms": 643
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 7999297211626305736,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 7999297211626305736,
+        "env_overrides": {
+          "CRUX_SEED": "2411870408",
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:26,494 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 81, in test_stochastic\n    assert ratio > 18\nAssertionError\n"
+      },
+      "duration_ms": 645
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 14235194703325849927,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 14235194703325849927,
+        "env_overrides": {
+          "CRUX_SEED": "1346529607",
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:27,164 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 661
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 13884966219822182953,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 13884966219822182953,
+        "env_overrides": {
+          "CRUX_SEED": "315404841",
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:27,790 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 81, in test_stochastic\n    assert ratio > 18\nAssertionError\n"
+      },
+      "duration_ms": 627
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 790767589487230459,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 790767589487230459,
+        "env_overrides": {
+          "CRUX_SEED": "3611770363",
+          "PYTHONHASHSEED": "3611770363",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:28,406 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 618
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 2294788550211952356,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 2294788550211952356,
+        "env_overrides": {
+          "CRUX_SEED": "839147236",
+          "PYTHONHASHSEED": "839147236",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:29,013 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 81, in test_stochastic\n    assert ratio > 18\nAssertionError\n"
+      },
+      "duration_ms": 606
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 1588510621730795215,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 1588510621730795215,
+        "env_overrides": {
+          "CRUX_SEED": "2184376015",
+          "PYTHONHASHSEED": "2184376015",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:29,647 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 630
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 867822315806000957,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 867822315806000957,
+        "env_overrides": {
+          "CRUX_SEED": "1573259069",
+          "PYTHONHASHSEED": "1573259069",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:30,241 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 593
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 1222899007916376129,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 1222899007916376129,
+        "env_overrides": {
+          "CRUX_SEED": "587759681",
+          "PYTHONHASHSEED": "587759681",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:30,849 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 608
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 15619835334907543116,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 15619835334907543116,
+        "env_overrides": {
+          "CRUX_SEED": "3410116172",
+          "PYTHONHASHSEED": "3410116172",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:31,474 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 626
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 2440574321293628157,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 2440574321293628157,
+        "env_overrides": {
+          "CRUX_SEED": "480613117",
+          "PYTHONHASHSEED": "480613117",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:32,098 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 624
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 9814522933856233931,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 9814522933856233931,
+        "env_overrides": {
+          "CRUX_SEED": "3631016395",
+          "PYTHONHASHSEED": "3631016395",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:32,730 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 635
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 10819947728467348641,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 10819947728467348641,
+        "env_overrides": {
+          "CRUX_SEED": "3952561313",
+          "PYTHONHASHSEED": "3952561313",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": "2026-09-11 01:29:33,390 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 81, in test_stochastic\n    assert ratio > 18\nAssertionError\n"
+      },
+      "duration_ms": 658
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 14297012082505267012,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 14297012082505267012,
+        "env_overrides": {
+          "CRUX_SEED": "2133964612",
+          "PYTHONHASHSEED": "2133964612",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": "2026-09-11 01:29:34,025 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 81, in test_stochastic\n    assert ratio > 18\nAssertionError\n"
+      },
+      "duration_ms": 632
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 13821932039376905163,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 13821932039376905163,
+        "env_overrides": {
+          "CRUX_SEED": "1151771595",
+          "PYTHONHASHSEED": "1151771595",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": "2026-09-11 01:29:34,669 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 648
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 9623493957324985873,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 9623493957324985873,
+        "env_overrides": {
+          "CRUX_SEED": "1215911441",
+          "PYTHONHASHSEED": "1215911441",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": "2026-09-11 01:29:35,340 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 669
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 1505026034892064076,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 1505026034892064076,
+        "env_overrides": {
+          "CRUX_SEED": "1802814796",
+          "PYTHONHASHSEED": "1802814796",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": "2026-09-11 01:29:35,978 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 637
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 2611128164731121144,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 2611128164731121144,
+        "env_overrides": {
+          "CRUX_SEED": "1104211448",
+          "PYTHONHASHSEED": "1104211448",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": "2026-09-11 01:29:36,629 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 651
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 10839689975498536283,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 10839689975498536283,
+        "env_overrides": {
+          "CRUX_SEED": "15988059",
+          "PYTHONHASHSEED": "15988059",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": "2026-09-11 01:29:37,285 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 81, in test_stochastic\n    assert ratio > 18\nAssertionError\n"
+      },
+      "duration_ms": 652
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 153997291337263018,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 153997291337263018,
+        "env_overrides": {
+          "CRUX_SEED": "1988601770",
+          "PYTHONHASHSEED": "1988601770",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": "2026-09-11 01:29:37,957 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 81, in test_stochastic\n    assert ratio > 18\nAssertionError\n"
+      },
+      "duration_ms": 677
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 4414434644817489384,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 4414434644817489384,
+        "env_overrides": {
+          "CRUX_SEED": "3095801320",
+          "PYTHONHASHSEED": "3095801320",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-10 19:59:38,574 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 614
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 10089469921025602812,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 10089469921025602812,
+        "env_overrides": {
+          "CRUX_SEED": "3602396412",
+          "PYTHONHASHSEED": "3602396412",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-10 19:59:39,223 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 647
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 1098133053114974776,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 1098133053114974776,
+        "env_overrides": {
+          "CRUX_SEED": "2466808376",
+          "PYTHONHASHSEED": "2466808376",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-10 19:59:39,872 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 648
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 5174602268938881802,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 5174602268938881802,
+        "env_overrides": {
+          "CRUX_SEED": "3993520906",
+          "PYTHONHASHSEED": "3993520906",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-10 19:59:40,498 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 629
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 1829954534422395969,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 1829954534422395969,
+        "env_overrides": {
+          "CRUX_SEED": "459062337",
+          "PYTHONHASHSEED": "459062337",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-10 19:59:41,145 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 643
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 10446300798629808277,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 10446300798629808277,
+        "env_overrides": {
+          "CRUX_SEED": "3207956629",
+          "PYTHONHASHSEED": "3207956629",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-10 19:59:41,792 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 645
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 9327978020419247452,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 9327978020419247452,
+        "env_overrides": {
+          "CRUX_SEED": "2076024156",
+          "PYTHONHASHSEED": "2076024156",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-10 19:59:42,427 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 635
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 16110614862096438582,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 16110614862096438582,
+        "env_overrides": {
+          "CRUX_SEED": "6493494",
+          "PYTHONHASHSEED": "6493494",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-10 19:59:43,051 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 81, in test_stochastic\n    assert ratio > 18\nAssertionError\n"
+      },
+      "duration_ms": 624
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 1948092053832735744,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 1948092053832735744,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "3396738048",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:43,673 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 620
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 17494191232829402092,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 17494191232829402092,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "4052528108",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:44,291 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 616
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 12069881458359006468,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 12069881458359006468,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "3331323140",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:44,938 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 649
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 13766882354997183828,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 13766882354997183828,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "3526575444",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:45,563 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 623
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 7634055294663153775,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 7634055294663153775,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "4061550703",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:46,207 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 644
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 12391375444208716932,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 12391375444208716932,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "1854868612",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:46,857 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 653
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 11220087644384034468,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 11220087644384034468,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "407010980",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:47,507 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 645
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 13553827048489538422,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 13553827048489538422,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "2890716022",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:48,133 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 628
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 14140616787892535396,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 14140616787892535396,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "1665302628",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:48,763 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 627
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 4113143480588169322,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 4113143480588169322,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "111931498",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:49,407 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 644
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 8153049515980493247,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 8153049515980493247,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "2351960511",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:50,057 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 648
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 1663775649434164189,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 1663775649434164189,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "1517804509",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:50,684 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 630
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 582104135791276103,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 582104135791276103,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "2619338823",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:51,318 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 633
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 6279818254339108488,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 6279818254339108488,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "803565192",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:51,942 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 626
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 13498357665310553029,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 13498357665310553029,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "2080486341",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:52,573 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 628
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 8505264295581398059,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 8505264295581398059,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "1659974699",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:53,191 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 617
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 11669590171463377648,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 11669590171463377648,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "3430343408",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:53,846 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 654
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 811180147702678888,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 811180147702678888,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "3903505768",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:54,474 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 626
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 17452366460370632874,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 17452366460370632874,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "1079328938",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:55,133 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 657
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 1086673553972307172,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 1086673553972307172,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "55878884",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:55,763 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 634
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 8030473823879342657,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 8030473823879342657,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "1114024513",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:56,409 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 647
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 7424411606846764953,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 7424411606846764953,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "744716185",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:57,030 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 619
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 6729518510676895158,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 6729518510676895158,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "1380967862",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:57,676 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 645
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 9623578971020895816,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 9623578971020895816,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "329164360",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:58,332 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 655
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 6219233624795981340,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 6219233624795981340,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "3844154908",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:58,984 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 653
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 84620899302447869,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 84620899302447869,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "1937709821",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:29:59,616 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 631
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 6818053683744047032,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 6818053683744047032,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "2803597240",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:00,247 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 626
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 14511928613681136540,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 14511928613681136540,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "3360326556",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:00,858 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 610
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 3463238657377024208,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 3463238657377024208,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "3109796048",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:01,490 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 638
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 12202588232611950462,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 12202588232611950462,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "1899130750",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:02,122 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 626
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 18046452965660170628,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 18046452965660170628,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "2851608964",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:02,763 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 642
+    },
+    {
+      "branch_id": "no-unseeded_global_rng",
+      "seed": 9420241832521743155,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 9420241832521743155,
+        "env_overrides": {
+          "CRUX_SEED": "0",
+          "PYTHONHASHSEED": "1035713331",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:03,394 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 630
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 9669691399786141934,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 9669691399786141934,
+        "env_overrides": {
+          "CRUX_SEED": "2347178222",
+          "PYTHONHASHSEED": "2347178222",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:04,013 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 81, in test_stochastic\n    assert ratio > 18\nAssertionError\n"
+      },
+      "duration_ms": 618
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 1060340466279645152,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 1060340466279645152,
+        "env_overrides": {
+          "CRUX_SEED": "1100087264",
+          "PYTHONHASHSEED": "1100087264",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:04,637 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 81, in test_stochastic\n    assert ratio > 18\nAssertionError\n"
+      },
+      "duration_ms": 623
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 10352308878647452537,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 10352308878647452537,
+        "env_overrides": {
+          "CRUX_SEED": "2229756793",
+          "PYTHONHASHSEED": "2229756793",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:05,282 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 644
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 2286655233191078971,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 2286655233191078971,
+        "env_overrides": {
+          "CRUX_SEED": "3257166907",
+          "PYTHONHASHSEED": "3257166907",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:05,915 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 632
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 2984824145036423349,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 2984824145036423349,
+        "env_overrides": {
+          "CRUX_SEED": "3790057653",
+          "PYTHONHASHSEED": "3790057653",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:06,541 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 626
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 2043398288490643158,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 2043398288490643158,
+        "env_overrides": {
+          "CRUX_SEED": "3223338710",
+          "PYTHONHASHSEED": "3223338710",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:07,152 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 611
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 4519985378996267008,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 4519985378996267008,
+        "env_overrides": {
+          "CRUX_SEED": "419964928",
+          "PYTHONHASHSEED": "419964928",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:07,784 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 635
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 10418964142833609420,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 10418964142833609420,
+        "env_overrides": {
+          "CRUX_SEED": "2501978828",
+          "PYTHONHASHSEED": "2501978828",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:08,388 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 81, in test_stochastic\n    assert ratio > 18\nAssertionError\n"
+      },
+      "duration_ms": 600
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 9774756385696607429,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 9774756385696607429,
+        "env_overrides": {
+          "CRUX_SEED": "3614272709",
+          "PYTHONHASHSEED": "3614272709",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:09,035 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 647
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 15689321598162738267,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 15689321598162738267,
+        "env_overrides": {
+          "CRUX_SEED": "828021851",
+          "PYTHONHASHSEED": "828021851",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:09,649 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 612
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 10779173681078619227,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 10779173681078619227,
+        "env_overrides": {
+          "CRUX_SEED": "955141211",
+          "PYTHONHASHSEED": "955141211",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:10,289 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 638
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 14440292487877204195,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 14440292487877204195,
+        "env_overrides": {
+          "CRUX_SEED": "2158598371",
+          "PYTHONHASHSEED": "2158598371",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:10,923 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 635
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 13220505941936290821,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 13220505941936290821,
+        "env_overrides": {
+          "CRUX_SEED": "3826105349",
+          "PYTHONHASHSEED": "3826105349",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:11,555 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 632
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 9892272661085968725,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 9892272661085968725,
+        "env_overrides": {
+          "CRUX_SEED": "3780532565",
+          "PYTHONHASHSEED": "3780532565",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:12,204 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 649
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 1008843287831551261,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 1008843287831551261,
+        "env_overrides": {
+          "CRUX_SEED": "222076189",
+          "PYTHONHASHSEED": "222076189",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:12,828 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 620
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 10783616286454356465,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 10783616286454356465,
+        "env_overrides": {
+          "CRUX_SEED": "3829045745",
+          "PYTHONHASHSEED": "3829045745",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:13,421 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 598
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 1482983466901976230,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 1482983466901976230,
+        "env_overrides": {
+          "CRUX_SEED": "544748710",
+          "PYTHONHASHSEED": "544748710",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:14,046 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 622
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 13356860465371407571,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 13356860465371407571,
+        "env_overrides": {
+          "CRUX_SEED": "1491854547",
+          "PYTHONHASHSEED": "1491854547",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:14,702 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 656
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 1830500498916091833,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 1830500498916091833,
+        "env_overrides": {
+          "CRUX_SEED": "1594992569",
+          "PYTHONHASHSEED": "1594992569",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:15,320 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 616
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 3683382907266283904,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 3683382907266283904,
+        "env_overrides": {
+          "CRUX_SEED": "526006656",
+          "PYTHONHASHSEED": "526006656",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:15,949 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 630
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 16196017862932212792,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 16196017862932212792,
+        "env_overrides": {
+          "CRUX_SEED": "2817829944",
+          "PYTHONHASHSEED": "2817829944",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:16,599 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 649
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 16848006304953391239,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 16848006304953391239,
+        "env_overrides": {
+          "CRUX_SEED": "1145690247",
+          "PYTHONHASHSEED": "1145690247",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:17,236 INFO     | creating task(s): teacher1,teacher2\nPASS\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+      },
+      "duration_ms": 637
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 7516267535461019601,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 7516267535461019601,
+        "env_overrides": {
+          "CRUX_SEED": "670330833",
+          "PYTHONHASHSEED": "670330833",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:17,860 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 625
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 7454146003008893863,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 7454146003008893863,
+        "env_overrides": {
+          "CRUX_SEED": "3309188007",
+          "PYTHONHASHSEED": "3309188007",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "2026-09-11 01:30:18,478 INFO     | creating task(s): teacher1,teacher2\n/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\nTraceback (most recent call last):\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/run_single_attempt.py\", line 13, in <module>\n    t.test_stochastic.__wrapped__(t)\n  File \"/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/flaky-literature/parlai2/tests/test_multiworld.py\", line 82, in test_stochastic\n    assert ratio < 22\nAssertionError\n"
+      },
+      "duration_ms": 615
+    }
+  ]
+}

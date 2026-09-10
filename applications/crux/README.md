@@ -1,7 +1,8 @@
 # Crux
 
 Crux finds the minimal change that flips a stochastic agent's outcome, and backs
-the answer with statistics you can replay.
+the answer with statistics you can replay. For the plain-words version of
+everything tested here and what came of it, read [FINDINGS.md](FINDINGS.md).
 
 ## The problem it is built around
 
@@ -47,6 +48,32 @@ command reproduced the flake in the probe (2 of 8 runs failed), convicted
 hash randomization, and reported the same confirmation p of 0.0047 as the
 hand-written scenario, because it is the same investigation. With
 `--parallel 4` the whole thing, probes plus 144 trials, took 77 seconds.
+
+## What it catches, with receipts
+
+Five distinct failure families so far, four of them live in well-known
+software, each with a replayable evidence bundle in this repository. Every
+verdict below beat a lineup that included decoy suspects, and the p value is
+always the one from the fresh confirmation batch.
+
+| Failure family | Where | Verdict | Confirmation p | Receipts |
+| --- | --- | --- | --- | --- |
+| Hash randomization | home-assistant/core, ~90k stars, real July 2026 bug | hash_randomization | 0.0047 | [proof/realworld/](proof/realworld/) |
+| Unseeded global RNG | facebookresearch/ParlAI, ~10.6k stars, FLEX dataset row | unseeded_global_rng | 0.00011 | [proof/realworld-parlai/](proof/realworld-parlai/) |
+| Test-order dependence | encode/uvicorn 0.16.0, ~11k stars | test_order_shuffle | 0.000000018 | [proof/realworld-uvicorn/](proof/realworld-uvicorn/) |
+| Agent context truncation | a real sampled LLM on a Solari cloud browser | context_trim | 0.0000226 | [proof/agent/](proof/agent/) |
+| Environment and layout factors | the calibrated offline demo and the Solari sandbox run | two_column_layout | 0.0047 and 0.0012 | [proof/offline/](proof/offline/), [proof/live/](proof/live/) |
+
+The two newest cases each convicted on the first run with the default
+configuration. In ParlAI, a test fails about half its runs because the code
+samples tasks from Python's unseeded global random module; reseeding it per
+trial was the guilty factor and the four decoys walked. In uvicorn 0.16.0,
+shuffling test order breaks a test that asserts on the shared
+LOGGING_CONFIG dict, which earlier tests mutate in place; the shuffle
+factor was convicted at the smallest p in this repository while hash seed,
+timezone, locale, and allocator theories were all released. Both are one
+script each under [examples/](examples/), and `crux verify` replays any of
+these bundles and checks that the same cause comes back.
 
 ## Quickstart
 
