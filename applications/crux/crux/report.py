@@ -16,13 +16,23 @@ from .models import BranchState, Investigation, Verdict
 from .stats import wilson_ci
 
 
-def write_bundle(inv: Investigation, out_dir: Path) -> Path:
+def write_bundle(
+    inv: Investigation, out_dir: Path, world_spec: dict | None = None
+) -> Path:
     """Write investigation.json, report.md and branches.csv into out_dir.
 
-    Creates the directory if needed and returns it.
+    When world_spec is given (a World's to_spec() output), it lands as
+    world.json beside the bundle so `crux verify` can rebuild the world
+    and replay the investigation. Creates the directory if needed and
+    returns it.
     """
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
+    if world_spec is not None:
+        (out_dir / "world.json").write_text(
+            json.dumps(world_spec, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
 
     json_path = out_dir / "investigation.json"
     json_path.write_text(

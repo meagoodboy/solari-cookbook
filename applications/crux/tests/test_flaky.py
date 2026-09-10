@@ -158,3 +158,38 @@ def test_parallel_investigation_matches_sequential():
     assert strip(sequential) == strip(parallel)
     assert sequential.verdict.cause == parallel.verdict.cause
     assert sequential.verdict.confirmation_p == parallel.verdict.confirmation_p
+
+
+def test_flaky_bundle_replays_through_crux_verify(tmp_path):
+    # The receipts table promises replay; this is the test that keeps
+    # that promise true. A command bundle carries world.json, and crux
+    # verify rebuilds the world from it and reaches the same cause.
+    from crux.backends.command import CommandWorld
+    from crux.cli import main as cli_main
+    from crux.flaky import build_flaky_specs
+    from crux.report import write_bundle
+
+    code = "import sys; sys.exit(1 if hash('crux') % 3 == 0 else 0)"
+    investigation, probe = run_flaky(_cmd(code), ".", SMALL_CONFIG, probe_runs=8)
+    assert investigation is not None
+    spec = CommandWorld(
+        cmd=_cmd(code), cwd=".", specs=build_flaky_specs(probe.hash_pin),
+        timeout_s=30.0,
+    ).to_spec()
+    bundle = tmp_path / "bundle"
+    write_bundle(investigation, bundle, world_spec=spec)
+    assert (bundle / "world.json").is_file()
+    assert cli_main(["verify", str(bundle)]) == 0
+
+
+def test_verify_refuses_unreplayable_bundle_with_exit_3(tmp_path):
+    from crux.cli import main as cli_main
+    from crux.report import write_bundle
+
+    investigation, _ = run_flaky(
+        _cmd("import sys; sys.exit(1 if hash('crux') % 3 == 0 else 0)"),
+        ".", SMALL_CONFIG, probe_runs=8,
+    )
+    bundle = tmp_path / "no-world"
+    write_bundle(investigation, bundle)
+    assert cli_main(["verify", str(bundle)]) == 3

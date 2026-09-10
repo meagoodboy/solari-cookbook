@@ -1,24 +1,36 @@
-"""Investigate an order-dependent test failure in encode/uvicorn with Crux.
+"""Investigate an order-dependent test failure in Textualize/rich with Crux.
 
-The target is tests/test_config.py in uvicorn 0.16.0. In its natural
-order the file passes every time. Shuffle it and it fails on many seeds,
-because tests share the module-level LOGGING_CONFIG dict in
-uvicorn/config.py: any test that loads a Config with use_colors set
-mutates that dict in place, and test_log_config_default then asserts on
-the leftover value instead of the packaged default. The repo's own order
-happens to hide the leak. pytest-randomly exposes it.
+The target is a two-test pair at rich HEAD, commit
+9d8f9a372cc5916fd4781fec207ced7ddac2f08f (checked 2026-09-11, no report
+of it in the rich issue tracker at that date).
+tests/test_table.py::test_placement_table_box_elements builds a Table
+with the shared module-level singleton rich.box.ASCII, then rewrites
+that singleton in place via table.box.__dict__.update at
+tests/test_table.py line 315 and never restores it. Every test that
+renders with box.ASCII afterwards sees letters where box-drawing
+characters should be: tests/test_box.py::test_get_row expects
+'|-+--+---|' and gets 'ijkjjkjjjl'. The repo's natural order runs
+test_box.py before test_table.py, which is the only reason the suite
+stays green. pytest-randomly puts the polluter first on roughly half
+its seeds and the pair fails.
 
-This script does not ship uvicorn. Point it at a checkout with a venv
-holding pytest 6.2.5 and pytest-randomly 3.10.3:
+Hand-measured rates on the pinned checkout before wiring up Crux:
+victim-first with the plugin disabled passed 5 of 5 collected items,
+polluter-first failed deterministically, and randomly-seeds 1..12
+failed 7 of 12 runs.
 
-  python examples/uvicorn_test_order.py \
-      --repo-dir /path/to/uvicorn --python /path/to/venv/bin/python
+This script does not ship rich. Point it at a checkout with a venv
+holding pytest and pytest-randomly:
+
+  python examples/rich_box_order.py \
+      --repo-dir /path/to/rich --python /path/to/venv/bin/python
 
 Five suspects go in and the script does not tell Crux which one is
-guilty. Test order varies per trial through a pytest-randomly seed while
-the neutral branch disables the plugin, restoring the file's natural
-order. The other four are decoys an engineer might reasonably blame
-first: hash randomization, timezone, locale, and the allocator.
+guilty. Test order varies per trial through a pytest-randomly seed
+while the neutral branch disables the plugin, restoring the natural
+victim-then-polluter order. The other four are decoys an engineer
+might reasonably blame first: hash randomization, timezone, locale,
+and the allocator.
 
 Add --compare to also run the naive gap read (5 trials per arm, blame
 the biggest gap) on the same world, for a head-to-head.
@@ -28,6 +40,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 import time
 from pathlib import Path
@@ -38,8 +51,12 @@ from crux.report import write_bundle
 from crux.search import investigate
 from crux.stats import trial_seed
 
-TEST_FILE = "tests/test_config.py"
-PINNED_VERSION = "0.16.0"
+# Victim listed first: pytest keeps command-line arg order, and the
+# natural suite order (test_box.py before test_table.py) is what keeps
+# this pair green when shuffling is off.
+VICTIM_NODE = "tests/test_box.py::test_get_row"
+POLLUTER_NODE = "tests/test_table.py::test_placement_table_box_elements"
+PINNED_COMMIT = "9d8f9a372cc5916fd4781fec207ced7ddac2f08f"
 
 FACTORS = (
     Factor("test_order_shuffle", "pytest-randomly shuffles test order per run"),
@@ -110,13 +127,13 @@ def run_naive_gap(world: CommandWorld, master_seed: int) -> dict:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--repo-dir", required=True, help="uvicorn checkout")
+    parser.add_argument("--repo-dir", required=True, help="rich checkout")
     parser.add_argument(
         "--python", required=True,
         help="venv python with pytest and pytest-randomly",
     )
     parser.add_argument(
-        "--out", default="proof/realworld-uvicorn", help="bundle directory"
+        "--out", default="proof/realworld-rich-order", help="bundle directory"
     )
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument(
@@ -125,24 +142,35 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     repo_dir = Path(args.repo_dir).expanduser().resolve()
-    if not (repo_dir / "tests" / "test_config.py").exists():
-        print(f"{repo_dir} does not look like a uvicorn checkout")
+    if not (repo_dir / "tests" / "test_table.py").exists():
+        print(f"{repo_dir} does not look like a rich checkout")
+        return 2
+
+    # The malloc factor's active state is the absence of PYTHONMALLOC.
+    # A child process cannot unset a variable it inherits, so the
+    # parent must not export it or the active branch would be wrong.
+    if "PYTHONMALLOC" in os.environ:
+        print(
+            "PYTHONMALLOC is set in this shell; the malloc_allocator "
+            "factor's active state needs it absent. Unset it and rerun."
+        )
         return 2
 
     cmd = [
-        args.python, "-m", "pytest", TEST_FILE, "-q",
-        "-p", "no:cacheprovider", "--basetemp", "/tmp/uvtmp",
+        args.python, "-m", "pytest", VICTIM_NODE, POLLUTER_NODE,
+        "-q", "-p", "no:cacheprovider",
     ]
     world = CommandWorld(
-        cmd=cmd, cwd=str(repo_dir), specs=build_specs(), timeout_s=240.0
+        cmd=cmd, cwd=str(repo_dir), specs=build_specs(), timeout_s=120.0
     )
     config = InvestigationConfig(seed=args.seed)
-    print(f"Investigating {TEST_FILE} in uvicorn {PINNED_VERSION}")
+    print(f"Investigating {VICTIM_NODE} after {POLLUTER_NODE}")
+    print(f"Checkout expected at commit {PINNED_COMMIT}")
     print(f"Budget: {config.max_trials} trials, each a fresh pytest process")
     started = time.monotonic()
     investigation = investigate(
         world, command_oracle, FACTORS, config,
-        scenario_name="uvicorn-test-order",
+        scenario_name="rich-box-order",
     )
     elapsed = time.monotonic() - started
     print(f"\n{investigation.verdict.summary}")

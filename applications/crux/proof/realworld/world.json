@@ -1,0 +1,60 @@
+{
+  "cmd": [
+    "/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/hashseed/venv-ha/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_bootstrap.py::test_setup_frontend_before_recorder",
+    "-q",
+    "-p",
+    "no:cacheprovider"
+  ],
+  "concurrency": 1,
+  "cwd": "/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/hashseed/ha-core",
+  "kind": "command",
+  "specs": [
+    {
+      "active": {
+        "PYTHONHASHSEED": "{seed32}"
+      },
+      "factor_id": "hash_randomization",
+      "neutral": {
+        "PYTHONHASHSEED": "1"
+      }
+    },
+    {
+      "active": {
+        "TZ": "Asia/Kolkata"
+      },
+      "factor_id": "timezone",
+      "neutral": {
+        "TZ": "UTC"
+      }
+    },
+    {
+      "active": {
+        "LANG": "en_US.UTF-8",
+        "LC_ALL": "en_US.UTF-8"
+      },
+      "factor_id": "locale",
+      "neutral": {
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8"
+      }
+    },
+    {
+      "active": {},
+      "factor_id": "bytecode_cache",
+      "neutral": {
+        "PYTHONDONTWRITEBYTECODE": "1"
+      }
+    },
+    {
+      "active": {},
+      "factor_id": "malloc_allocator",
+      "neutral": {
+        "PYTHONMALLOC": "malloc"
+      }
+    }
+  ],
+  "timeout_s": 120.0
+}

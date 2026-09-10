@@ -1,0 +1,2940 @@
+{
+  "investigation_id": "pytorch-knapsack-hashseed-seed7",
+  "scenario": "pytorch-knapsack-hashseed",
+  "factors": [
+    {
+      "id": "hash_randomization",
+      "description": "per-process string hash randomization"
+    },
+    {
+      "id": "timezone",
+      "description": "host timezone applied through TZ"
+    },
+    {
+      "id": "locale",
+      "description": "UTF-8 host locale"
+    },
+    {
+      "id": "malloc_allocator",
+      "description": "default pymalloc allocator"
+    },
+    {
+      "id": "bytecode_cache",
+      "description": "pyc bytecode caching enabled"
+    }
+  ],
+  "config": {
+    "alpha": 0.05,
+    "max_trials": 240,
+    "max_rounds": 6,
+    "round_trials_per_branch": 8,
+    "confirm_trials": 24,
+    "futility_min_trials": 16,
+    "pairwise_top_k": 3,
+    "seed": 7
+  },
+  "branches": {
+    "baseline": {
+      "branch_id": "baseline",
+      "neutralized": [],
+      "trials": 40,
+      "successes": 19,
+      "p_value": null,
+      "dropped_for_futility": false,
+      "confirmation_failed": false,
+      "rate": 0.475
+    },
+    "no-hash_randomization": {
+      "branch_id": "no-hash_randomization",
+      "neutralized": [
+        "hash_randomization"
+      ],
+      "trials": 40,
+      "successes": 40,
+      "p_value": 0.0012235817575083426,
+      "dropped_for_futility": false,
+      "confirmation_failed": false,
+      "rate": 1.0
+    },
+    "no-timezone": {
+      "branch_id": "no-timezone",
+      "neutralized": [
+        "timezone"
+      ],
+      "trials": 16,
+      "successes": 10,
+      "p_value": 0.3611967360971467,
+      "dropped_for_futility": false,
+      "confirmation_failed": false,
+      "rate": 0.625
+    },
+    "no-locale": {
+      "branch_id": "no-locale",
+      "neutralized": [
+        "locale"
+      ],
+      "trials": 16,
+      "successes": 9,
+      "p_value": 0.5,
+      "dropped_for_futility": false,
+      "confirmation_failed": false,
+      "rate": 0.5625
+    },
+    "no-malloc_allocator": {
+      "branch_id": "no-malloc_allocator",
+      "neutralized": [
+        "malloc_allocator"
+      ],
+      "trials": 16,
+      "successes": 8,
+      "p_value": 0.6377826516682735,
+      "dropped_for_futility": true,
+      "confirmation_failed": false,
+      "rate": 0.5
+    },
+    "no-bytecode_cache": {
+      "branch_id": "no-bytecode_cache",
+      "neutralized": [
+        "bytecode_cache"
+      ],
+      "trials": 16,
+      "successes": 8,
+      "p_value": 0.6377826516682735,
+      "dropped_for_futility": true,
+      "confirmation_failed": false,
+      "rate": 0.5
+    }
+  },
+  "round_log": [
+    {
+      "round": 1,
+      "alpha_spent": 0.008333333333333333,
+      "allocations": {
+        "baseline": 8,
+        "no-bytecode_cache": 8,
+        "no-hash_randomization": 8,
+        "no-locale": 8,
+        "no-malloc_allocator": 8,
+        "no-timezone": 8
+      },
+      "p_values": {
+        "no-hash_randomization": 0.1,
+        "no-timezone": 0.6958041958041958,
+        "no-locale": 0.8426573426573427,
+        "no-malloc_allocator": 0.6958041958041958,
+        "no-bytecode_cache": 0.8426573426573427
+      }
+    },
+    {
+      "round": 2,
+      "alpha_spent": 0.008333333333333333,
+      "allocations": {
+        "baseline": 8,
+        "no-bytecode_cache": 8,
+        "no-hash_randomization": 8,
+        "no-locale": 8,
+        "no-malloc_allocator": 8,
+        "no-timezone": 8
+      },
+      "p_values": {
+        "no-hash_randomization": 0.0012235817575083426,
+        "no-timezone": 0.3611967360971467,
+        "no-locale": 0.5,
+        "no-malloc_allocator": 0.6377826516682735,
+        "no-bytecode_cache": 0.6377826516682735
+      },
+      "confirmations": [
+        {
+          "branch": "no-hash_randomization",
+          "trials_per_arm": 24,
+          "branch_successes": 24,
+          "baseline_successes": 11,
+          "p": 1.2938198574384477e-05,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "verdict": {
+    "cause": [
+      "hash_randomization"
+    ],
+    "confirmation_p": 1.2938198574384477e-05,
+    "baseline_rate": 0.475,
+    "cause_rate": 1.0,
+    "alpha": 0.05,
+    "trials_total": 144,
+    "rounds": 2,
+    "summary": "Neutralizing per-process string hash randomization flipped the outcome. The baseline passed 19 of 40 trials, a rate of 48%, while this branch passed 40 of 40, a rate of 100%; those totals include the confirmation trials, and the search phase alone tends to flatter the winner. The fresh confirmation batch is the unbiased read: 24 of 24 passed on this branch against 11 of 24 at baseline, with p = 1.294e-05 against an alpha of 0.05."
+  },
+  "trials": [
+    {
+      "branch_id": "baseline",
+      "seed": 6146956900983434659,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 6146956900983434659,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3300978083",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.77s\n"
+      },
+      "duration_ms": 1087
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 4580982551428688069,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 4580982551428688069,
+        "env_overrides": {
+          "PYTHONHASHSEED": "69953733",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.53s\n"
+      },
+      "duration_ms": 771
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 16563075434872036064,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 16563075434872036064,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1670109920",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.49s\n"
+      },
+      "duration_ms": 733
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 6828173287599872071,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 6828173287599872071,
+        "env_overrides": {
+          "PYTHONHASHSEED": "2285082695",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.50s\n"
+      },
+      "duration_ms": 750
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 4831076991042889339,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 4831076991042889339,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1571595899",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.51s\n"
+      },
+      "duration_ms": 759
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 13317875009488921845,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 13317875009488921845,
+        "env_overrides": {
+          "PYTHONHASHSEED": "2409866485",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.51s\n"
+      },
+      "duration_ms": 750
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 3971218388630458281,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 3971218388630458281,
+        "env_overrides": {
+          "PYTHONHASHSEED": "2211532713",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.51s\n"
+      },
+      "duration_ms": 754
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 13950555085495062471,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 13950555085495062471,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3799240647",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.51s\n"
+      },
+      "duration_ms": 760
+    },
+    {
+      "branch_id": "no-bytecode_cache",
+      "seed": 10014046384513233016,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 10014046384513233016,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1228025976",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONDONTWRITEBYTECODE": "1"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.51s\n"
+      },
+      "duration_ms": 760
+    },
+    {
+      "branch_id": "no-bytecode_cache",
+      "seed": 5239503244320257881,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 5239503244320257881,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3442947929",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONDONTWRITEBYTECODE": "1"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.51s\n"
+      },
+      "duration_ms": 759
+    },
+    {
+      "branch_id": "no-bytecode_cache",
+      "seed": 1487308186673637439,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 1487308186673637439,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1781950527",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONDONTWRITEBYTECODE": "1"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.51s\n"
+      },
+      "duration_ms": 751
+    },
+    {
+      "branch_id": "no-bytecode_cache",
+      "seed": 1258639921897497362,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 1258639921897497362,
+        "env_overrides": {
+          "PYTHONHASHSEED": "617833234",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONDONTWRITEBYTECODE": "1"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.50s\n"
+      },
+      "duration_ms": 747
+    },
+    {
+      "branch_id": "no-bytecode_cache",
+      "seed": 12535779965562949342,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 12535779965562949342,
+        "env_overrides": {
+          "PYTHONHASHSEED": "366382814",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONDONTWRITEBYTECODE": "1"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.51s\n"
+      },
+      "duration_ms": 756
+    },
+    {
+      "branch_id": "no-bytecode_cache",
+      "seed": 3904295423131743026,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 3904295423131743026,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1643344690",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONDONTWRITEBYTECODE": "1"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.51s\n"
+      },
+      "duration_ms": 753
+    },
+    {
+      "branch_id": "no-bytecode_cache",
+      "seed": 13701766173067204480,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 13701766173067204480,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1159878528",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONDONTWRITEBYTECODE": "1"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.51s\n"
+      },
+      "duration_ms": 754
+    },
+    {
+      "branch_id": "no-bytecode_cache",
+      "seed": 9195308322223472661,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 9195308322223472661,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1112719381",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONDONTWRITEBYTECODE": "1"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.50s\n"
+      },
+      "duration_ms": 747
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 1805104459177360152,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 1805104459177360152,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.51s\n"
+      },
+      "duration_ms": 753
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 13315735865549601680,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 13315735865549601680,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.52s\n"
+      },
+      "duration_ms": 756
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 14120676925722647957,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 14120676925722647957,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.51s\n"
+      },
+      "duration_ms": 757
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 14228474015999595349,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 14228474015999595349,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.51s\n"
+      },
+      "duration_ms": 759
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 5391068462494817375,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 5391068462494817375,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.51s\n"
+      },
+      "duration_ms": 757
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 2305284256918736956,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 2305284256918736956,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.51s\n"
+      },
+      "duration_ms": 757
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 7237539185536301444,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 7237539185536301444,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.52s\n"
+      },
+      "duration_ms": 776
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 13058093908599554298,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 13058093908599554298,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.51s\n"
+      },
+      "duration_ms": 759
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 2232366814192801401,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 2232366814192801401,
+        "env_overrides": {
+          "PYTHONHASHSEED": "945100409",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.50s\n"
+      },
+      "duration_ms": 752
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 1909946097074742613,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 1909946097074742613,
+        "env_overrides": {
+          "PYTHONHASHSEED": "541631829",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.51s\n"
+      },
+      "duration_ms": 758
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 8362210581355975578,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 8362210581355975578,
+        "env_overrides": {
+          "PYTHONHASHSEED": "113005466",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.51s\n"
+      },
+      "duration_ms": 753
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 13406610079895185631,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 13406610079895185631,
+        "env_overrides": {
+          "PYTHONHASHSEED": "508750047",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.51s\n"
+      },
+      "duration_ms": 750
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 4724058598514551402,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 4724058598514551402,
+        "env_overrides": {
+          "PYTHONHASHSEED": "647424618",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.51s\n"
+      },
+      "duration_ms": 778
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 1759451076917308773,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 1759451076917308773,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3075845477",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.53s\n"
+      },
+      "duration_ms": 798
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 681075868580827063,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 681075868580827063,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3688484791",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.52s\n"
+      },
+      "duration_ms": 779
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 17162402120193442422,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 17162402120193442422,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1250591350",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.53s\n"
+      },
+      "duration_ms": 781
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 14469411488201790404,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 14469411488201790404,
+        "env_overrides": {
+          "PYTHONHASHSEED": "389632964",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.56s\n"
+      },
+      "duration_ms": 824
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 9755327296148088365,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 9755327296148088365,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1788093997",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.56s\n"
+      },
+      "duration_ms": 828
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 5822150596136872611,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 5822150596136872611,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3213961891",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.56s\n"
+      },
+      "duration_ms": 834
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 13680092126189545554,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 13680092126189545554,
+        "env_overrides": {
+          "PYTHONHASHSEED": "4230309970",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.56s\n"
+      },
+      "duration_ms": 838
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 10398066464653124784,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 10398066464653124784,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3096257712",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.57s\n"
+      },
+      "duration_ms": 846
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 12424284832696299096,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 12424284832696299096,
+        "env_overrides": {
+          "PYTHONHASHSEED": "2300767832",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.57s\n"
+      },
+      "duration_ms": 849
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 6110689755061894180,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 6110689755061894180,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3608493092",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.57s\n"
+      },
+      "duration_ms": 841
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 5535282890478571389,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 5535282890478571389,
+        "env_overrides": {
+          "PYTHONHASHSEED": "843435901",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.57s\n"
+      },
+      "duration_ms": 845
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 8192595954500815278,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 8192595954500815278,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1213385134",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.54s\n"
+      },
+      "duration_ms": 810
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 16868606267962972409,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 16868606267962972409,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3923532025",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 804
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 17015203901322900700,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 17015203901322900700,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1060189404",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.55s\n"
+      },
+      "duration_ms": 814
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 9122230237712632950,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 9122230237712632950,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3459271798",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.53s\n"
+      },
+      "duration_ms": 803
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 154114252050254871,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 154114252050254871,
+        "env_overrides": {
+          "PYTHONHASHSEED": "2152188951",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.54s\n"
+      },
+      "duration_ms": 809
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 4847321783870926498,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 4847321783870926498,
+        "env_overrides": {
+          "PYTHONHASHSEED": "4020481698",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.53s\n"
+      },
+      "duration_ms": 809
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 768649581382363933,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 768649581382363933,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3339479837",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.53s\n"
+      },
+      "duration_ms": 801
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 236827630567677234,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 236827630567677234,
+        "env_overrides": {
+          "PYTHONHASHSEED": "2835078450",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 799
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 6877687089306930629,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 6877687089306930629,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3664645573",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.55s\n"
+      },
+      "duration_ms": 824
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 17723479835678296978,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 17723479835678296978,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3982969746",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.54s\n"
+      },
+      "duration_ms": 809
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 12340623627778309668,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 12340623627778309668,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1485094436",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.55s\n"
+      },
+      "duration_ms": 812
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 4566410738542030464,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 4566410738542030464,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1901309568",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.54s\n"
+      },
+      "duration_ms": 804
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 10403908207552291023,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 10403908207552291023,
+        "env_overrides": {
+          "PYTHONHASHSEED": "2062344399",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.53s\n"
+      },
+      "duration_ms": 807
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 4594193564741186608,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 4594193564741186608,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3217601584",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 789
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 12586850893440380578,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 12586850893440380578,
+        "env_overrides": {
+          "PYTHONHASHSEED": "408055458",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.52s\n"
+      },
+      "duration_ms": 796
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 9468472596172478423,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 9468472596172478423,
+        "env_overrides": {
+          "PYTHONHASHSEED": "4234254295",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.53s\n"
+      },
+      "duration_ms": 802
+    },
+    {
+      "branch_id": "no-bytecode_cache",
+      "seed": 13639851764838471668,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 13639851764838471668,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3224279028",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONDONTWRITEBYTECODE": "1"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 803
+    },
+    {
+      "branch_id": "no-bytecode_cache",
+      "seed": 2682161696106561579,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 2682161696106561579,
+        "env_overrides": {
+          "PYTHONHASHSEED": "379011115",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONDONTWRITEBYTECODE": "1"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.53s\n"
+      },
+      "duration_ms": 790
+    },
+    {
+      "branch_id": "no-bytecode_cache",
+      "seed": 6019520550834547104,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 6019520550834547104,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1453861280",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONDONTWRITEBYTECODE": "1"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 792
+    },
+    {
+      "branch_id": "no-bytecode_cache",
+      "seed": 2683169880156432955,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 2683169880156432955,
+        "env_overrides": {
+          "PYTHONHASHSEED": "985688635",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONDONTWRITEBYTECODE": "1"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 799
+    },
+    {
+      "branch_id": "no-bytecode_cache",
+      "seed": 3450724770784492442,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 3450724770784492442,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1950366618",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONDONTWRITEBYTECODE": "1"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.54s\n"
+      },
+      "duration_ms": 809
+    },
+    {
+      "branch_id": "no-bytecode_cache",
+      "seed": 7685623250645450368,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 7685623250645450368,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1412726400",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONDONTWRITEBYTECODE": "1"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 789
+    },
+    {
+      "branch_id": "no-bytecode_cache",
+      "seed": 15253683393995099194,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 15253683393995099194,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3076148282",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONDONTWRITEBYTECODE": "1"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.54s\n"
+      },
+      "duration_ms": 808
+    },
+    {
+      "branch_id": "no-bytecode_cache",
+      "seed": 8590034696294941575,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 8590034696294941575,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1492173703",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONDONTWRITEBYTECODE": "1"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.53s\n"
+      },
+      "duration_ms": 808
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 12242316292859058743,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 12242316292859058743,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.55s\n"
+      },
+      "duration_ms": 830
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 12660958187341196852,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 12660958187341196852,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.52s\n"
+      },
+      "duration_ms": 793
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 9535950215852787118,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 9535950215852787118,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 804
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 17620154983769732802,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 17620154983769732802,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 800
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 17246123747243636273,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 17246123747243636273,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 788
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 7999297211626305736,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 7999297211626305736,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 789
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 14235194703325849927,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 14235194703325849927,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.54s\n"
+      },
+      "duration_ms": 806
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 13884966219822182953,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 13884966219822182953,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 817
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 790767589487230459,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 790767589487230459,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3611770363",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.54s\n"
+      },
+      "duration_ms": 799
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 2294788550211952356,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 2294788550211952356,
+        "env_overrides": {
+          "PYTHONHASHSEED": "839147236",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 809
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 1588510621730795215,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 1588510621730795215,
+        "env_overrides": {
+          "PYTHONHASHSEED": "2184376015",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.54s\n"
+      },
+      "duration_ms": 810
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 867822315806000957,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 867822315806000957,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1573259069",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 806
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 1222899007916376129,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 1222899007916376129,
+        "env_overrides": {
+          "PYTHONHASHSEED": "587759681",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 806
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 15619835334907543116,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 15619835334907543116,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3410116172",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.53s\n"
+      },
+      "duration_ms": 806
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 2440574321293628157,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 2440574321293628157,
+        "env_overrides": {
+          "PYTHONHASHSEED": "480613117",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.53s\n"
+      },
+      "duration_ms": 807
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 9814522933856233931,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 9814522933856233931,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3631016395",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.54s\n"
+      },
+      "duration_ms": 819
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 10819947728467348641,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 10819947728467348641,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3952561313",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.58s\n"
+      },
+      "duration_ms": 856
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 14297012082505267012,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 14297012082505267012,
+        "env_overrides": {
+          "PYTHONHASHSEED": "2133964612",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.57s\n"
+      },
+      "duration_ms": 850
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 13821932039376905163,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 13821932039376905163,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1151771595",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.57s\n"
+      },
+      "duration_ms": 855
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 9623493957324985873,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 9623493957324985873,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1215911441",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.59s\n"
+      },
+      "duration_ms": 877
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 1505026034892064076,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 1505026034892064076,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1802814796",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.58s\n"
+      },
+      "duration_ms": 859
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 2611128164731121144,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 2611128164731121144,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1104211448",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.58s\n"
+      },
+      "duration_ms": 859
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 10839689975498536283,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 10839689975498536283,
+        "env_overrides": {
+          "PYTHONHASHSEED": "15988059",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.57s\n"
+      },
+      "duration_ms": 850
+    },
+    {
+      "branch_id": "no-malloc_allocator",
+      "seed": 153997291337263018,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 153997291337263018,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1988601770",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8",
+          "PYTHONMALLOC": "malloc"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.57s\n"
+      },
+      "duration_ms": 856
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 4414434644817489384,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 4414434644817489384,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3095801320",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.54s\n"
+      },
+      "duration_ms": 813
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 10089469921025602812,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 10089469921025602812,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3602396412",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 810
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 1098133053114974776,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 1098133053114974776,
+        "env_overrides": {
+          "PYTHONHASHSEED": "2466808376",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.54s\n"
+      },
+      "duration_ms": 814
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 5174602268938881802,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 5174602268938881802,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3993520906",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 810
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 1829954534422395969,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 1829954534422395969,
+        "env_overrides": {
+          "PYTHONHASHSEED": "459062337",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.54s\n"
+      },
+      "duration_ms": 817
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 10446300798629808277,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 10446300798629808277,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3207956629",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.54s\n"
+      },
+      "duration_ms": 810
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 9327978020419247452,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 9327978020419247452,
+        "env_overrides": {
+          "PYTHONHASHSEED": "2076024156",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 796
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 16110614862096438582,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 16110614862096438582,
+        "env_overrides": {
+          "PYTHONHASHSEED": "6493494",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.54s\n"
+      },
+      "duration_ms": 805
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 8105558310413116317,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 8105558310413116317,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.54s\n"
+      },
+      "duration_ms": 810
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 16076355989508252696,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 16076355989508252696,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 790
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 16213530562860383467,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 16213530562860383467,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.52s\n"
+      },
+      "duration_ms": 789
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 9806912104909114617,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 9806912104909114617,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.54s\n"
+      },
+      "duration_ms": 808
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 17615347061918703607,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 17615347061918703607,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.54s\n"
+      },
+      "duration_ms": 802
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 15646828943724991616,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 15646828943724991616,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 791
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 13965559729390661182,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 13965559729390661182,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 796
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 8156902483040444995,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 8156902483040444995,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 804
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 16917999270026233301,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 16917999270026233301,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.54s\n"
+      },
+      "duration_ms": 807
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 16389320726616898528,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 16389320726616898528,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.54s\n"
+      },
+      "duration_ms": 799
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 17453103624571101411,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 17453103624571101411,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 804
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 14579505812215939801,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 14579505812215939801,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 807
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 3950500484399137802,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 3950500484399137802,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.54s\n"
+      },
+      "duration_ms": 807
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 6766202602901208640,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 6766202602901208640,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 785
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 8177001731794991085,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 8177001731794991085,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.54s\n"
+      },
+      "duration_ms": 809
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 713346015814927940,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 713346015814927940,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.55s\n"
+      },
+      "duration_ms": 822
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 13303185818044426476,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 13303185818044426476,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.56s\n"
+      },
+      "duration_ms": 814
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 14416267653524407305,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 14416267653524407305,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 797
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 7363090587764581291,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 7363090587764581291,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.54s\n"
+      },
+      "duration_ms": 819
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 8405501225822497935,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 8405501225822497935,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.54s\n"
+      },
+      "duration_ms": 809
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 5037902110567860835,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 5037902110567860835,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 790
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 10831509260933087749,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 10831509260933087749,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 801
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 16236916330951454969,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 16236916330951454969,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 802
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 1377053503306965721,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 1377053503306965721,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.54s\n"
+      },
+      "duration_ms": 802
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 16600402497309487052,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 16600402497309487052,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1554231244",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.53s\n"
+      },
+      "duration_ms": 788
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 8890021821544403317,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 8890021821544403317,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3466596725",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 805
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 8937228277614267125,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 8937228277614267125,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1539721973",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.54s\n"
+      },
+      "duration_ms": 810
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 17804645689952652027,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 17804645689952652027,
+        "env_overrides": {
+          "PYTHONHASHSEED": "89213691",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.54s\n"
+      },
+      "duration_ms": 800
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 7502463802896478687,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 7502463802896478687,
+        "env_overrides": {
+          "PYTHONHASHSEED": "937357791",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 787
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 6584689841317481204,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 6584689841317481204,
+        "env_overrides": {
+          "PYTHONHASHSEED": "64621300",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.54s\n"
+      },
+      "duration_ms": 809
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 12838566637637470206,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 12838566637637470206,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3582986238",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.54s\n"
+      },
+      "duration_ms": 808
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 1440928787283530764,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 1440928787283530764,
+        "env_overrides": {
+          "PYTHONHASHSEED": "11228172",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.53s\n"
+      },
+      "duration_ms": 790
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 1166487666157851214,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 1166487666157851214,
+        "env_overrides": {
+          "PYTHONHASHSEED": "540447310",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.52s\n"
+      },
+      "duration_ms": 793
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 132352526770741372,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 132352526770741372,
+        "env_overrides": {
+          "PYTHONHASHSEED": "4283146364",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 802
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 4138659396634652346,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 4138659396634652346,
+        "env_overrides": {
+          "PYTHONHASHSEED": "784182970",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.53s\n"
+      },
+      "duration_ms": 803
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 14732523465821643078,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 14732523465821643078,
+        "env_overrides": {
+          "PYTHONHASHSEED": "828891462",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 792
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 12555970364366132429,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 12555970364366132429,
+        "env_overrides": {
+          "PYTHONHASHSEED": "2724205773",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.53s\n"
+      },
+      "duration_ms": 795
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 10291544561085176036,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 10291544561085176036,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1502992612",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.54s\n"
+      },
+      "duration_ms": 804
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 17970520931418893455,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 17970520931418893455,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1106373775",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.54s\n"
+      },
+      "duration_ms": 817
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 4909258897576408306,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 4909258897576408306,
+        "env_overrides": {
+          "PYTHONHASHSEED": "4235703538",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.53s\n"
+      },
+      "duration_ms": 785
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 12309247149787203664,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 12309247149787203664,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3347990608",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.54s\n"
+      },
+      "duration_ms": 806
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 13708200973768924070,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 13708200973768924070,
+        "env_overrides": {
+          "PYTHONHASHSEED": "254352294",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.54s\n"
+      },
+      "duration_ms": 806
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 9352706900718198534,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 9352706900718198534,
+        "env_overrides": {
+          "PYTHONHASHSEED": "2577866502",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 791
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 1363765477658993973,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 1363765477658993973,
+        "env_overrides": {
+          "PYTHONHASHSEED": "4107150645",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 785
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 9033624515456420450,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 9033624515456420450,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1980385890",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.54s\n"
+      },
+      "duration_ms": 809
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 18154658292440736895,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 18154658292440736895,
+        "env_overrides": {
+          "PYTHONHASHSEED": "2340922495",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.54s\n"
+      },
+      "duration_ms": 808
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 15080564502321469693,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 15080564502321469693,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3174865149",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "F                                                                        [100%]\n=================================== FAILURES ===================================\n___________ test_evaluate_knapsack_output_backward_pass_peak_memory ____________\n\n    def test_evaluate_knapsack_output_backward_pass_peak_memory():\n        # Two parallel branches between stem and head: the DAG admits many valid\n        # topological orders, as in the issue's Branching model.\n        nodes = [\"stem\", \"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\", \"head\", \"output\"]\n        edges = [\n            (\"stem\", \"a1\"), (\"a1\", \"a2\"), (\"a2\", \"a3\"), (\"a3\", \"head\"),\n            (\"stem\", \"b1\"), (\"b1\", \"b2\"), (\"b2\", \"b3\"), (\"b3\", \"head\"),\n            (\"head\", \"output\"),\n        ]\n        gip = GraphInfoProvider(\n            graph_nodes_in_order=nodes,\n            graph_edges=edges,\n            all_recomputable_banned_nodes=[\"a1\", \"a2\", \"a3\", \"b1\", \"b2\", \"b3\"],\n            recorded_knapsack_input_memories=[1.0, 8.0, 1.0, 4.0, 2.0, 16.0],\n            recorded_knapsack_input_runtimes=[1.0] * 6,\n        )\n        ev = KnapsackEvaluator(graph_info_provider=gip)\n        result = ev.evaluate_knapsack_output(\n            saved_nodes_idxs=[0, 3],\n            recomputable_node_idxs=[1, 2, 4, 5],\n            account_for_backward_pass=True,\n        )\n>       assert result[\"peak_memory\"] == 23.0\nE       assert 31.0 == 23.0\n\ntest_knapsack_hashseed.py:41: AssertionError\n=========================== short test summary info ============================\nFAILED test_knapsack_hashseed.py::test_evaluate_knapsack_output_backward_pass_peak_memory\n1 failed in 0.53s\n"
+      },
+      "duration_ms": 789
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 12397383025375373100,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 12397383025375373100,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1811212076",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".                                                                        [100%]\n1 passed in 0.53s\n"
+      },
+      "duration_ms": 797
+    }
+  ]
+}

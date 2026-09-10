@@ -1,0 +1,1919 @@
+{
+  "investigation_id": "rich-columns-env-seed7",
+  "scenario": "rich-columns-env",
+  "factors": [
+    {
+      "id": "columns_exported",
+      "description": "COLUMNS and LINES exported in the shell"
+    },
+    {
+      "id": "hash_randomization",
+      "description": "per-process string hash randomization"
+    },
+    {
+      "id": "timezone",
+      "description": "host timezone applied through TZ"
+    },
+    {
+      "id": "locale",
+      "description": "UTF-8 host locale"
+    }
+  ],
+  "config": {
+    "alpha": 0.05,
+    "max_trials": 240,
+    "max_rounds": 6,
+    "round_trials_per_branch": 8,
+    "confirm_trials": 24,
+    "futility_min_trials": 16,
+    "pairwise_top_k": 3,
+    "seed": 7
+  },
+  "branches": {
+    "baseline": {
+      "branch_id": "baseline",
+      "neutralized": [],
+      "trials": 32,
+      "successes": 0,
+      "p_value": null,
+      "dropped_for_futility": false,
+      "confirmation_failed": false,
+      "rate": 0.0
+    },
+    "no-columns_exported": {
+      "branch_id": "no-columns_exported",
+      "neutralized": [
+        "columns_exported"
+      ],
+      "trials": 32,
+      "successes": 32,
+      "p_value": 7.77000777000777e-05,
+      "dropped_for_futility": false,
+      "confirmation_failed": false,
+      "rate": 1.0
+    },
+    "no-hash_randomization": {
+      "branch_id": "no-hash_randomization",
+      "neutralized": [
+        "hash_randomization"
+      ],
+      "trials": 8,
+      "successes": 0,
+      "p_value": 1.0,
+      "dropped_for_futility": false,
+      "confirmation_failed": false,
+      "rate": 0.0
+    },
+    "no-timezone": {
+      "branch_id": "no-timezone",
+      "neutralized": [
+        "timezone"
+      ],
+      "trials": 8,
+      "successes": 0,
+      "p_value": 1.0,
+      "dropped_for_futility": false,
+      "confirmation_failed": false,
+      "rate": 0.0
+    },
+    "no-locale": {
+      "branch_id": "no-locale",
+      "neutralized": [
+        "locale"
+      ],
+      "trials": 8,
+      "successes": 0,
+      "p_value": 1.0,
+      "dropped_for_futility": false,
+      "confirmation_failed": false,
+      "rate": 0.0
+    }
+  },
+  "round_log": [
+    {
+      "round": 1,
+      "alpha_spent": 0.008333333333333333,
+      "allocations": {
+        "baseline": 8,
+        "no-columns_exported": 8,
+        "no-hash_randomization": 8,
+        "no-locale": 8,
+        "no-timezone": 8
+      },
+      "p_values": {
+        "no-columns_exported": 7.77000777000777e-05,
+        "no-hash_randomization": 1.0,
+        "no-timezone": 1.0,
+        "no-locale": 1.0
+      },
+      "confirmations": [
+        {
+          "branch": "no-columns_exported",
+          "trials_per_arm": 24,
+          "branch_successes": 24,
+          "baseline_successes": 0,
+          "p": 3.101005612159858e-14,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "verdict": {
+    "cause": [
+      "columns_exported"
+    ],
+    "confirmation_p": 3.101005612159858e-14,
+    "baseline_rate": 0.0,
+    "cause_rate": 1.0,
+    "alpha": 0.05,
+    "trials_total": 88,
+    "rounds": 1,
+    "summary": "Neutralizing COLUMNS and LINES exported in the shell flipped the outcome. The baseline passed 0 of 32 trials, a rate of 0%, while this branch passed 32 of 32, a rate of 100%; those totals include the confirmation trials, and the search phase alone tends to flatter the winner. The fresh confirmation batch is the unbiased read: 24 of 24 passed on this branch against 0 of 24 at baseline, with p = 3.101e-14 against an alpha of 0.05."
+  },
+  "trials": [
+    {
+      "branch_id": "baseline",
+      "seed": 6146956900983434659,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 6146956900983434659,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "3300978083",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ize,\n                sys.__stderr__.fileno(): stderr_size,\n            }[fileno]\n            if value is ValueError:\n                raise value\n            return value\n    \n        get_terminal_size_mock.side_effect = get_terminal_size_mock_impl\n    \n        console = Console(legacy_windows=False)\n        with mock.patch(\"rich.console.WINDOWS\", new=is_windows):\n            w, h = console.size\n>       assert (w, h) == expected_size\nE       assert (200, 50) == (80, 25)\nE         \nE         At index 0 diff: 200 != 80\nE         Use -v to get more diff\n\ntests/test_console.py:180: AssertionError\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\n7 failed in 0.09s\n"
+      },
+      "duration_ms": 195
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 4580982551428688069,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 4580982551428688069,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "69953733",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ize,\n                sys.__stderr__.fileno(): stderr_size,\n            }[fileno]\n            if value is ValueError:\n                raise value\n            return value\n    \n        get_terminal_size_mock.side_effect = get_terminal_size_mock_impl\n    \n        console = Console(legacy_windows=False)\n        with mock.patch(\"rich.console.WINDOWS\", new=is_windows):\n            w, h = console.size\n>       assert (w, h) == expected_size\nE       assert (200, 50) == (80, 25)\nE         \nE         At index 0 diff: 200 != 80\nE         Use -v to get more diff\n\ntests/test_console.py:180: AssertionError\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 162
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 16563075434872036064,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 16563075434872036064,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "1670109920",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 162
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 6828173287599872071,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 6828173287599872071,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "2285082695",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 165
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 4831076991042889339,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 4831076991042889339,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "1571595899",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 165
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 13317875009488921845,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 13317875009488921845,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "2409866485",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "e,\n                sys.__stderr__.fileno(): stderr_size,\n            }[fileno]\n            if value is ValueError:\n                raise value\n            return value\n    \n        get_terminal_size_mock.side_effect = get_terminal_size_mock_impl\n    \n        console = Console(legacy_windows=False)\n        with mock.patch(\"rich.console.WINDOWS\", new=is_windows):\n            w, h = console.size\n>       assert (w, h) == expected_size\nE       assert (200, 50) == (133, 24)\nE         \nE         At index 0 diff: 200 != 133\nE         Use -v to get more diff\n\ntests/test_console.py:180: AssertionError\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 167
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 3971218388630458281,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 3971218388630458281,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "2211532713",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 165
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 13950555085495062471,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 13950555085495062471,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "3799240647",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "e,\n                sys.__stderr__.fileno(): stderr_size,\n            }[fileno]\n            if value is ValueError:\n                raise value\n            return value\n    \n        get_terminal_size_mock.side_effect = get_terminal_size_mock_impl\n    \n        console = Console(legacy_windows=False)\n        with mock.patch(\"rich.console.WINDOWS\", new=is_windows):\n            w, h = console.size\n>       assert (w, h) == expected_size\nE       assert (200, 50) == (133, 24)\nE         \nE         At index 0 diff: 200 != 133\nE         Use -v to get more diff\n\ntests/test_console.py:180: AssertionError\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 167
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 17431277684683061178,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 17431277684683061178,
+        "env_overrides": {
+          "PYTHONHASHSEED": "146421690",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 119
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 593472600062421497,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 593472600062421497,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1990584825",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 121
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 14853532276367730265,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 14853532276367730265,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1890756185",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 119
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 16213656148159426810,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 16213656148159426810,
+        "env_overrides": {
+          "PYTHONHASHSEED": "4116639994",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 120
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 15820864782543093986,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 15820864782543093986,
+        "env_overrides": {
+          "PYTHONHASHSEED": "2063073506",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 120
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 5017612831759522828,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 5017612831759522828,
+        "env_overrides": {
+          "PYTHONHASHSEED": "964156428",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 120
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 5299154520555055947,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 5299154520555055947,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3616992075",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 118
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 219225510070909799,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 219225510070909799,
+        "env_overrides": {
+          "PYTHONHASHSEED": "2642082663",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 119
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 1805104459177360152,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 1805104459177360152,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 168
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 13315735865549601680,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 13315735865549601680,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ize,\n                sys.__stderr__.fileno(): stderr_size,\n            }[fileno]\n            if value is ValueError:\n                raise value\n            return value\n    \n        get_terminal_size_mock.side_effect = get_terminal_size_mock_impl\n    \n        console = Console(legacy_windows=False)\n        with mock.patch(\"rich.console.WINDOWS\", new=is_windows):\n            w, h = console.size\n>       assert (w, h) == expected_size\nE       assert (200, 50) == (80, 25)\nE         \nE         At index 0 diff: 200 != 80\nE         Use -v to get more diff\n\ntests/test_console.py:180: AssertionError\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 168
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 14120676925722647957,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 14120676925722647957,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "e,\n                sys.__stderr__.fileno(): stderr_size,\n            }[fileno]\n            if value is ValueError:\n                raise value\n            return value\n    \n        get_terminal_size_mock.side_effect = get_terminal_size_mock_impl\n    \n        console = Console(legacy_windows=False)\n        with mock.patch(\"rich.console.WINDOWS\", new=is_windows):\n            w, h = console.size\n>       assert (w, h) == expected_size\nE       assert (200, 50) == (133, 24)\nE         \nE         At index 0 diff: 200 != 133\nE         Use -v to get more diff\n\ntests/test_console.py:180: AssertionError\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 167
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 14228474015999595349,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 14228474015999595349,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ize,\n                sys.__stderr__.fileno(): stderr_size,\n            }[fileno]\n            if value is ValueError:\n                raise value\n            return value\n    \n        get_terminal_size_mock.side_effect = get_terminal_size_mock_impl\n    \n        console = Console(legacy_windows=False)\n        with mock.patch(\"rich.console.WINDOWS\", new=is_windows):\n            w, h = console.size\n>       assert (w, h) == expected_size\nE       assert (200, 50) == (80, 25)\nE         \nE         At index 0 diff: 200 != 80\nE         Use -v to get more diff\n\ntests/test_console.py:180: AssertionError\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 169
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 5391068462494817375,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 5391068462494817375,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 164
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 2305284256918736956,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 2305284256918736956,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ize,\n                sys.__stderr__.fileno(): stderr_size,\n            }[fileno]\n            if value is ValueError:\n                raise value\n            return value\n    \n        get_terminal_size_mock.side_effect = get_terminal_size_mock_impl\n    \n        console = Console(legacy_windows=False)\n        with mock.patch(\"rich.console.WINDOWS\", new=is_windows):\n            w, h = console.size\n>       assert (w, h) == expected_size\nE       assert (200, 50) == (80, 25)\nE         \nE         At index 0 diff: 200 != 80\nE         Use -v to get more diff\n\ntests/test_console.py:180: AssertionError\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 161
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 7237539185536301444,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 7237539185536301444,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 164
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 13058093908599554298,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 13058093908599554298,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "1",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "e,\n                sys.__stderr__.fileno(): stderr_size,\n            }[fileno]\n            if value is ValueError:\n                raise value\n            return value\n    \n        get_terminal_size_mock.side_effect = get_terminal_size_mock_impl\n    \n        console = Console(legacy_windows=False)\n        with mock.patch(\"rich.console.WINDOWS\", new=is_windows):\n            w, h = console.size\n>       assert (w, h) == expected_size\nE       assert (200, 50) == (133, 24)\nE         \nE         At index 0 diff: 200 != 133\nE         Use -v to get more diff\n\ntests/test_console.py:180: AssertionError\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 171
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 2232366814192801401,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 2232366814192801401,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "945100409",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 169
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 1909946097074742613,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 1909946097074742613,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "541631829",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "e,\n                sys.__stderr__.fileno(): stderr_size,\n            }[fileno]\n            if value is ValueError:\n                raise value\n            return value\n    \n        get_terminal_size_mock.side_effect = get_terminal_size_mock_impl\n    \n        console = Console(legacy_windows=False)\n        with mock.patch(\"rich.console.WINDOWS\", new=is_windows):\n            w, h = console.size\n>       assert (w, h) == expected_size\nE       assert (200, 50) == (133, 24)\nE         \nE         At index 0 diff: 200 != 133\nE         Use -v to get more diff\n\ntests/test_console.py:180: AssertionError\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 170
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 8362210581355975578,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 8362210581355975578,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "113005466",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 168
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 13406610079895185631,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 13406610079895185631,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "508750047",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "ize,\n                sys.__stderr__.fileno(): stderr_size,\n            }[fileno]\n            if value is ValueError:\n                raise value\n            return value\n    \n        get_terminal_size_mock.side_effect = get_terminal_size_mock_impl\n    \n        console = Console(legacy_windows=False)\n        with mock.patch(\"rich.console.WINDOWS\", new=is_windows):\n            w, h = console.size\n>       assert (w, h) == expected_size\nE       assert (200, 50) == (80, 25)\nE         \nE         At index 0 diff: 200 != 80\nE         Use -v to get more diff\n\ntests/test_console.py:180: AssertionError\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 167
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 4724058598514551402,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 4724058598514551402,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "647424618",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 167
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 1759451076917308773,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 1759451076917308773,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "3075845477",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 171
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 681075868580827063,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 681075868580827063,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "3688484791",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 169
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 17162402120193442422,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 17162402120193442422,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "1250591350",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "e,\n                sys.__stderr__.fileno(): stderr_size,\n            }[fileno]\n            if value is ValueError:\n                raise value\n            return value\n    \n        get_terminal_size_mock.side_effect = get_terminal_size_mock_impl\n    \n        console = Console(legacy_windows=False)\n        with mock.patch(\"rich.console.WINDOWS\", new=is_windows):\n            w, h = console.size\n>       assert (w, h) == expected_size\nE       assert (200, 50) == (133, 24)\nE         \nE         At index 0 diff: 200 != 133\nE         Use -v to get more diff\n\ntests/test_console.py:180: AssertionError\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 171
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 8192595954500815278,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 8192595954500815278,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "1213385134",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 167
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 16868606267962972409,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 16868606267962972409,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "3923532025",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ize,\n                sys.__stderr__.fileno(): stderr_size,\n            }[fileno]\n            if value is ValueError:\n                raise value\n            return value\n    \n        get_terminal_size_mock.side_effect = get_terminal_size_mock_impl\n    \n        console = Console(legacy_windows=False)\n        with mock.patch(\"rich.console.WINDOWS\", new=is_windows):\n            w, h = console.size\n>       assert (w, h) == expected_size\nE       assert (200, 50) == (80, 25)\nE         \nE         At index 0 diff: 200 != 80\nE         Use -v to get more diff\n\ntests/test_console.py:180: AssertionError\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 169
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 17015203901322900700,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 17015203901322900700,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "1060189404",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 168
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 9122230237712632950,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 9122230237712632950,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "3459271798",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "e,\n                sys.__stderr__.fileno(): stderr_size,\n            }[fileno]\n            if value is ValueError:\n                raise value\n            return value\n    \n        get_terminal_size_mock.side_effect = get_terminal_size_mock_impl\n    \n        console = Console(legacy_windows=False)\n        with mock.patch(\"rich.console.WINDOWS\", new=is_windows):\n            w, h = console.size\n>       assert (w, h) == expected_size\nE       assert (200, 50) == (133, 24)\nE         \nE         At index 0 diff: 200 != 133\nE         Use -v to get more diff\n\ntests/test_console.py:180: AssertionError\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 169
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 154114252050254871,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 154114252050254871,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "2152188951",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ize,\n                sys.__stderr__.fileno(): stderr_size,\n            }[fileno]\n            if value is ValueError:\n                raise value\n            return value\n    \n        get_terminal_size_mock.side_effect = get_terminal_size_mock_impl\n    \n        console = Console(legacy_windows=False)\n        with mock.patch(\"rich.console.WINDOWS\", new=is_windows):\n            w, h = console.size\n>       assert (w, h) == expected_size\nE       assert (200, 50) == (80, 25)\nE         \nE         At index 0 diff: 200 != 80\nE         Use -v to get more diff\n\ntests/test_console.py:180: AssertionError\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 168
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 4847321783870926498,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 4847321783870926498,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "4020481698",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 169
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 768649581382363933,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 768649581382363933,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "3339479837",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 161
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 236827630567677234,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 236827630567677234,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "2835078450",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 162
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 12224910496306137999,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 12224910496306137999,
+        "env_overrides": {
+          "PYTHONHASHSEED": "2001046415",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 119
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 15325885564920807868,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 15325885564920807868,
+        "env_overrides": {
+          "PYTHONHASHSEED": "2774811068",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 121
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 17674408832448794627,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 17674408832448794627,
+        "env_overrides": {
+          "PYTHONHASHSEED": "2837647363",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 122
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 7284855930889325109,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 7284855930889325109,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1351502389",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 121
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 16424709792195751945,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 16424709792195751945,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3199545353",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 121
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 13031474090174343083,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 13031474090174343083,
+        "env_overrides": {
+          "PYTHONHASHSEED": "747399083",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 121
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 7928006469446057386,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 7928006469446057386,
+        "env_overrides": {
+          "PYTHONHASHSEED": "743751082",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 120
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 15248241378571924675,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 15248241378571924675,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3274781891",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 122
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 1387549307752667228,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 1387549307752667228,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1827657820",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 146
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 10949469477894564568,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 10949469477894564568,
+        "env_overrides": {
+          "PYTHONHASHSEED": "887302872",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 121
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 4235928177236124202,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 4235928177236124202,
+        "env_overrides": {
+          "PYTHONHASHSEED": "4198113834",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 121
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 3839927616752990912,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 3839927616752990912,
+        "env_overrides": {
+          "PYTHONHASHSEED": "2546350784",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 120
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 11805525564997776435,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 11805525564997776435,
+        "env_overrides": {
+          "PYTHONHASHSEED": "4168889395",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 126
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 13552574130661615103,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 13552574130661615103,
+        "env_overrides": {
+          "PYTHONHASHSEED": "37479935",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 124
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 13757433472264405244,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 13757433472264405244,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1600356604",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.04s\n"
+      },
+      "duration_ms": 129
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 8540322479936601186,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 8540322479936601186,
+        "env_overrides": {
+          "PYTHONHASHSEED": "65502306",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.04s\n"
+      },
+      "duration_ms": 129
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 3524386291656982062,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 3524386291656982062,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3313008174",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 126
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 16507200339039340593,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 16507200339039340593,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3701852209",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 125
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 6904568315410841405,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 6904568315410841405,
+        "env_overrides": {
+          "PYTHONHASHSEED": "125501245",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 125
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 12497665922224805909,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 12497665922224805909,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3619084309",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 125
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 2555608879047780236,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 2555608879047780236,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1014638476",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 128
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 78863105251204082,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 78863105251204082,
+        "env_overrides": {
+          "PYTHONHASHSEED": "2388777970",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 122
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 17404748759258316579,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 17404748759258316579,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1082343203",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 125
+    },
+    {
+      "branch_id": "no-columns_exported",
+      "seed": 1804840299466364175,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 1804840299466364175,
+        "env_overrides": {
+          "PYTHONHASHSEED": "2650838287",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": ".......                                                                  [100%]\n7 passed in 0.03s\n"
+      },
+      "duration_ms": 127
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 6744915614711732658,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 6744915614711732658,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "4141930930",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 171
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 10475850533241465478,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 10475850533241465478,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "2045880966",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "e,\n                sys.__stderr__.fileno(): stderr_size,\n            }[fileno]\n            if value is ValueError:\n                raise value\n            return value\n    \n        get_terminal_size_mock.side_effect = get_terminal_size_mock_impl\n    \n        console = Console(legacy_windows=False)\n        with mock.patch(\"rich.console.WINDOWS\", new=is_windows):\n            w, h = console.size\n>       assert (w, h) == expected_size\nE       assert (200, 50) == (133, 24)\nE         \nE         At index 0 diff: 200 != 133\nE         Use -v to get more diff\n\ntests/test_console.py:180: AssertionError\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 176
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 14038798014223913493,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 14038798014223913493,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "3343290901",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 171
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 18421546230447387537,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 18421546230447387537,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "4013994897",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 170
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 12268962619338294577,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 12268962619338294577,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "2687796529",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 168
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 832509713230334837,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 832509713230334837,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "1630014325",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 171
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 10414181594454157231,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 10414181594454157231,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "3285837743",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 167
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 13520842026701014365,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 13520842026701014365,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "3517957469",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 169
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 2404248700731717792,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 2404248700731717792,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "2127493280",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "e,\n                sys.__stderr__.fileno(): stderr_size,\n            }[fileno]\n            if value is ValueError:\n                raise value\n            return value\n    \n        get_terminal_size_mock.side_effect = get_terminal_size_mock_impl\n    \n        console = Console(legacy_windows=False)\n        with mock.patch(\"rich.console.WINDOWS\", new=is_windows):\n            w, h = console.size\n>       assert (w, h) == expected_size\nE       assert (200, 50) == (133, 24)\nE         \nE         At index 0 diff: 200 != 133\nE         Use -v to get more diff\n\ntests/test_console.py:180: AssertionError\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 170
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 9378077080674188334,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 9378077080674188334,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "3989912622",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "e,\n                sys.__stderr__.fileno(): stderr_size,\n            }[fileno]\n            if value is ValueError:\n                raise value\n            return value\n    \n        get_terminal_size_mock.side_effect = get_terminal_size_mock_impl\n    \n        console = Console(legacy_windows=False)\n        with mock.patch(\"rich.console.WINDOWS\", new=is_windows):\n            w, h = console.size\n>       assert (w, h) == expected_size\nE       assert (200, 50) == (133, 24)\nE         \nE         At index 0 diff: 200 != 133\nE         Use -v to get more diff\n\ntests/test_console.py:180: AssertionError\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 169
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 9217782571904782438,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 9217782571904782438,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "1194053734",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ize,\n                sys.__stderr__.fileno(): stderr_size,\n            }[fileno]\n            if value is ValueError:\n                raise value\n            return value\n    \n        get_terminal_size_mock.side_effect = get_terminal_size_mock_impl\n    \n        console = Console(legacy_windows=False)\n        with mock.patch(\"rich.console.WINDOWS\", new=is_windows):\n            w, h = console.size\n>       assert (w, h) == expected_size\nE       assert (200, 50) == (80, 25)\nE         \nE         At index 0 diff: 200 != 80\nE         Use -v to get more diff\n\ntests/test_console.py:180: AssertionError\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 169
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 5574164150989242898,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 5574164150989242898,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "460210706",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "e,\n                sys.__stderr__.fileno(): stderr_size,\n            }[fileno]\n            if value is ValueError:\n                raise value\n            return value\n    \n        get_terminal_size_mock.side_effect = get_terminal_size_mock_impl\n    \n        console = Console(legacy_windows=False)\n        with mock.patch(\"rich.console.WINDOWS\", new=is_windows):\n            w, h = console.size\n>       assert (w, h) == expected_size\nE       assert (200, 50) == (133, 24)\nE         \nE         At index 0 diff: 200 != 133\nE         Use -v to get more diff\n\ntests/test_console.py:180: AssertionError\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 170
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 9136154944318224621,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 9136154944318224621,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "889469165",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 170
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 11234862747777695870,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 11234862747777695870,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "3985571966",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 168
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 3477760138848160995,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 3477760138848160995,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "2584661219",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 170
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 2131611278702079409,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 2131611278702079409,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "172027313",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 166
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 3696278589427191389,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 3696278589427191389,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "431001181",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 162
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 1756707243772585213,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 1756707243772585213,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "1198236925",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 164
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 1957063966888027411,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 1957063966888027411,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "353625363",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 167
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 907027928135093906,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 907027928135093906,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "1373228690",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 170
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 670829562808454079,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 670829562808454079,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "3825683391",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 169
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 9915308367294914251,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 9915308367294914251,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "789733067",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "tefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:\\x1b[0m In function '\\x1b[1mmain\\x1b[0m':\\n\\x1b[1mC:\\\\Users\\\\stefa\\\\AppData\\\\Local\\\\Temp\\\\tmp3ydingba:3:5:\\x1b[0m \\x1b[1;35mwarning: \\x1b[0munused variable '\\x1b[1ma\\x1b[0m' [\\x1b[1;35m-Wunused-variable\\x1b[0m]\\n    3 | int \\x1b[1;35ma\\x1b[0m=1;\\n      |     \\x1b[1;35m^\\x1b[0m\\n\\n\"\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:\u001b[0m In function '\u001b[1mmain\u001b[0m':\n\u001b[1mC:\\Users\\stefa\\AppData\\Local\\Temp\\tmp3ydingba:3:5:\u001b[0m \u001b[1;35mwarning: \u001b[0munused variable '\u001b[1ma\u001b[0m' [\u001b[1;35m-Wunused-variable\u001b[0m]\n    3 | int \u001b[1;35ma\u001b[0m=1;\n      |     \u001b[1;35m^\u001b[0m\n\n\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 170
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 14122937603718343542,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 14122937603718343542,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "2393074550",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "e,\n                sys.__stderr__.fileno(): stderr_size,\n            }[fileno]\n            if value is ValueError:\n                raise value\n            return value\n    \n        get_terminal_size_mock.side_effect = get_terminal_size_mock_impl\n    \n        console = Console(legacy_windows=False)\n        with mock.patch(\"rich.console.WINDOWS\", new=is_windows):\n            w, h = console.size\n>       assert (w, h) == expected_size\nE       assert (200, 50) == (133, 24)\nE         \nE         At index 0 diff: 200 != 133\nE         Use -v to get more diff\n\ntests/test_console.py:180: AssertionError\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 168
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 8359976678694952122,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 8359976678694952122,
+        "env_overrides": {
+          "COLUMNS": "200",
+          "LINES": "50",
+          "PYTHONHASHSEED": "136944826",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "e,\n                sys.__stderr__.fileno(): stderr_size,\n            }[fileno]\n            if value is ValueError:\n                raise value\n            return value\n    \n        get_terminal_size_mock.side_effect = get_terminal_size_mock_impl\n    \n        console = Console(legacy_windows=False)\n        with mock.patch(\"rich.console.WINDOWS\", new=is_windows):\n            w, h = console.size\n>       assert (w, h) == expected_size\nE       assert (200, 50) == (133, 24)\nE         \nE         At index 0 diff: 200 != 133\nE         Use -v to get more diff\n\ntests/test_console.py:180: AssertionError\n======================================================================================= short test summary info ========================================================================================\nFAILED tests/test_ansi.py::test_decode_example - AssertionError: assert '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n' == '\\x1b[1mC:\\\\U...m^\\x1b[0m\\n\\n'\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-ValueError-expected_size5] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-stdout_size3-ValueError-expected_size3] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[True-no_descriptor_size0-ValueError-ValueError-ValueError-expected_size0] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-ValueError-ValueError-stderr_size4-expected_size4] - assert (200, 50) == (133, 24)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-no_descriptor_size1-ValueError-ValueError-ValueError-expected_size1] - assert (200, 50) == (80, 25)\nFAILED tests/test_console.py::test_size_can_fall_back_to_std_descriptors[False-ValueError-stdin_size2-ValueError-ValueError-expected_size2] - assert (200, 50) == (133, 24)\n7 failed in 0.08s\n"
+      },
+      "duration_ms": 169
+    }
+  ]
+}

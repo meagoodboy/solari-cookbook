@@ -1,24 +1,32 @@
-"""Investigate an order-dependent test failure in encode/uvicorn with Crux.
+"""Investigate a COLUMNS-sensitive test failure in Textualize/rich with Crux.
 
-The target is tests/test_config.py in uvicorn 0.16.0. In its natural
-order the file passes every time. Shuffle it and it fails on many seeds,
-because tests share the module-level LOGGING_CONFIG dict in
-uvicorn/config.py: any test that loads a Config with use_colors set
-mutates that dict in place, and test_log_config_default then asserts on
-the leftover value instead of the packaged default. The repo's own order
-happens to hide the leak. pytest-randomly exposes it.
+This is a previously unreported finding, observed 2026-09-11 at rich HEAD
+(9d8f9a372cc5916fd4781fec207ced7ddac2f08f). Exporting COLUMNS in the
+shell makes seven test nodes fail every time, because ConsoleDimensions
+resolution in rich/console.py reads COLUMNS and LINES from the
+environment before it reaches the mocked terminal-size fallback the
+tests patch, and the tests never scrub those variables. The two fastest
+of the seven are used here: hand runs at this commit fail 6/6 with
+COLUMNS=200 LINES=50 exported and pass 6/6 without.
 
-This script does not ship uvicorn. Point it at a checkout with a venv
-holding pytest 6.2.5 and pytest-randomly 3.10.3:
+This script does not ship rich. Point it at a checkout with a venv that
+has pytest and the repo's test requirements installed:
 
-  python examples/uvicorn_test_order.py \
-      --repo-dir /path/to/uvicorn --python /path/to/venv/bin/python
+  python examples/rich_columns_env.py \
+      --repo-dir /path/to/rich --python /path/to/venv/bin/python
 
-Five suspects go in and the script does not tell Crux which one is
-guilty. Test order varies per trial through a pytest-randomly seed while
-the neutral branch disables the plugin, restoring the file's natural
-order. The other four are decoys an engineer might reasonably blame
-first: hash randomization, timezone, locale, and the allocator.
+Four suspects go in and the script does not tell Crux which one is
+guilty. The twist this case adds: the guilty factor is a constant (the
+same COLUMNS value every trial), while one decoy varies per trial
+(PYTHONHASHSEED through {seed32}). An engineer staring at flaky-looking
+CI would reach for the thing that changes between runs; Crux has to
+release the mover and convict the constant. Timezone and locale round
+out the lineup.
+
+Because the active branch of the guilty factor adds COLUMNS and LINES
+on top of the inherited environment, the parent shell must not export
+either one already; there is no way to unset an inherited variable per
+trial, so the script refuses to run if it finds them.
 
 Add --compare to also run the naive gap read (5 trials per arm, blame
 the biggest gap) on the same world, for a head-to-head.
@@ -28,6 +36,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 import time
 from pathlib import Path
@@ -38,24 +47,26 @@ from crux.report import write_bundle
 from crux.search import investigate
 from crux.stats import trial_seed
 
-TEST_FILE = "tests/test_config.py"
-PINNED_VERSION = "0.16.0"
+TEST_NODES = (
+    "tests/test_console.py::test_size_can_fall_back_to_std_descriptors",
+    "tests/test_ansi.py::test_decode_example",
+)
+PINNED_COMMIT = "9d8f9a372cc5916fd4781fec207ced7ddac2f08f"
 
 FACTORS = (
-    Factor("test_order_shuffle", "pytest-randomly shuffles test order per run"),
+    Factor("columns_exported", "COLUMNS and LINES exported in the shell"),
     Factor("hash_randomization", "per-process string hash randomization"),
     Factor("timezone", "host timezone applied through TZ"),
     Factor("locale", "UTF-8 host locale"),
-    Factor("malloc_allocator", "default pymalloc allocator"),
 )
 
 
 def build_specs() -> list[FactorSpec]:
     return [
         FactorSpec(
-            "test_order_shuffle",
-            active={"PYTEST_ADDOPTS": "--randomly-seed={seed32}"},
-            neutral={"PYTEST_ADDOPTS": "-p no:randomly"},
+            "columns_exported",
+            active={"COLUMNS": "200", "LINES": "50"},
+            neutral={},
         ),
         FactorSpec(
             "hash_randomization",
@@ -71,11 +82,6 @@ def build_specs() -> list[FactorSpec]:
             "locale",
             active={"LANG": "en_US.UTF-8", "LC_ALL": "en_US.UTF-8"},
             neutral={"LANG": "C.UTF-8", "LC_ALL": "C.UTF-8"},
-        ),
-        FactorSpec(
-            "malloc_allocator",
-            active={},
-            neutral={"PYTHONMALLOC": "malloc"},
         ),
     ]
 
@@ -110,13 +116,12 @@ def run_naive_gap(world: CommandWorld, master_seed: int) -> dict:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--repo-dir", required=True, help="uvicorn checkout")
+    parser.add_argument("--repo-dir", required=True, help="rich checkout")
     parser.add_argument(
-        "--python", required=True,
-        help="venv python with pytest and pytest-randomly",
+        "--python", required=True, help="venv python with rich test deps"
     )
     parser.add_argument(
-        "--out", default="proof/realworld-uvicorn", help="bundle directory"
+        "--out", default="proof/realworld-rich-columns", help="bundle directory"
     )
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument(
@@ -124,25 +129,33 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
 
+    for name in ("COLUMNS", "LINES"):
+        if name in os.environ:
+            print(
+                f"{name} is exported in this shell. The neutral branch of "
+                "columns_exported works by inheriting an environment without "
+                "it; an inherited variable cannot be unset per trial. "
+                f"Unset {name} and rerun."
+            )
+            return 2
+
     repo_dir = Path(args.repo_dir).expanduser().resolve()
-    if not (repo_dir / "tests" / "test_config.py").exists():
-        print(f"{repo_dir} does not look like a uvicorn checkout")
+    if not (repo_dir / "tests" / "test_console.py").exists():
+        print(f"{repo_dir} does not look like a rich checkout")
         return 2
 
-    cmd = [
-        args.python, "-m", "pytest", TEST_FILE, "-q",
-        "-p", "no:cacheprovider", "--basetemp", "/tmp/uvtmp",
-    ]
+    cmd = [args.python, "-m", "pytest", *TEST_NODES, "-q", "-p", "no:cacheprovider"]
     world = CommandWorld(
-        cmd=cmd, cwd=str(repo_dir), specs=build_specs(), timeout_s=240.0
+        cmd=cmd, cwd=str(repo_dir), specs=build_specs(), timeout_s=120.0
     )
     config = InvestigationConfig(seed=args.seed)
-    print(f"Investigating {TEST_FILE} in uvicorn {PINNED_VERSION}")
+    print("Investigating rich console-size tests under an exported COLUMNS")
+    print(f"Checkout expected at commit {PINNED_COMMIT}")
     print(f"Budget: {config.max_trials} trials, each a fresh pytest process")
     started = time.monotonic()
     investigation = investigate(
         world, command_oracle, FACTORS, config,
-        scenario_name="uvicorn-test-order",
+        scenario_name="rich-columns-env",
     )
     elapsed = time.monotonic() - started
     print(f"\n{investigation.verdict.summary}")

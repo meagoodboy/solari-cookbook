@@ -51,18 +51,34 @@ hand-written scenario, because it is the same investigation. With
 
 ## What it catches, with receipts
 
-Five distinct failure families so far, four of them live in well-known
-software, each with a replayable evidence bundle in this repository. Every
-verdict below beat a lineup that included decoy suspects, and the p value is
-always the one from the fresh confirmation batch.
+Eight investigations across five failure families, six of them in real
+well-known software, including an open PyTorch bug and two previously
+unreported findings at rich HEAD. Every verdict beat a lineup that included
+decoy suspects, the p value is always the one from the fresh confirmation
+batch, and each bundle replays.
 
 | Failure family | Where | Verdict | Confirmation p | Receipts |
 | --- | --- | --- | --- | --- |
+| Hash randomization | pytorch/pytorch, ~103k stars, OPEN issue 196512, unfixed at HEAD | hash_randomization | 0.000013 | [proof/realworld-pytorch/](proof/realworld-pytorch/) |
 | Hash randomization | home-assistant/core, ~90k stars, real July 2026 bug | hash_randomization | 0.0047 | [proof/realworld/](proof/realworld/) |
-| Unseeded global RNG | facebookresearch/ParlAI, ~10.6k stars, FLEX dataset row | unseeded_global_rng | 0.00011 | [proof/realworld-parlai/](proof/realworld-parlai/) |
+| Env-conditional, new find | Textualize/rich HEAD, ~57k stars, previously unreported | columns_exported | 3.1e-14 | [proof/realworld-rich-columns/](proof/realworld-rich-columns/) |
+| Test-order dependence, new find | Textualize/rich HEAD, previously unreported | test_order_shuffle | 0.000013 | [proof/realworld-rich-order/](proof/realworld-rich-order/) |
 | Test-order dependence | encode/uvicorn 0.16.0, ~11k stars | test_order_shuffle | 0.000000018 | [proof/realworld-uvicorn/](proof/realworld-uvicorn/) |
+| Unseeded global RNG | facebookresearch/ParlAI, ~10.6k stars, FLEX dataset row | unseeded_global_rng | 0.00011 | [proof/realworld-parlai/](proof/realworld-parlai/) |
 | Agent context truncation | a real sampled LLM on a Solari cloud browser | context_trim | 0.0000226 | [proof/agent/](proof/agent/) |
 | Environment and layout factors | the calibrated offline demo and the Solari sandbox run | two_column_layout | 0.0047 and 0.0012 | [proof/offline/](proof/offline/), [proof/live/](proof/live/) |
+
+Three rows deserve a word. The PyTorch case is a live bug: issue 196512,
+filed two days before this investigation ran, still open, reproduced through
+the same public API the issue names, where node names collected into a set
+make the simulated backward schedule follow string-hash order. The two rich
+rows were not reported anywhere before this work found them: exported
+COLUMNS bypasses the terminal-size mock in their console tests, and one
+table test permanently rewrites the shared rich.box.ASCII singleton so later
+box tests fail under shuffled order. The COLUMNS case also settles a fair
+methodological objection: its guilty factor is a constant while a decoy
+varies per trial, and the constant was convicted at p = 3.1e-14 while the
+varying decoy walked.
 
 The two newest cases each convicted on the first run with the default
 configuration. In ParlAI, a test fails about half its runs because the code
@@ -72,8 +88,15 @@ shuffling test order breaks a test that asserts on the shared
 LOGGING_CONFIG dict, which earlier tests mutate in place; the shuffle
 factor was convicted at the smallest p in this repository while hash seed,
 timezone, locale, and allocator theories were all released. Both are one
-script each under [examples/](examples/), and `crux verify` replays any of
-these bundles and checks that the same cause comes back.
+script each under [examples/](examples/).
+
+On replaying these bundles: simulated bundles (the demo) replay anywhere
+with `crux verify`. Command bundles carry a `world.json` describing the
+exact command, checkout path, and factor lineup, and `crux verify` rebuilds
+that world and replays the investigation when the checkout exists at the
+recorded path; without it, verify says exactly what is missing and exits
+nonzero rather than pretending. The agent and Solari bundles are receipts
+of paid runs; their replay is the example script that produced them.
 
 ## Quickstart
 
@@ -231,6 +254,8 @@ day; the bench table above puts a number on how often.
 To rerun it, clone home-assistant/core at the commit above, install its test
 requirements into a venv, and run the example with `--repo-dir` and
 `--python` pointing at them. The investigation needs nothing from the network.
+None of this hangs on a lucky seed: rerun with `--seed 11` and the same cause
+comes back, confirmation 24 of 24 against 18 of 24 at baseline, p = 0.011.
 
 ### The same investigation on Solari clones
 
@@ -292,7 +317,9 @@ cut ended undecided at p = 0.0119 rather than convicting, which is the
 selection guard doing its job; the shipped verdict comes from a properly
 powered rerun, and both behaviors are what you want from a measuring
 instrument. Because ollama honors sampling seeds, even the stochastic runs
-replay exactly on the same model build.
+replay exactly on the same model build. The frozen protocol also holds at a
+fresh seed: rerun with `--seed 11` and the context cut is convicted again,
+confirmation 20 of 20 against 6 of 20, p = 0.0000017.
 
 Running it needs SOLARI_API_KEY, ollama with the model pulled, and the
 `[browser]` extra. One browser session is reused across all trials; the

@@ -22,6 +22,11 @@ believable suspects.
    getting the numbers wrong six runs out of ten.
 5. A controlled simulated agent we could run 800 times, to measure how
    often the tool itself is right and wrong.
+6. PyTorch, the most starred ML framework: an open bug, filed two days
+   before our run and still unfixed, where memory estimates change from
+   run to run.
+7. Rich, the terminal rendering library, at its current tip: two problems
+   nobody had reported before this work found them.
 
 ## What we found
 
@@ -44,6 +49,16 @@ released the innocent suspects every time.
 - The 800-run study showed the procedure never once blamed an innocent
   factor on pure noise, while the usual run-it-five-times-and-eyeball
   approach accused an innocent factor 68 percent of the time.
+- PyTorch's open bug came down to names collected into a set, which makes
+  an internal graph order follow Python's per-run hashing. Convicted at
+  p = 0.000013 while it sat unfixed in the tracker.
+- In Rich we found two new bugs ourselves: an exported COLUMNS variable
+  quietly bypasses what their console tests think they are testing
+  (convicted at p that has thirteen zeros), and one test permanently
+  rewrites a shared box style so unrelated tests fail when the order
+  shuffles. Neither had ever been reported.
+- Every conviction was re-checked: bundles replay end to end with
+  `crux verify`, and the flagship cases hold at a fresh seed.
 
 ## How it helped
 

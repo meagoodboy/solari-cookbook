@@ -89,6 +89,49 @@ class CommandWorld:
         self._env_base = None if env_base is None else dict(env_base)
         self._concurrency = max(1, int(concurrency))
 
+    def to_spec(self) -> dict:
+        """A JSON-safe description of this world, for bundle replay.
+
+        Saved as world.json next to a bundle so `crux verify` can
+        rebuild the world later. Paths are absolute and machine
+        specific; replaying on another machine needs the same checkout
+        at the same place, and verify says so when it is missing.
+        """
+        return {
+            "kind": "command",
+            "cmd": list(self._cmd),
+            "cwd": self._cwd,
+            "timeout_s": self._timeout_s,
+            "concurrency": self._concurrency,
+            "specs": [
+                {
+                    "factor_id": spec.factor_id,
+                    "active": dict(spec.active),
+                    "neutral": dict(spec.neutral),
+                }
+                for spec in self._specs
+            ],
+        }
+
+    @classmethod
+    def from_spec(cls, spec: Mapping) -> "CommandWorld":
+        if spec.get("kind") != "command":
+            raise ValueError(f"not a command world spec: {spec.get('kind')!r}")
+        return cls(
+            cmd=list(spec["cmd"]),
+            cwd=str(spec["cwd"]),
+            specs=[
+                FactorSpec(
+                    factor_id=entry["factor_id"],
+                    active=dict(entry["active"]),
+                    neutral=dict(entry["neutral"]),
+                )
+                for entry in spec["specs"]
+            ],
+            timeout_s=float(spec.get("timeout_s", 120.0)),
+            concurrency=int(spec.get("concurrency", 1)),
+        )
+
     def snapshot(self) -> str:
         return self._cwd
 

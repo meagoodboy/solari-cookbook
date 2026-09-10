@@ -1,0 +1,63 @@
+{
+  "cmd": [
+    "/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/active/env-tz/rich/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_box.py::test_get_row",
+    "tests/test_table.py::test_placement_table_box_elements",
+    "-q",
+    "-p",
+    "no:cacheprovider"
+  ],
+  "concurrency": 1,
+  "cwd": "/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/active/env-tz/rich",
+  "kind": "command",
+  "specs": [
+    {
+      "active": {
+        "PYTEST_ADDOPTS": "--randomly-seed={seed32}"
+      },
+      "factor_id": "test_order_shuffle",
+      "neutral": {
+        "PYTEST_ADDOPTS": "-p no:randomly"
+      }
+    },
+    {
+      "active": {
+        "PYTHONHASHSEED": "{seed32}"
+      },
+      "factor_id": "hash_randomization",
+      "neutral": {
+        "PYTHONHASHSEED": "1"
+      }
+    },
+    {
+      "active": {
+        "TZ": "Asia/Kolkata"
+      },
+      "factor_id": "timezone",
+      "neutral": {
+        "TZ": "UTC"
+      }
+    },
+    {
+      "active": {
+        "LANG": "en_US.UTF-8",
+        "LC_ALL": "en_US.UTF-8"
+      },
+      "factor_id": "locale",
+      "neutral": {
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8"
+      }
+    },
+    {
+      "active": {},
+      "factor_id": "malloc_allocator",
+      "neutral": {
+        "PYTHONMALLOC": "malloc"
+      }
+    }
+  ],
+  "timeout_s": 120.0
+}

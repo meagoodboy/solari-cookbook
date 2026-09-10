@@ -41,4 +41,4 @@ confirmations: [{"branch": "no-test_order_shuffle", "trials_per_arm": 24, "branc
 
 ## How to replay
 
-Run `crux verify proof/realworld-uvicorn` to rerun the investigation from its saved seed and check that the same cause comes back. Run `crux serve --directory proof/realworld-uvicorn` to open the dashboard.
+Run `crux verify /Users/aswin/Project/crux/proof/realworld-uvicorn` to rerun the investigation from its saved seed and check that the same cause comes back. Run `crux serve --directory /Users/aswin/Project/crux/proof/realworld-uvicorn` to open the dashboard.

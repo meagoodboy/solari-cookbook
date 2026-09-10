@@ -219,3 +219,15 @@ def test_solari_stage_source_raises_on_failure(capsys):
         assert "rc=7" in str(exc)
     else:
         raise AssertionError("failing stage did not raise")
+
+
+def test_world_spec_round_trip():
+    world = CommandWorld(
+        cmd=[sys.executable, "-c", "pass"], cwd="/tmp",
+        specs=[FactorSpec("f", active={"A": "{seed32}"}, neutral={"A": "1"})],
+        timeout_s=42.0, concurrency=3,
+    )
+    spec = world.to_spec()
+    rebuilt = CommandWorld.from_spec(spec)
+    assert rebuilt.to_spec() == spec
+    assert spec["kind"] == "command" and spec["timeout_s"] == 42.0

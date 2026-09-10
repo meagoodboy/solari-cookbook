@@ -1,0 +1,55 @@
+{
+  "cmd": [
+    "/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/active/env-tz/rich/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_console.py::test_size_can_fall_back_to_std_descriptors",
+    "tests/test_ansi.py::test_decode_example",
+    "-q",
+    "-p",
+    "no:cacheprovider"
+  ],
+  "concurrency": 1,
+  "cwd": "/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/active/env-tz/rich",
+  "kind": "command",
+  "specs": [
+    {
+      "active": {
+        "COLUMNS": "200",
+        "LINES": "50"
+      },
+      "factor_id": "columns_exported",
+      "neutral": {}
+    },
+    {
+      "active": {
+        "PYTHONHASHSEED": "{seed32}"
+      },
+      "factor_id": "hash_randomization",
+      "neutral": {
+        "PYTHONHASHSEED": "1"
+      }
+    },
+    {
+      "active": {
+        "TZ": "Asia/Kolkata"
+      },
+      "factor_id": "timezone",
+      "neutral": {
+        "TZ": "UTC"
+      }
+    },
+    {
+      "active": {
+        "LANG": "en_US.UTF-8",
+        "LC_ALL": "en_US.UTF-8"
+      },
+      "factor_id": "locale",
+      "neutral": {
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8"
+      }
+    }
+  ],
+  "timeout_s": 120.0
+}

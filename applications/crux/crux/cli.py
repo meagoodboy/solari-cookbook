@@ -221,17 +221,46 @@ def _cmd_verify(args: argparse.Namespace) -> int:
     saved = Investigation.from_dict(json.loads(path.read_text(encoding="utf-8")))
     factors = saved.factors or FACTORS
 
-    world = _world_for_scenario(saved.scenario)
-    if world is None:
-        print(
-            f"Cannot verify scenario '{saved.scenario}': no local replay "
-            "world matches it. Only demo, no-effect and conjunction "
-            "bundles replay here.",
-            file=sys.stderr,
-        )
-        return 2
+    world = None
+    replay_oracle = oracle
+    world_path = Path(args.directory) / "world.json"
+    if world_path.is_file():
+        from .backends.command import CommandWorld, command_oracle
+
+        spec = json.loads(world_path.read_text(encoding="utf-8"))
+        if spec.get("kind") != "command":
+            print(
+                f"world.json has unknown kind {spec.get('kind')!r}; "
+                "cannot rebuild that world here.",
+                file=sys.stderr,
+            )
+            return 3
+        cwd = Path(str(spec.get("cwd", "")))
+        if not cwd.is_dir():
+            print(
+                f"world.json points at {cwd}, which does not exist on this "
+                "machine. Recreate the checkout there and rerun.",
+                file=sys.stderr,
+            )
+            return 3
+        world = CommandWorld.from_spec(spec)
+        replay_oracle = command_oracle
+    else:
+        world = _world_for_scenario(saved.scenario)
+        if world is None:
+            print(
+                f"Cannot verify scenario '{saved.scenario}': the bundle has "
+                "no world.json and no local replay world matches the name. "
+                "Simulated bundles (demo, no-effect, conjunction) replay "
+                "anywhere; command bundles need their world.json and the "
+                "original checkout.",
+                file=sys.stderr,
+            )
+            return 3
     try:
-        fresh = investigate(world, oracle, factors, saved.config, scenario_name=saved.scenario)
+        fresh = investigate(
+            world, replay_oracle, factors, saved.config, scenario_name=saved.scenario
+        )
     finally:
         world.close()
 
@@ -285,8 +314,18 @@ def _cmd_flaky(args: argparse.Namespace) -> int:
         print("flake is rarer than that.")
         return 3
     print(f"\n{investigation.verdict.summary}")
+    from .backends.command import CommandWorld
+    from .flaky import build_flaky_specs
+
+    world_spec = CommandWorld(
+        cmd=cmd,
+        cwd=str(Path(args.cwd).resolve()),
+        specs=build_flaky_specs(probe.hash_pin),
+        timeout_s=args.timeout_s,
+        concurrency=args.parallel,
+    ).to_spec()
     out_dir = Path(args.out) / investigation.investigation_id
-    write_bundle(investigation, out_dir)
+    write_bundle(investigation, out_dir, world_spec=world_spec)
     print(f"Bundle written to {out_dir}")
     print(f"Next: crux serve --directory {out_dir}")
     return 0 if investigation.verdict.cause else 1

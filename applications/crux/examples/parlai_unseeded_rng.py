@@ -157,7 +157,7 @@ def main(argv: list[str] | None = None) -> int:
     print(f"\n{investigation.verdict.summary}")
     print(f"Elapsed: {elapsed:.0f}s over {investigation.verdict.trials_total} trials")
     out_dir = Path(args.out)
-    write_bundle(investigation, out_dir)
+    write_bundle(investigation, out_dir, world_spec=world.to_spec())
     print(f"Bundle written to {out_dir}")
     return 0
 

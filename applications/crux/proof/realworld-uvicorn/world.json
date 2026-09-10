@@ -1,0 +1,64 @@
+{
+  "cmd": [
+    "/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/test-order/uvicorn/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_config.py",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "--basetemp",
+    "/tmp/uvtmp"
+  ],
+  "concurrency": 1,
+  "cwd": "/private/tmp/claude-501/-Users-aswin-Downloads/b06276b8-0143-4e15-b43b-946c4334c31e/scratchpad/realworld/test-order/uvicorn",
+  "kind": "command",
+  "specs": [
+    {
+      "active": {
+        "PYTEST_ADDOPTS": "--randomly-seed={seed32}"
+      },
+      "factor_id": "test_order_shuffle",
+      "neutral": {
+        "PYTEST_ADDOPTS": "-p no:randomly"
+      }
+    },
+    {
+      "active": {
+        "PYTHONHASHSEED": "{seed32}"
+      },
+      "factor_id": "hash_randomization",
+      "neutral": {
+        "PYTHONHASHSEED": "1"
+      }
+    },
+    {
+      "active": {
+        "TZ": "Asia/Kolkata"
+      },
+      "factor_id": "timezone",
+      "neutral": {
+        "TZ": "UTC"
+      }
+    },
+    {
+      "active": {
+        "LANG": "en_US.UTF-8",
+        "LC_ALL": "en_US.UTF-8"
+      },
+      "factor_id": "locale",
+      "neutral": {
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8"
+      }
+    },
+    {
+      "active": {},
+      "factor_id": "malloc_allocator",
+      "neutral": {
+        "PYTHONMALLOC": "malloc"
+      }
+    }
+  ],
+  "timeout_s": 240.0
+}
