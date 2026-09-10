@@ -26,3 +26,8 @@ A conviction is correct only when it names the true factor set exactly. For the 
 ## Reading the table
 
 Rounds and confirmations apply to crux only; the naive method takes one implicit look and the fixed-budget method exactly one planned look. Trial counts for crux vary because the procedure stops early once a cause is confirmed or every suspect is retired. Rerunning with the same master seed reproduces every number here.
+
+Running `python -m crux bench` writes the full per-instance records to
+results.json beside this file. The run is deterministic from the master
+seed, so the raw file stays out of the repository; every number in this
+table can be regenerated on demand.
