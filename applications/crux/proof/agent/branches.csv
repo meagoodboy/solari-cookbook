@@ -1,0 +1,7 @@
+branch_id,neutralized,trials,successes,rate,wilson_low,wilson_high,p_value,status
+baseline,,36,14,0.388889,0.247847,0.551358,,baseline
+no-context_trim,context_trim,36,36,1.000000,0.903578,1.000000,0.0001241314826457739,cause
+no-distractor_boilerplate,distractor_boilerplate,16,4,0.250000,0.101819,0.494988,0.8737937482871467,dropped for futility
+no-model_temperature,model_temperature,16,8,0.500000,0.279992,0.720008,0.3611967360971467,live
+no-terse_prompt,terse_prompt,16,3,0.187500,0.065915,0.430094,0.9433073785687801,dropped for futility
+no-two_column_layout,two_column_layout,16,6,0.375000,0.184810,0.613594,0.6420064161467653,dropped for futility

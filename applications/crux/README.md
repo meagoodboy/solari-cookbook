@@ -238,6 +238,39 @@ orphan then blocks its own retries. The backend now tags every sandbox it
 creates and reaps untracked ones carrying its tag before retrying, and
 `crux sandboxes` lists and kills leftovers by hand when a run dies badly.
 
+## A real agent on a real browser
+
+The case everything else builds toward, in
+`examples/agent_invoice_browser.py`: the failing party is an actual language
+model, and the page it misreads is rendered by a real Solari cloud browser.
+A small local model (qwen2.5 1.5b through ollama, sampled at temperature 1.0
+with a per-trial seed) reads an invoice page as the browser's own text
+linearization and must return the PO number and the amount due. It fails
+about six runs in ten. Five suspects went in: sampling temperature, a
+two-column layout, a 500 character context cut, a terse prompt, and footer
+boilerplate full of other dollar amounts.
+
+The verdict, from [proof/agent/](proof/agent/): the cause is the context
+cut. Baseline passed 14 of 36; with the cut removed the agent passed 36 of
+36, and the fresh confirmation batch came in 20 of 20 against 8 of 20, with
+p = 0.0000226. The other four suspects were released by futility. In plain
+words: the agent was not too small for the task and the layout was not the
+problem; its context cut off the field it was asked to read, and every
+other theory an engineer might argue for is now measurably wrong.
+
+Two things make this the honest version of an agent demo. The failure is
+emergent, not scripted: nothing in the fixture decides pass or fail, only
+the model's own reading of a rendered page. And an earlier run at a looser
+cut ended undecided at p = 0.0119 rather than convicting, which is the
+selection guard doing its job; the shipped verdict comes from a properly
+powered rerun, and both behaviors are what you want from a measuring
+instrument. Because ollama honors sampling seeds, even the stochastic runs
+replay exactly on the same model build.
+
+Running it needs SOLARI_API_KEY, ollama with the model pulled, and the
+`[browser]` extra. One browser session is reused across all trials; the
+whole investigation cost about five minutes of session time.
+
 ## Limits, stated plainly
 
 - The demo agent is simulated. It is seeded Python that behaves like an intake

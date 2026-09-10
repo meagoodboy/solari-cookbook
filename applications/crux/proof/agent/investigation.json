@@ -1,0 +1,2484 @@
+{
+  "investigation_id": "invoice-agent-browser-seed7",
+  "scenario": "invoice-agent-browser",
+  "factors": [
+    {
+      "id": "model_temperature",
+      "description": "sampled decoding at temperature 1.0"
+    },
+    {
+      "id": "two_column_layout",
+      "description": "invoice rendered in two CSS columns"
+    },
+    {
+      "id": "context_trim",
+      "description": "page text cut to the first 500 characters"
+    },
+    {
+      "id": "terse_prompt",
+      "description": "one-line instruction without field definitions"
+    },
+    {
+      "id": "distractor_boilerplate",
+      "description": "footer marketing with other dollar amounts"
+    }
+  ],
+  "config": {
+    "alpha": 0.05,
+    "max_trials": 240,
+    "max_rounds": 6,
+    "round_trials_per_branch": 8,
+    "confirm_trials": 20,
+    "futility_min_trials": 16,
+    "pairwise_top_k": 3,
+    "seed": 7
+  },
+  "branches": {
+    "baseline": {
+      "branch_id": "baseline",
+      "neutralized": [],
+      "trials": 36,
+      "successes": 14,
+      "p_value": null,
+      "dropped_for_futility": false,
+      "confirmation_failed": false,
+      "rate": 0.3888888888888889
+    },
+    "no-model_temperature": {
+      "branch_id": "no-model_temperature",
+      "neutralized": [
+        "model_temperature"
+      ],
+      "trials": 16,
+      "successes": 8,
+      "p_value": 0.3611967360971467,
+      "dropped_for_futility": false,
+      "confirmation_failed": false,
+      "rate": 0.5
+    },
+    "no-two_column_layout": {
+      "branch_id": "no-two_column_layout",
+      "neutralized": [
+        "two_column_layout"
+      ],
+      "trials": 16,
+      "successes": 6,
+      "p_value": 0.6420064161467653,
+      "dropped_for_futility": true,
+      "confirmation_failed": false,
+      "rate": 0.375
+    },
+    "no-context_trim": {
+      "branch_id": "no-context_trim",
+      "neutralized": [
+        "context_trim"
+      ],
+      "trials": 36,
+      "successes": 36,
+      "p_value": 0.0001241314826457739,
+      "dropped_for_futility": false,
+      "confirmation_failed": false,
+      "rate": 1.0
+    },
+    "no-terse_prompt": {
+      "branch_id": "no-terse_prompt",
+      "neutralized": [
+        "terse_prompt"
+      ],
+      "trials": 16,
+      "successes": 3,
+      "p_value": 0.9433073785687801,
+      "dropped_for_futility": true,
+      "confirmation_failed": false,
+      "rate": 0.1875
+    },
+    "no-distractor_boilerplate": {
+      "branch_id": "no-distractor_boilerplate",
+      "neutralized": [
+        "distractor_boilerplate"
+      ],
+      "trials": 16,
+      "successes": 4,
+      "p_value": 0.8737937482871467,
+      "dropped_for_futility": true,
+      "confirmation_failed": false,
+      "rate": 0.25
+    }
+  },
+  "round_log": [
+    {
+      "round": 1,
+      "alpha_spent": 0.008333333333333333,
+      "allocations": {
+        "baseline": 8,
+        "no-context_trim": 8,
+        "no-distractor_boilerplate": 8,
+        "no-model_temperature": 8,
+        "no-terse_prompt": 8,
+        "no-two_column_layout": 8
+      },
+      "p_values": {
+        "no-model_temperature": 0.8589743589743589,
+        "no-two_column_layout": 0.6958041958041958,
+        "no-context_trim": 0.01282051282051282,
+        "no-terse_prompt": 0.9615384615384616,
+        "no-distractor_boilerplate": 0.9615384615384616
+      }
+    },
+    {
+      "round": 2,
+      "alpha_spent": 0.008333333333333333,
+      "allocations": {
+        "baseline": 8,
+        "no-context_trim": 8,
+        "no-distractor_boilerplate": 8,
+        "no-model_temperature": 8,
+        "no-terse_prompt": 8,
+        "no-two_column_layout": 8
+      },
+      "p_values": {
+        "no-model_temperature": 0.3611967360971467,
+        "no-two_column_layout": 0.6420064161467653,
+        "no-context_trim": 0.0001241314826457739,
+        "no-terse_prompt": 0.9433073785687801,
+        "no-distractor_boilerplate": 0.8737937482871467
+      },
+      "confirmations": [
+        {
+          "branch": "no-context_trim",
+          "trials_per_arm": 20,
+          "branch_successes": 20,
+          "baseline_successes": 8,
+          "p": 2.2547575384060367e-05,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "verdict": {
+    "cause": [
+      "context_trim"
+    ],
+    "confirmation_p": 2.2547575384060367e-05,
+    "baseline_rate": 0.3888888888888889,
+    "cause_rate": 1.0,
+    "alpha": 0.05,
+    "trials_total": 136,
+    "rounds": 2,
+    "summary": "Neutralizing page text cut to the first 500 characters flipped the outcome. The baseline passed 14 of 36 trials, a rate of 39%, while this branch passed 36 of 36, a rate of 100%; those totals include the confirmation trials, and the search phase alone tends to flatter the winner. The fresh confirmation batch is the unbiased read: 20 of 20 passed on this branch against 8 of 20 at baseline, with p = 2.255e-05 against an alpha of 0.05."
+  },
+  "trials": [
+    {
+      "branch_id": "baseline",
+      "seed": 6146956900983434659,
+      "passed": false,
+      "detail": "amount mismatch: 768429",
+      "artifact": {
+        "expected_po": "PO-61285",
+        "expected_amount": 832056,
+        "seed": 6146956900983434659,
+        "error": null,
+        "po_entered": "PO-61285",
+        "amount_entered": 768429,
+        "reply_tail": "{\n  \"po\": \"PO-61285\",\n  \"amount_due\": \"7,684.29\"\n}",
+        "page_chars": 857
+      },
+      "duration_ms": 3773
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 4580982551428688069,
+      "passed": false,
+      "detail": "amount mismatch: 541310",
+      "artifact": {
+        "expected_po": "PO-62376",
+        "expected_amount": 1649307,
+        "seed": 4580982551428688069,
+        "error": null,
+        "po_entered": "PO-62376",
+        "amount_entered": 541310,
+        "reply_tail": "{\n  \"po\": \"PO-62376\",\n  \"amount_due\": \"$5,413.10\"\n}",
+        "page_chars": 1008
+      },
+      "duration_ms": 2170
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 16563075434872036064,
+      "passed": false,
+      "detail": "amount mismatch: 185918",
+      "artifact": {
+        "expected_po": "PO-24295",
+        "expected_amount": 1213922,
+        "seed": 16563075434872036064,
+        "error": null,
+        "po_entered": "PO-24295",
+        "amount_entered": 185918,
+        "reply_tail": "{\n  \"po\": \"PO-24295\",\n  \"amount_due\": \"$1,859.18\"\n}",
+        "page_chars": 948
+      },
+      "duration_ms": 1929
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 6828173287599872071,
+      "passed": false,
+      "detail": "amount mismatch: 925946",
+      "artifact": {
+        "expected_po": "PO-22387",
+        "expected_amount": 998843,
+        "seed": 6828173287599872071,
+        "error": null,
+        "po_entered": "PO-22387",
+        "amount_entered": 925946,
+        "reply_tail": "{\n  \"po\": \"PO-22387\",\n  \"amount_due\": \"$9,259.46\"\n}",
+        "page_chars": 860
+      },
+      "duration_ms": 2124
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 4831076991042889339,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-80786",
+        "expected_amount": 708892,
+        "seed": 4831076991042889339,
+        "error": null,
+        "po_entered": "PO-80786",
+        "amount_entered": 708892,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-80786\",\n  \"amount_due\": \"$7,088.92\"\n}\n```",
+        "page_chars": 797
+      },
+      "duration_ms": 2058
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 13317875009488921845,
+      "passed": false,
+      "detail": "amount mismatch: 461546",
+      "artifact": {
+        "expected_po": "PO-61597",
+        "expected_amount": 1464916,
+        "seed": 13317875009488921845,
+        "error": null,
+        "po_entered": "PO-61597",
+        "amount_entered": 461546,
+        "reply_tail": "{\n  \"po\": \"PO-61597\",\n  \"amount_due\": \"$4,615.46\"\n}",
+        "page_chars": 997
+      },
+      "duration_ms": 1960
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 3971218388630458281,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-33921",
+        "expected_amount": 776060,
+        "seed": 3971218388630458281,
+        "error": null,
+        "po_entered": "PO-33921",
+        "amount_entered": 776060,
+        "reply_tail": "{\n  \"po\": \"PO-33921\",\n  \"amount_due\": \"$7,760.60\"\n}",
+        "page_chars": 736
+      },
+      "duration_ms": 2411
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 13950555085495062471,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-51777",
+        "expected_amount": 957322,
+        "seed": 13950555085495062471,
+        "error": null,
+        "po_entered": "PO-51777",
+        "amount_entered": 957322,
+        "reply_tail": "{\n  \"po\": \"PO-51777\",\n  \"amount_due\": \"$9,573.22\"\n}",
+        "page_chars": 785
+      },
+      "duration_ms": 1971
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 6451246107001092624,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-39106",
+        "expected_amount": 513502,
+        "seed": 6451246107001092624,
+        "error": null,
+        "po_entered": "PO-39106",
+        "amount_entered": 513502,
+        "reply_tail": "{\n  \"po\": \"PO-39106\",\n  \"amount_due\": \"$5,135.02\"\n}",
+        "page_chars": 695
+      },
+      "duration_ms": 1961
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 10731733745215563695,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-42225",
+        "expected_amount": 1791983,
+        "seed": 10731733745215563695,
+        "error": null,
+        "po_entered": "PO-42225",
+        "amount_entered": 1791983,
+        "reply_tail": "{\n  \"po\": \"PO-42225\",\n  \"amount_due\": \"17919.83\"\n}",
+        "page_chars": 1016
+      },
+      "duration_ms": 1925
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 5882449950251485597,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-19010",
+        "expected_amount": 1219356,
+        "seed": 5882449950251485597,
+        "error": null,
+        "po_entered": "PO-19010",
+        "amount_entered": 1219356,
+        "reply_tail": "{\n  \"po\": \"PO-19010\",\n  \"amount_due\": \"12193.56\"\n}",
+        "page_chars": 909
+      },
+      "duration_ms": 1967
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 16861945172577875160,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-89800",
+        "expected_amount": 919965,
+        "seed": 16861945172577875160,
+        "error": null,
+        "po_entered": "PO-89800",
+        "amount_entered": 919965,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-89800\",\n  \"amount_due\": \"9199.65\"\n}\n```",
+        "page_chars": 764
+      },
+      "duration_ms": 1967
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 8561030584247475437,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-64112",
+        "expected_amount": 1440888,
+        "seed": 8561030584247475437,
+        "error": null,
+        "po_entered": "PO-64112",
+        "amount_entered": 1440888,
+        "reply_tail": "{\n  \"po\": \"PO-64112\",\n  \"amount_due\": \"$14,408.88\"\n}",
+        "page_chars": 959
+      },
+      "duration_ms": 1931
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 1013452320398738038,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-77996",
+        "expected_amount": 509575,
+        "seed": 1013452320398738038,
+        "error": null,
+        "po_entered": "PO-77996",
+        "amount_entered": 509575,
+        "reply_tail": "{\n  \"po\": \"PO-77996\",\n  \"amount_due\": \"5,095.75\"\n}",
+        "page_chars": 706
+      },
+      "duration_ms": 1914
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 15642566286398823702,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-57306",
+        "expected_amount": 947690,
+        "seed": 15642566286398823702,
+        "error": null,
+        "po_entered": "PO-57306",
+        "amount_entered": 947690,
+        "reply_tail": "{\n  \"po\": \"PO-57306\",\n  \"amount_due\": \"$9,476.90\"\n}",
+        "page_chars": 767
+      },
+      "duration_ms": 2185
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 1717698079505441073,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-22523",
+        "expected_amount": 1124513,
+        "seed": 1717698079505441073,
+        "error": null,
+        "po_entered": "PO-22523",
+        "amount_entered": 1124513,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-22523\",\n  \"amount_due\": \"$11,245.13\"\n}\n```",
+        "page_chars": 884
+      },
+      "duration_ms": 2292
+    },
+    {
+      "branch_id": "no-distractor_boilerplate",
+      "seed": 18411925083951023784,
+      "passed": false,
+      "detail": "amount mismatch: 662927",
+      "artifact": {
+        "expected_po": "PO-27055",
+        "expected_amount": 1208446,
+        "seed": 18411925083951023784,
+        "error": null,
+        "po_entered": "PO-27055",
+        "amount_entered": 662927,
+        "reply_tail": "{\n  \"po\": \"PO-27055\",\n  \"amount_due\": \"$6,629.27\"\n}",
+        "page_chars": 669
+      },
+      "duration_ms": 2687
+    },
+    {
+      "branch_id": "no-distractor_boilerplate",
+      "seed": 15023020753093855327,
+      "passed": false,
+      "detail": "amount mismatch: 710283",
+      "artifact": {
+        "expected_po": "PO-29703",
+        "expected_amount": 985229,
+        "seed": 15023020753093855327,
+        "error": null,
+        "po_entered": "PO-29703",
+        "amount_entered": 710283,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-29703\",\n  \"amount_due\": \"$7,102.83\"\n}\n```",
+        "page_chars": 691
+      },
+      "duration_ms": 1959
+    },
+    {
+      "branch_id": "no-distractor_boilerplate",
+      "seed": 8467642568828777418,
+      "passed": false,
+      "detail": "amount mismatch: 3275655",
+      "artifact": {
+        "expected_po": "PO-60586",
+        "expected_amount": 1420290,
+        "seed": 8467642568828777418,
+        "error": null,
+        "po_entered": "PO-60586",
+        "amount_entered": 3275655,
+        "reply_tail": "{\n  \"po\": \"PO-60586\",\n  \"amount_due\": \"$32,756.55\"\n}",
+        "page_chars": 690
+      },
+      "duration_ms": 1938
+    },
+    {
+      "branch_id": "no-distractor_boilerplate",
+      "seed": 342699960895298721,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-31672",
+        "expected_amount": 716214,
+        "seed": 342699960895298721,
+        "error": null,
+        "po_entered": "PO-31672",
+        "amount_entered": 716214,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-31672\",\n  \"amount_due\": \"7,162.14\"\n}\n```",
+        "page_chars": 492
+      },
+      "duration_ms": 1926
+    },
+    {
+      "branch_id": "no-distractor_boilerplate",
+      "seed": 1790942206726550391,
+      "passed": false,
+      "detail": "amount mismatch: 396873",
+      "artifact": {
+        "expected_po": "PO-98369",
+        "expected_amount": 1204585,
+        "seed": 1790942206726550391,
+        "error": null,
+        "po_entered": "PO-98369",
+        "amount_entered": 396873,
+        "reply_tail": "{\n  \"po\": \"PO-98369\",\n  \"amount_due\": \"$3,968.73\"\n}",
+        "page_chars": 729
+      },
+      "duration_ms": 1931
+    },
+    {
+      "branch_id": "no-distractor_boilerplate",
+      "seed": 16262281930722832487,
+      "passed": false,
+      "detail": "amount mismatch: 1639900",
+      "artifact": {
+        "expected_po": "PO-81526",
+        "expected_amount": 1091751,
+        "seed": 16262281930722832487,
+        "error": null,
+        "po_entered": "PO-81526",
+        "amount_entered": 1639900,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-81526\",\n  \"amount_due\": \"$16,399.00\"\n}\n```",
+        "page_chars": 661
+      },
+      "duration_ms": 2026
+    },
+    {
+      "branch_id": "no-distractor_boilerplate",
+      "seed": 10945427395028457444,
+      "passed": false,
+      "detail": "amount mismatch: 693910",
+      "artifact": {
+        "expected_po": "PO-77083",
+        "expected_amount": 752041,
+        "seed": 10945427395028457444,
+        "error": null,
+        "po_entered": "PO-77083",
+        "amount_entered": 693910,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-77083\",\n  \"amount_due\": \"$6,939.10\"\n}\n```",
+        "page_chars": 571
+      },
+      "duration_ms": 1945
+    },
+    {
+      "branch_id": "no-distractor_boilerplate",
+      "seed": 15201291751236584072,
+      "passed": false,
+      "detail": "amount mismatch: 1103198",
+      "artifact": {
+        "expected_po": "PO-51896",
+        "expected_amount": 1181034,
+        "seed": 15201291751236584072,
+        "error": null,
+        "po_entered": "PO-51896",
+        "amount_entered": 1103198,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-51896\",\n  \"amount_due\": \"$11,031.98\"\n}\n```",
+        "page_chars": 603
+      },
+      "duration_ms": 2218
+    },
+    {
+      "branch_id": "no-model_temperature",
+      "seed": 10672393092891623627,
+      "passed": false,
+      "detail": "amount mismatch: 1220301",
+      "artifact": {
+        "expected_po": "PO-67736",
+        "expected_amount": 1285166,
+        "seed": 10672393092891623627,
+        "error": null,
+        "po_entered": "PO-67736",
+        "amount_entered": 1220301,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-67736\",\n  \"amount_due\": \"$12,203.01\"\n}\n```",
+        "page_chars": 874
+      },
+      "duration_ms": 2466
+    },
+    {
+      "branch_id": "no-model_temperature",
+      "seed": 4766171443783864715,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-48761",
+        "expected_amount": 712928,
+        "seed": 4766171443783864715,
+        "error": null,
+        "po_entered": "PO-48761",
+        "amount_entered": 712928,
+        "reply_tail": "{\n  \"po\": \"PO-48761\",\n  \"amount_due\": \"$7,129.28\"\n}",
+        "page_chars": 782
+      },
+      "duration_ms": 2487
+    },
+    {
+      "branch_id": "no-model_temperature",
+      "seed": 12237684719353979943,
+      "passed": false,
+      "detail": "amount mismatch: 815970",
+      "artifact": {
+        "expected_po": "PO-73280",
+        "expected_amount": 815977,
+        "seed": 12237684719353979943,
+        "error": null,
+        "po_entered": "PO-73280",
+        "amount_entered": 815970,
+        "reply_tail": "{\n  \"po\": \"PO-73280\",\n  \"amount_due\": \"$8,159.70\"\n}",
+        "page_chars": 804
+      },
+      "duration_ms": 2006
+    },
+    {
+      "branch_id": "no-model_temperature",
+      "seed": 7941832323007612902,
+      "passed": false,
+      "detail": "amount mismatch: 1000000",
+      "artifact": {
+        "expected_po": "PO-70176",
+        "expected_amount": 1751368,
+        "seed": 7941832323007612902,
+        "error": null,
+        "po_entered": "PO-70176",
+        "amount_entered": 1000000,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-70176\",\n  \"amount_due\": \"$10,000.00\"\n}\n```",
+        "page_chars": 1036
+      },
+      "duration_ms": 1947
+    },
+    {
+      "branch_id": "no-model_temperature",
+      "seed": 6459459114501921108,
+      "passed": false,
+      "detail": "amount mismatch: 1064888",
+      "artifact": {
+        "expected_po": "PO-43635",
+        "expected_amount": 1293341,
+        "seed": 6459459114501921108,
+        "error": null,
+        "po_entered": "PO-43635",
+        "amount_entered": 1064888,
+        "reply_tail": "{\n  \"po\": \"PO-43635\",\n  \"amount_due\": \"$10,648.88\"\n}",
+        "page_chars": 981
+      },
+      "duration_ms": 1927
+    },
+    {
+      "branch_id": "no-model_temperature",
+      "seed": 10227122905249116798,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-23931",
+        "expected_amount": 641710,
+        "seed": 10227122905249116798,
+        "error": null,
+        "po_entered": "PO-23931",
+        "amount_entered": 641710,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-23931\",\n  \"amount_due\": \"6,417.10\"\n}\n```",
+        "page_chars": 681
+      },
+      "duration_ms": 2327
+    },
+    {
+      "branch_id": "no-model_temperature",
+      "seed": 5069986283087157700,
+      "passed": false,
+      "detail": "amount mismatch: 644692",
+      "artifact": {
+        "expected_po": "PO-26389",
+        "expected_amount": 699267,
+        "seed": 5069986283087157700,
+        "error": null,
+        "po_entered": "PO-26389",
+        "amount_entered": 644692,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-26389\",\n  \"amount_due\": \"$6,446.92\"\n}\n```",
+        "page_chars": 822
+      },
+      "duration_ms": 2895
+    },
+    {
+      "branch_id": "no-model_temperature",
+      "seed": 3273366034076459877,
+      "passed": false,
+      "detail": "amount mismatch: 1046500",
+      "artifact": {
+        "expected_po": "PO-75013",
+        "expected_amount": 1993562,
+        "seed": 3273366034076459877,
+        "error": null,
+        "po_entered": "PO-75013",
+        "amount_entered": 1046500,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-75013\",\n  \"amount_due\": \"$10,465.00\"\n}\n```",
+        "page_chars": 1003
+      },
+      "duration_ms": 1983
+    },
+    {
+      "branch_id": "no-terse_prompt",
+      "seed": 5599239353126247635,
+      "passed": false,
+      "detail": "amount mismatch: 364470",
+      "artifact": {
+        "expected_po": "PO-42101",
+        "expected_amount": 1152047,
+        "seed": 5599239353126247635,
+        "error": null,
+        "po_entered": "PO-42101",
+        "amount_entered": 364470,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-42101\",\n  \"amount_due\": \"$3,644.70\"\n}\n```",
+        "page_chars": 946
+      },
+      "duration_ms": 1957
+    },
+    {
+      "branch_id": "no-terse_prompt",
+      "seed": 2204265005414338373,
+      "passed": false,
+      "detail": "amount mismatch: 629842",
+      "artifact": {
+        "expected_po": "PO-58655",
+        "expected_amount": 1321273,
+        "seed": 2204265005414338373,
+        "error": null,
+        "po_entered": "PO-58655",
+        "amount_entered": 629842,
+        "reply_tail": "```json\n{\"po\": \"PO-58655\", \"amount_due\": \"$6,298.42\"}\n```",
+        "page_chars": 963
+      },
+      "duration_ms": 2015
+    },
+    {
+      "branch_id": "no-terse_prompt",
+      "seed": 10230229778664417829,
+      "passed": false,
+      "detail": "amount mismatch: 848902",
+      "artifact": {
+        "expected_po": "PO-15481",
+        "expected_amount": 1225058,
+        "seed": 10230229778664417829,
+        "error": null,
+        "po_entered": "PO-15481",
+        "amount_entered": 848902,
+        "reply_tail": "```json\n{\"po\": \"PO-15481\", \"amount_due\": \"$8,489.02\"}\n```",
+        "page_chars": 904
+      },
+      "duration_ms": 1995
+    },
+    {
+      "branch_id": "no-terse_prompt",
+      "seed": 17999720793886306151,
+      "passed": false,
+      "detail": "amount mismatch: 1172999",
+      "artifact": {
+        "expected_po": "PO-33461",
+        "expected_amount": 1270583,
+        "seed": 17999720793886306151,
+        "error": null,
+        "po_entered": "PO-33461",
+        "amount_entered": 1172999,
+        "reply_tail": "```json\n{\"po\": \"PO-33461\", \"amount_due\": \"11729.99\"}\n```",
+        "page_chars": 890
+      },
+      "duration_ms": 2134
+    },
+    {
+      "branch_id": "no-terse_prompt",
+      "seed": 642845093335783220,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-73787",
+        "expected_amount": 614597,
+        "seed": 642845093335783220,
+        "error": null,
+        "po_entered": "PO-73787",
+        "amount_entered": 614597,
+        "reply_tail": "```json\n{\"po\": \"PO-73787\", \"amount_due\": \"6145.97\"}\n```",
+        "page_chars": 688
+      },
+      "duration_ms": 2504
+    },
+    {
+      "branch_id": "no-terse_prompt",
+      "seed": 5405685195696097597,
+      "passed": false,
+      "detail": "amount mismatch: 1016721",
+      "artifact": {
+        "expected_po": "PO-59455",
+        "expected_amount": 1097955,
+        "seed": 5405685195696097597,
+        "error": null,
+        "po_entered": "PO-59455",
+        "amount_entered": 1016721,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-59455\",\n  \"amount_due\": \"10,167.21\"\n}\n```",
+        "page_chars": 866
+      },
+      "duration_ms": 2154
+    },
+    {
+      "branch_id": "no-terse_prompt",
+      "seed": 7565242609268616458,
+      "passed": false,
+      "detail": "amount mismatch: 557582",
+      "artifact": {
+        "expected_po": "PO-32738",
+        "expected_amount": 1353761,
+        "seed": 7565242609268616458,
+        "error": null,
+        "po_entered": "PO-32738",
+        "amount_entered": 557582,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-32738\",\n  \"amount_due\": \"$5,575.82\"\n}\n```",
+        "page_chars": 975
+      },
+      "duration_ms": 2033
+    },
+    {
+      "branch_id": "no-terse_prompt",
+      "seed": 14066596599084846960,
+      "passed": false,
+      "detail": "amount mismatch: 331855",
+      "artifact": {
+        "expected_po": "PO-47872",
+        "expected_amount": 1162571,
+        "seed": 14066596599084846960,
+        "error": null,
+        "po_entered": "PO-47872",
+        "amount_entered": 331855,
+        "reply_tail": "```json\n{\"po\": \"PO-47872\", \"amount_due\": \"3,318.55\"}\n```",
+        "page_chars": 934
+      },
+      "duration_ms": 2008
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 1311251823131664346,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-42296",
+        "expected_amount": 916587,
+        "seed": 1311251823131664346,
+        "error": null,
+        "po_entered": "PO-42296",
+        "amount_entered": 916587,
+        "reply_tail": "{\n  \"po\": \"PO-42296\",\n  \"amount_due\": \"$9,165.87\"\n}",
+        "page_chars": 772
+      },
+      "duration_ms": 2441
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 5079389749926459676,
+      "passed": false,
+      "detail": "amount mismatch: 349980",
+      "artifact": {
+        "expected_po": "PO-82841",
+        "expected_amount": 1067713,
+        "seed": 5079389749926459676,
+        "error": null,
+        "po_entered": "PO-82841",
+        "amount_entered": 349980,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-82841\",\n  \"amount_due\": \"$3,499.80\"\n}\n```",
+        "page_chars": 920
+      },
+      "duration_ms": 2333
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 7692945254778705425,
+      "passed": false,
+      "detail": "amount mismatch: 1985128",
+      "artifact": {
+        "expected_po": "PO-53632",
+        "expected_amount": 1346292,
+        "seed": 7692945254778705425,
+        "error": null,
+        "po_entered": "PO-53632",
+        "amount_entered": 1985128,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-53632\",\n  \"amount_due\": \"$19,851.28\"\n}\n```",
+        "page_chars": 1014
+      },
+      "duration_ms": 2173
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 7311690040688181158,
+      "passed": false,
+      "detail": "amount mismatch: 724700",
+      "artifact": {
+        "expected_po": "PO-61057",
+        "expected_amount": 724725,
+        "seed": 7311690040688181158,
+        "error": null,
+        "po_entered": "PO-61057",
+        "amount_entered": 724700,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-61057\",\n  \"amount_due\": \"7,247.00\"\n}\n```",
+        "page_chars": 806
+      },
+      "duration_ms": 2277
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 1774507287174220883,
+      "passed": false,
+      "detail": "amount mismatch: 781642",
+      "artifact": {
+        "expected_po": "PO-42755",
+        "expected_amount": 848805,
+        "seed": 1774507287174220883,
+        "error": null,
+        "po_entered": "PO-42755",
+        "amount_entered": 781642,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-42755\",\n  \"amount_due\": \"7,816.42\"\n}\n```",
+        "page_chars": 845
+      },
+      "duration_ms": 2232
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 14552210398112145401,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-37364",
+        "expected_amount": 559360,
+        "seed": 14552210398112145401,
+        "error": null,
+        "po_entered": "PO-37364",
+        "amount_entered": 559360,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-37364\",\n  \"amount_due\": \"$5,593.60\"\n}\n```",
+        "page_chars": 725
+      },
+      "duration_ms": 1968
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 12679322286165720572,
+      "passed": false,
+      "detail": "amount mismatch: 632453",
+      "artifact": {
+        "expected_po": "PO-49775",
+        "expected_amount": 1462806,
+        "seed": 12679322286165720572,
+        "error": null,
+        "po_entered": "PO-49775",
+        "amount_entered": 632453,
+        "reply_tail": "{\n  \"po\": \"PO-49775\",\n  \"amount_due\": \"$6,324.53\"\n}",
+        "page_chars": 975
+      },
+      "duration_ms": 1986
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 13767490310108754756,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-71978",
+        "expected_amount": 462847,
+        "seed": 13767490310108754756,
+        "error": null,
+        "po_entered": "PO-71978",
+        "amount_entered": 462847,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-71978\",\n  \"amount_due\": \"$4,628.47\"\n}\n```",
+        "page_chars": 703
+      },
+      "duration_ms": 2250
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 6877687089306930629,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-62689",
+        "expected_amount": 630675,
+        "seed": 6877687089306930629,
+        "error": null,
+        "po_entered": "PO-62689",
+        "amount_entered": 630675,
+        "reply_tail": "{\"po\":\"PO-62689\", \"amount_due\":\"6306.75\"}",
+        "page_chars": 700
+      },
+      "duration_ms": 1897
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 17723479835678296978,
+      "passed": false,
+      "detail": "amount mismatch: 1107712",
+      "artifact": {
+        "expected_po": "PO-32535",
+        "expected_amount": 1023371,
+        "seed": 17723479835678296978,
+        "error": null,
+        "po_entered": "PO-32535",
+        "amount_entered": 1107712,
+        "reply_tail": "{\n  \"po\": \"PO-32535\",\n  \"amount_due\": \"$11,077.12\"\n}",
+        "page_chars": 853
+      },
+      "duration_ms": 1934
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 12340623627778309668,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-20382",
+        "expected_amount": 337075,
+        "seed": 12340623627778309668,
+        "error": null,
+        "po_entered": "PO-20382",
+        "amount_entered": 337075,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-20382\",\n  \"amount_due\": \"$3,370.75\"\n}\n```",
+        "page_chars": 731
+      },
+      "duration_ms": 1945
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 4566410738542030464,
+      "passed": false,
+      "detail": "amount mismatch: 901241",
+      "artifact": {
+        "expected_po": "PO-42886",
+        "expected_amount": 933251,
+        "seed": 4566410738542030464,
+        "error": null,
+        "po_entered": "PO-42886",
+        "amount_entered": 901241,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-42886\",\n  \"amount_due\": \"9,012.41\"\n}\n```",
+        "page_chars": 846
+      },
+      "duration_ms": 1958
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 10403908207552291023,
+      "passed": false,
+      "detail": "amount mismatch: 755971",
+      "artifact": {
+        "expected_po": "PO-49644",
+        "expected_amount": 821084,
+        "seed": 10403908207552291023,
+        "error": null,
+        "po_entered": "PO-49644",
+        "amount_entered": 755971,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-49644\",\n  \"amount_due\": \"$7,559.71\"\n}\n```",
+        "page_chars": 863
+      },
+      "duration_ms": 2076
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 4594193564741186608,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-26761",
+        "expected_amount": 832819,
+        "seed": 4594193564741186608,
+        "error": null,
+        "po_entered": "PO-26761",
+        "amount_entered": 832819,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-26761\",\n  \"amount_due\": \"8,328.19\"\n}\n```",
+        "page_chars": 751
+      },
+      "duration_ms": 2150
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 12586850893440380578,
+      "passed": false,
+      "detail": "amount mismatch: 1272778",
+      "artifact": {
+        "expected_po": "PO-22508",
+        "expected_amount": 1374258,
+        "seed": 12586850893440380578,
+        "error": null,
+        "po_entered": "PO-22508",
+        "amount_entered": 1272778,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-22508\",\n  \"amount_due\": \"$12,727.78\"\n}\n```",
+        "page_chars": 858
+      },
+      "duration_ms": 1971
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 9468472596172478423,
+      "passed": false,
+      "detail": "amount mismatch: 922535",
+      "artifact": {
+        "expected_po": "PO-17618",
+        "expected_amount": 1000245,
+        "seed": 9468472596172478423,
+        "error": null,
+        "po_entered": "PO-17618",
+        "amount_entered": 922535,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-17618\",\n  \"amount_due\": \"$9,225.35\"\n}\n```",
+        "page_chars": 882
+      },
+      "duration_ms": 2000
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 7989880842313090935,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-62614",
+        "expected_amount": 833855,
+        "seed": 7989880842313090935,
+        "error": null,
+        "po_entered": "PO-62614",
+        "amount_entered": 833855,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-62614\",\n  \"amount_due\": \"$8,338.55\"\n}\n```",
+        "page_chars": 740
+      },
+      "duration_ms": 2180
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 14263907060661126134,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-38427",
+        "expected_amount": 1172627,
+        "seed": 14263907060661126134,
+        "error": null,
+        "po_entered": "PO-38427",
+        "amount_entered": 1172627,
+        "reply_tail": "{\n  \"po\": \"PO-38427\",\n  \"amount_due\": \"$11,726.27\"\n}",
+        "page_chars": 930
+      },
+      "duration_ms": 1974
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 9849317676586430061,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-91521",
+        "expected_amount": 891346,
+        "seed": 9849317676586430061,
+        "error": null,
+        "po_entered": "PO-91521",
+        "amount_entered": 891346,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-91521\",\n  \"amount_due\": \"8,913.46\"\n}\n```",
+        "page_chars": 864
+      },
+      "duration_ms": 2159
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 2652319947103708980,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-47416",
+        "expected_amount": 1226172,
+        "seed": 2652319947103708980,
+        "error": null,
+        "po_entered": "PO-47416",
+        "amount_entered": 1226172,
+        "reply_tail": "{\n  \"po\": \"PO-47416\",\n  \"amount_due\": \"$12,261.72\"\n}",
+        "page_chars": 903
+      },
+      "duration_ms": 2289
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 12736240587073231181,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-13858",
+        "expected_amount": 1238937,
+        "seed": 12736240587073231181,
+        "error": null,
+        "po_entered": "PO-13858",
+        "amount_entered": 1238937,
+        "reply_tail": "{\n  \"po\": \"PO-13858\",\n  \"amount_due\": \"12389.37\"\n}",
+        "page_chars": 968
+      },
+      "duration_ms": 1925
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 1699390371696030250,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-93213",
+        "expected_amount": 1076331,
+        "seed": 1699390371696030250,
+        "error": null,
+        "po_entered": "PO-93213",
+        "amount_entered": 1076331,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-93213\",\n  \"amount_due\": \"$10,763.31\"\n}\n```",
+        "page_chars": 813
+      },
+      "duration_ms": 1932
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 11569874442297795760,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-21246",
+        "expected_amount": 752180,
+        "seed": 11569874442297795760,
+        "error": null,
+        "po_entered": "PO-21246",
+        "amount_entered": 752180,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-21246\",\n  \"amount_due\": \"7,521.80\"\n}\n```",
+        "page_chars": 769
+      },
+      "duration_ms": 1944
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 3633563894320183434,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-45543",
+        "expected_amount": 427686,
+        "seed": 3633563894320183434,
+        "error": null,
+        "po_entered": "PO-45543",
+        "amount_entered": 427686,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-45543\",\n  \"amount_due\": \"$4,276.86\"\n}\n```",
+        "page_chars": 764
+      },
+      "duration_ms": 2431
+    },
+    {
+      "branch_id": "no-distractor_boilerplate",
+      "seed": 10927439411024790076,
+      "passed": false,
+      "detail": "amount mismatch: 949484",
+      "artifact": {
+        "expected_po": "PO-93572",
+        "expected_amount": 932733,
+        "seed": 10927439411024790076,
+        "error": null,
+        "po_entered": "PO-93572",
+        "amount_entered": 949484,
+        "reply_tail": "{\n  \"po\": \"PO-93572\",\n  \"amount_due\": \"$9,494.84\"\n}",
+        "page_chars": 572
+      },
+      "duration_ms": 2172
+    },
+    {
+      "branch_id": "no-distractor_boilerplate",
+      "seed": 10423404472381728220,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-95852",
+        "expected_amount": 873936,
+        "seed": 10423404472381728220,
+        "error": null,
+        "po_entered": "PO-95852",
+        "amount_entered": 873936,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-95852\",\n  \"amount_due\": \"8739.36\"\n}\n```",
+        "page_chars": 490
+      },
+      "duration_ms": 1931
+    },
+    {
+      "branch_id": "no-distractor_boilerplate",
+      "seed": 9145260276047987291,
+      "passed": false,
+      "detail": "amount mismatch: 716794",
+      "artifact": {
+        "expected_po": "PO-55421",
+        "expected_amount": 1159872,
+        "seed": 9145260276047987291,
+        "error": null,
+        "po_entered": "PO-55421",
+        "amount_entered": 716794,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-55421\",\n  \"amount_due\": \"$7,167.94\"\n}\n```",
+        "page_chars": 738
+      },
+      "duration_ms": 1962
+    },
+    {
+      "branch_id": "no-distractor_boilerplate",
+      "seed": 10701488199311452327,
+      "passed": false,
+      "detail": "amount mismatch: 1428460",
+      "artifact": {
+        "expected_po": "PO-11773",
+        "expected_amount": 1363219,
+        "seed": 10701488199311452327,
+        "error": null,
+        "po_entered": "PO-11773",
+        "amount_entered": 1428460,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-11773\",\n  \"amount_due\": \"$14,284.60\"\n}\n```",
+        "page_chars": 751
+      },
+      "duration_ms": 2145
+    },
+    {
+      "branch_id": "no-distractor_boilerplate",
+      "seed": 3368369542643010630,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-26744",
+        "expected_amount": 692722,
+        "seed": 3368369542643010630,
+        "error": null,
+        "po_entered": "PO-26744",
+        "amount_entered": 692722,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-26744\",\n  \"amount_due\": \"$6,927.22\"\n}\n```",
+        "page_chars": 496
+      },
+      "duration_ms": 2433
+    },
+    {
+      "branch_id": "no-distractor_boilerplate",
+      "seed": 3603890236769448202,
+      "passed": false,
+      "detail": "amount mismatch: 585120",
+      "artifact": {
+        "expected_po": "PO-62558",
+        "expected_amount": 1519510,
+        "seed": 3603890236769448202,
+        "error": null,
+        "po_entered": "PO-62558",
+        "amount_entered": 585120,
+        "reply_tail": "{\n  \"po\": \"PO-62558\",\n  \"amount_due\": \"$5,851.20\"\n}",
+        "page_chars": 750
+      },
+      "duration_ms": 2256
+    },
+    {
+      "branch_id": "no-distractor_boilerplate",
+      "seed": 934830478195661330,
+      "passed": false,
+      "detail": "amount mismatch: 685544",
+      "artifact": {
+        "expected_po": "PO-35534",
+        "expected_amount": 1428019,
+        "seed": 934830478195661330,
+        "error": null,
+        "po_entered": "PO-35534",
+        "amount_entered": 685544,
+        "reply_tail": "{\n  \"po\": \"PO-35534\",\n  \"amount_due\": \"$6,855.44\"\n}",
+        "page_chars": 702
+      },
+      "duration_ms": 2140
+    },
+    {
+      "branch_id": "no-distractor_boilerplate",
+      "seed": 6469242612710582440,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-32834",
+        "expected_amount": 662228,
+        "seed": 6469242612710582440,
+        "error": null,
+        "po_entered": "PO-32834",
+        "amount_entered": 662228,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-32834\",\n  \"amount_due\": \"$6,622.28\"\n}\n```",
+        "page_chars": 505
+      },
+      "duration_ms": 2359
+    },
+    {
+      "branch_id": "no-model_temperature",
+      "seed": 9017530186576414605,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-44948",
+        "expected_amount": 713660,
+        "seed": 9017530186576414605,
+        "error": null,
+        "po_entered": "PO-44948",
+        "amount_entered": 713660,
+        "reply_tail": "{\n  \"po\": \"PO-44948\",\n  \"amount_due\": \"$7,136.60\"\n}",
+        "page_chars": 694
+      },
+      "duration_ms": 2302
+    },
+    {
+      "branch_id": "no-model_temperature",
+      "seed": 480222237818285111,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-42096",
+        "expected_amount": 771850,
+        "seed": 480222237818285111,
+        "error": null,
+        "po_entered": "PO-42096",
+        "amount_entered": 771850,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-42096\",\n  \"amount_due\": \"$7,718.50\"\n}\n```",
+        "page_chars": 793
+      },
+      "duration_ms": 2459
+    },
+    {
+      "branch_id": "no-model_temperature",
+      "seed": 1062092584040744187,
+      "passed": false,
+      "detail": "amount mismatch: 1046444",
+      "artifact": {
+        "expected_po": "PO-63168",
+        "expected_amount": 1672881,
+        "seed": 1062092584040744187,
+        "error": null,
+        "po_entered": "PO-63168",
+        "amount_entered": 1046444,
+        "reply_tail": "{\n  \"po\": \"PO-63168\",\n  \"amount_due\": \"$10,464.44\"\n}",
+        "page_chars": 1032
+      },
+      "duration_ms": 1877
+    },
+    {
+      "branch_id": "no-model_temperature",
+      "seed": 2871152276277936052,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-65948",
+        "expected_amount": 623436,
+        "seed": 2871152276277936052,
+        "error": null,
+        "po_entered": "PO-65948",
+        "amount_entered": 623436,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-65948\",\n  \"amount_due\": \"$6,234.36\"\n}\n```",
+        "page_chars": 679
+      },
+      "duration_ms": 1928
+    },
+    {
+      "branch_id": "no-model_temperature",
+      "seed": 13802914392484022090,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-22151",
+        "expected_amount": 550295,
+        "seed": 13802914392484022090,
+        "error": null,
+        "po_entered": "PO-22151",
+        "amount_entered": 550295,
+        "reply_tail": "{\n  \"po\": \"PO-22151\",\n  \"amount_due\": \"$5,502.95\"\n}",
+        "page_chars": 698
+      },
+      "duration_ms": 2378
+    },
+    {
+      "branch_id": "no-model_temperature",
+      "seed": 3156548982238051351,
+      "passed": false,
+      "detail": "amount mismatch: 1494248",
+      "artifact": {
+        "expected_po": "PO-66018",
+        "expected_amount": 1658272,
+        "seed": 3156548982238051351,
+        "error": null,
+        "po_entered": "PO-66018",
+        "amount_entered": 1494248,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-66018\",\n  \"amount_due\": \"$14,942.48\"\n}\n```",
+        "page_chars": 990
+      },
+      "duration_ms": 2033
+    },
+    {
+      "branch_id": "no-model_temperature",
+      "seed": 15106064413686219912,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-35144",
+        "expected_amount": 810886,
+        "seed": 15106064413686219912,
+        "error": null,
+        "po_entered": "PO-35144",
+        "amount_entered": 810886,
+        "reply_tail": "{\n  \"po\": \"PO-35144\",\n  \"amount_due\": \"$8,108.86\"\n}",
+        "page_chars": 779
+      },
+      "duration_ms": 2094
+    },
+    {
+      "branch_id": "no-model_temperature",
+      "seed": 9960627082687539928,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-47166",
+        "expected_amount": 624390,
+        "seed": 9960627082687539928,
+        "error": null,
+        "po_entered": "PO-47166",
+        "amount_entered": 624390,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-47166\",\n  \"amount_due\": \"$6,243.90\"\n}\n```",
+        "page_chars": 680
+      },
+      "duration_ms": 2208
+    },
+    {
+      "branch_id": "no-terse_prompt",
+      "seed": 18051619243708012878,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-58266",
+        "expected_amount": 604195,
+        "seed": 18051619243708012878,
+        "error": null,
+        "po_entered": "PO-58266",
+        "amount_entered": 604195,
+        "reply_tail": "{\"po\": \"PO-58266\", \"amount_due\": \"6041.95\"}",
+        "page_chars": 680
+      },
+      "duration_ms": 2238
+    },
+    {
+      "branch_id": "no-terse_prompt",
+      "seed": 3407088162118685647,
+      "passed": false,
+      "detail": "amount mismatch: 1606880",
+      "artifact": {
+        "expected_po": "PO-88202",
+        "expected_amount": 1417633,
+        "seed": 3407088162118685647,
+        "error": null,
+        "po_entered": "PO-88202",
+        "amount_entered": 1606880,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-88202\",\n  \"amount_due\": \"$16,068.80\"\n}\n```",
+        "page_chars": 944
+      },
+      "duration_ms": 1940
+    },
+    {
+      "branch_id": "no-terse_prompt",
+      "seed": 4323348402606399036,
+      "passed": false,
+      "detail": "amount mismatch: 1608660",
+      "artifact": {
+        "expected_po": "PO-25946",
+        "expected_amount": 1228550,
+        "seed": 4323348402606399036,
+        "error": null,
+        "po_entered": "PO-25946",
+        "amount_entered": 1608660,
+        "reply_tail": "```json\n{\"po\": \"PO-25946\", \"amount_due\": \"16,086.60\"}\n```",
+        "page_chars": 985
+      },
+      "duration_ms": 1933
+    },
+    {
+      "branch_id": "no-terse_prompt",
+      "seed": 14747483893552034196,
+      "passed": false,
+      "detail": "amount mismatch: 1105729",
+      "artifact": {
+        "expected_po": "PO-78861",
+        "expected_amount": 1196214,
+        "seed": 14747483893552034196,
+        "error": null,
+        "po_entered": "PO-78861",
+        "amount_entered": 1105729,
+        "reply_tail": "```json\n{\"po\": \"PO-78861\", \"amount_due\": \"11,057.29\"}\n```",
+        "page_chars": 878
+      },
+      "duration_ms": 2159
+    },
+    {
+      "branch_id": "no-terse_prompt",
+      "seed": 10667756543763993075,
+      "passed": false,
+      "detail": "amount mismatch: 564056",
+      "artifact": {
+        "expected_po": "PO-66632",
+        "expected_amount": 1052266,
+        "seed": 10667756543763993075,
+        "error": null,
+        "po_entered": "PO-66632",
+        "amount_entered": 564056,
+        "reply_tail": "{\n  \"po\": \"PO-66632\",\n  \"amount_due\": \"5,640.56\"\n}",
+        "page_chars": 1035
+      },
+      "duration_ms": 1980
+    },
+    {
+      "branch_id": "no-terse_prompt",
+      "seed": 7405332014686015654,
+      "passed": false,
+      "detail": "amount mismatch: 453686",
+      "artifact": {
+        "expected_po": "PO-12401",
+        "expected_amount": 1101936,
+        "seed": 7405332014686015654,
+        "error": null,
+        "po_entered": "PO-12401",
+        "amount_entered": 453686,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-12401\",\n  \"amount_due\": \"$4,536.86\"\n}\n```",
+        "page_chars": 922
+      },
+      "duration_ms": 2043
+    },
+    {
+      "branch_id": "no-terse_prompt",
+      "seed": 14088362899934192661,
+      "passed": false,
+      "detail": "amount mismatch: 4491738",
+      "artifact": {
+        "expected_po": "PO-47683",
+        "expected_amount": 1455362,
+        "seed": 14088362899934192661,
+        "error": null,
+        "po_entered": "PO-47683",
+        "amount_entered": 4491738,
+        "reply_tail": "```json\n{\"po\": \"PO-47683\", \"amount_due\": \"44917.38\"}\n```",
+        "page_chars": 998
+      },
+      "duration_ms": 2151
+    },
+    {
+      "branch_id": "no-terse_prompt",
+      "seed": 9616487598011164711,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-94208",
+        "expected_amount": 730840,
+        "seed": 9616487598011164711,
+        "error": null,
+        "po_entered": "PO-94208",
+        "amount_entered": 730840,
+        "reply_tail": "{\n  \"po\": \"PO-94208\",\n  \"amount_due\": \"7,308.40\"\n}",
+        "page_chars": 732
+      },
+      "duration_ms": 2323
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 10681302749576880832,
+      "passed": false,
+      "detail": "amount mismatch: 502302",
+      "artifact": {
+        "expected_po": "PO-78325",
+        "expected_amount": 1547110,
+        "seed": 10681302749576880832,
+        "error": null,
+        "po_entered": "PO-78325",
+        "amount_entered": 502302,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-78325\",\n  \"amount_due\": \"$5,023.02\"\n}\n```",
+        "page_chars": 977
+      },
+      "duration_ms": 2159
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 723829938419165834,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-56209",
+        "expected_amount": 1169821,
+        "seed": 723829938419165834,
+        "error": null,
+        "po_entered": "PO-56209",
+        "amount_entered": 1169821,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-56209\",\n  \"amount_due\": \"11698.21\"\n}\n```",
+        "page_chars": 723
+      },
+      "duration_ms": 2240
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 8470804242567634498,
+      "passed": false,
+      "detail": "amount mismatch: 349460",
+      "artifact": {
+        "expected_po": "PO-61474",
+        "expected_amount": 1623008,
+        "seed": 8470804242567634498,
+        "error": null,
+        "po_entered": "PO-61474",
+        "amount_entered": 349460,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-61474\",\n  \"amount_due\": \"$3,494.60\"\n}\n```",
+        "page_chars": 986
+      },
+      "duration_ms": 2150
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 15180269645207784981,
+      "passed": false,
+      "detail": "amount mismatch: 868783",
+      "artifact": {
+        "expected_po": "PO-50813",
+        "expected_amount": 1121386,
+        "seed": 15180269645207784981,
+        "error": null,
+        "po_entered": "PO-50813",
+        "amount_entered": 868783,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-50813\",\n  \"amount_due\": \"$8,687.83\"\n}\n```",
+        "page_chars": 936
+      },
+      "duration_ms": 2203
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 17950300448033863859,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-49220",
+        "expected_amount": 439747,
+        "seed": 17950300448033863859,
+        "error": null,
+        "po_entered": "PO-49220",
+        "amount_entered": 439747,
+        "reply_tail": "{\n  \"po\": \"PO-49220\",\n  \"amount_due\": \"4,397.47\"\n}",
+        "page_chars": 692
+      },
+      "duration_ms": 2426
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 16493563077639691094,
+      "passed": false,
+      "detail": "amount mismatch: 574267",
+      "artifact": {
+        "expected_po": "PO-27211",
+        "expected_amount": 1080542,
+        "seed": 16493563077639691094,
+        "error": null,
+        "po_entered": "PO-27211",
+        "amount_entered": 574267,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-27211\",\n  \"amount_due\": \"$5,742.67\"\n}\n```",
+        "page_chars": 940
+      },
+      "duration_ms": 2306
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 13259261686731584726,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-56212",
+        "expected_amount": 1071715,
+        "seed": 13259261686731584726,
+        "error": null,
+        "po_entered": "PO-56212",
+        "amount_entered": 1071715,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-56212\",\n  \"amount_due\": \"10,717.15\"\n}\n```",
+        "page_chars": 786
+      },
+      "duration_ms": 2222
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 8484654459642304590,
+      "passed": false,
+      "detail": "amount mismatch: 665595",
+      "artifact": {
+        "expected_po": "PO-51262",
+        "expected_amount": 1082954,
+        "seed": 8484654459642304590,
+        "error": null,
+        "po_entered": "PO-51262",
+        "amount_entered": 665595,
+        "reply_tail": "{\n  \"po\": \"PO-51262\",\n  \"amount_due\": \"$6,655.95\"\n}",
+        "page_chars": 907
+      },
+      "duration_ms": 1999
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 13601611215819414895,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-66605",
+        "expected_amount": 1065473,
+        "seed": 13601611215819414895,
+        "error": null,
+        "po_entered": "PO-66605",
+        "amount_entered": 1065473,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-66605\",\n  \"amount_due\": \"$10,654.73\"\n}\n```",
+        "page_chars": 826
+      },
+      "duration_ms": 2318
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 547701317168421773,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-46405",
+        "expected_amount": 561271,
+        "seed": 547701317168421773,
+        "error": null,
+        "po_entered": "PO-46405",
+        "amount_entered": 561271,
+        "reply_tail": "{\n  \"po\": \"PO-46405\",\n  \"amount_due\": \"$5,612.71\"\n}",
+        "page_chars": 680
+      },
+      "duration_ms": 2215
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 8563735842127383041,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-24711",
+        "expected_amount": 481619,
+        "seed": 8563735842127383041,
+        "error": null,
+        "po_entered": "PO-24711",
+        "amount_entered": 481619,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-24711\",\n  \"amount_due\": \"$4,816.19\"\n}\n```",
+        "page_chars": 719
+      },
+      "duration_ms": 2104
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 1893960022380957927,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-17534",
+        "expected_amount": 1078683,
+        "seed": 1893960022380957927,
+        "error": null,
+        "po_entered": "PO-17534",
+        "amount_entered": 1078683,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-17534\",\n  \"amount_due\": \"10,786.83\"\n}\n```",
+        "page_chars": 999
+      },
+      "duration_ms": 2346
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 8290855603570933288,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-56006",
+        "expected_amount": 784444,
+        "seed": 8290855603570933288,
+        "error": null,
+        "po_entered": "PO-56006",
+        "amount_entered": 784444,
+        "reply_tail": "{\n  \"po\": \"PO-56006\",\n  \"amount_due\": \"$7,844.44\"\n}",
+        "page_chars": 881
+      },
+      "duration_ms": 2481
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 15160956914641740826,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-53054",
+        "expected_amount": 1109214,
+        "seed": 15160956914641740826,
+        "error": null,
+        "po_entered": "PO-53054",
+        "amount_entered": 1109214,
+        "reply_tail": "{\n  \"po\": \"PO-53054\",\n  \"amount_due\": \"11,092.14\"\n}",
+        "page_chars": 727
+      },
+      "duration_ms": 2059
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 14681175412703490435,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-56266",
+        "expected_amount": 1384508,
+        "seed": 14681175412703490435,
+        "error": null,
+        "po_entered": "PO-56266",
+        "amount_entered": 1384508,
+        "reply_tail": "{\n  \"po\": \"PO-56266\",\n  \"amount_due\": \"13845.08\"\n}",
+        "page_chars": 908
+      },
+      "duration_ms": 2301
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 8434475741167791448,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-85437",
+        "expected_amount": 838410,
+        "seed": 8434475741167791448,
+        "error": null,
+        "po_entered": "PO-85437",
+        "amount_entered": 838410,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-85437\",\n  \"amount_due\": \"$8,384.10\"\n}\n```",
+        "page_chars": 947
+      },
+      "duration_ms": 2488
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 667681500750351696,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-53811",
+        "expected_amount": 1134661,
+        "seed": 667681500750351696,
+        "error": null,
+        "po_entered": "PO-53811",
+        "amount_entered": 1134661,
+        "reply_tail": "{\n  \"po\": \"PO-53811\",\n  \"amount_due\": \"$11,346.61\"\n}",
+        "page_chars": 974
+      },
+      "duration_ms": 2109
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 17708935530376820044,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-32629",
+        "expected_amount": 1022436,
+        "seed": 17708935530376820044,
+        "error": null,
+        "po_entered": "PO-32629",
+        "amount_entered": 1022436,
+        "reply_tail": "{\n  \"po\": \"PO-32629\",\n  \"amount_due\": \"$10,224.36\"\n}",
+        "page_chars": 866
+      },
+      "duration_ms": 2583
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 15338802321418111082,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-17224",
+        "expected_amount": 1294792,
+        "seed": 15338802321418111082,
+        "error": null,
+        "po_entered": "PO-17224",
+        "amount_entered": 1294792,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-17224\",\n  \"amount_due\": \"12,947.92\"\n}\n```",
+        "page_chars": 869
+      },
+      "duration_ms": 2098
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 3862500147237476250,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-16615",
+        "expected_amount": 487539,
+        "seed": 3862500147237476250,
+        "error": null,
+        "po_entered": "PO-16615",
+        "amount_entered": 487539,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-16615\",\n  \"amount_due\": \"4875.39\"\n}\n```",
+        "page_chars": 767
+      },
+      "duration_ms": 2860
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 13008761862098121264,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-46488",
+        "expected_amount": 892542,
+        "seed": 13008761862098121264,
+        "error": null,
+        "po_entered": "PO-46488",
+        "amount_entered": 892542,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-46488\",\n  \"amount_due\": \"8,925.42\"\n}\n```",
+        "page_chars": 866
+      },
+      "duration_ms": 2096
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 16239859664223373312,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-19172",
+        "expected_amount": 1147416,
+        "seed": 16239859664223373312,
+        "error": null,
+        "po_entered": "PO-19172",
+        "amount_entered": 1147416,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-19172\",\n  \"amount_due\": \"$11,474.16\"\n}\n```",
+        "page_chars": 891
+      },
+      "duration_ms": 2625
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 9383392277509794153,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-30796",
+        "expected_amount": 594914,
+        "seed": 9383392277509794153,
+        "error": null,
+        "po_entered": "PO-30796",
+        "amount_entered": 594914,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-30796\",\n  \"amount_due\": \"5949.14\"\n}\n```",
+        "page_chars": 748
+      },
+      "duration_ms": 2236
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 1632344448466816160,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-27643",
+        "expected_amount": 906441,
+        "seed": 1632344448466816160,
+        "error": null,
+        "po_entered": "PO-27643",
+        "amount_entered": 906441,
+        "reply_tail": "{\n  \"po\": \"PO-27643\",\n  \"amount_due\": \"$9,064.41\"\n}",
+        "page_chars": 860
+      },
+      "duration_ms": 2656
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 17852953328555433124,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-85667",
+        "expected_amount": 498963,
+        "seed": 17852953328555433124,
+        "error": null,
+        "po_entered": "PO-85667",
+        "amount_entered": 498963,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-85667\",\n  \"amount_due\": \"4,989.63\"\n}\n```",
+        "page_chars": 743
+      },
+      "duration_ms": 2084
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 414849771714783815,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-55982",
+        "expected_amount": 643349,
+        "seed": 414849771714783815,
+        "error": null,
+        "po_entered": "PO-55982",
+        "amount_entered": 643349,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-55982\",\n  \"amount_due\": \"6,433.49\"\n}\n```",
+        "page_chars": 691
+      },
+      "duration_ms": 2489
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 11464981808344656973,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-75664",
+        "expected_amount": 932276,
+        "seed": 11464981808344656973,
+        "error": null,
+        "po_entered": "PO-75664",
+        "amount_entered": 932276,
+        "reply_tail": "{\n  \"po\": \"PO-75664\",\n  \"amount_due\": \"$9,322.76\"\n}",
+        "page_chars": 896
+      },
+      "duration_ms": 2077
+    },
+    {
+      "branch_id": "no-context_trim",
+      "seed": 3327692443344924582,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-33121",
+        "expected_amount": 1253592,
+        "seed": 3327692443344924582,
+        "error": null,
+        "po_entered": "PO-33121",
+        "amount_entered": 1253592,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-33121\",\n  \"amount_due\": \"12535.92\"\n}\n```",
+        "page_chars": 848
+      },
+      "duration_ms": 2095
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 5366189561181895743,
+      "passed": false,
+      "detail": "amount mismatch: 900",
+      "artifact": {
+        "expected_po": "PO-43013",
+        "expected_amount": 923801,
+        "seed": 5366189561181895743,
+        "error": null,
+        "po_entered": "PO-43013",
+        "amount_entered": 900,
+        "reply_tail": "{\n  \"po\": \"PO-43013\",\n  \"amount_due\": \"$9\"\n}",
+        "page_chars": 810
+      },
+      "duration_ms": 2187
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 337053108028300350,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-10730",
+        "expected_amount": 815586,
+        "seed": 337053108028300350,
+        "error": null,
+        "po_entered": "PO-10730",
+        "amount_entered": 815586,
+        "reply_tail": "{\n  \"po\": \"PO-10730\",\n  \"amount_due\": \"$8,155.86\"\n}",
+        "page_chars": 751
+      },
+      "duration_ms": 2111
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 7306548749765081523,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-63652",
+        "expected_amount": 708530,
+        "seed": 7306548749765081523,
+        "error": null,
+        "po_entered": "PO-63652",
+        "amount_entered": 708530,
+        "reply_tail": "{\n  \"po\": \"PO-63652\",\n  \"amount_due\": \"7085.30\"\n}",
+        "page_chars": 734
+      },
+      "duration_ms": 2046
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 1117386668546387840,
+      "passed": false,
+      "detail": "amount mismatch: 606144",
+      "artifact": {
+        "expected_po": "PO-53131",
+        "expected_amount": 1550553,
+        "seed": 1117386668546387840,
+        "error": null,
+        "po_entered": "PO-53131",
+        "amount_entered": 606144,
+        "reply_tail": "{\n  \"po\": \"PO-53131\",\n  \"amount_due\": \"$6,061.44\"\n}",
+        "page_chars": 1024
+      },
+      "duration_ms": 1996
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 11142901235546934406,
+      "passed": false,
+      "detail": "amount mismatch: 589285",
+      "artifact": {
+        "expected_po": "PO-78287",
+        "expected_amount": 622289,
+        "seed": 11142901235546934406,
+        "error": null,
+        "po_entered": "PO-78287",
+        "amount_entered": 589285,
+        "reply_tail": "{\n  \"po\": \"PO-78287\",\n  \"amount_due\": \"$5,892.85\"\n}",
+        "page_chars": 834
+      },
+      "duration_ms": 2190
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 12420202066496656750,
+      "passed": false,
+      "detail": "amount mismatch: 713520",
+      "artifact": {
+        "expected_po": "PO-91067",
+        "expected_amount": 731583,
+        "seed": 12420202066496656750,
+        "error": null,
+        "po_entered": "PO-91067",
+        "amount_entered": 713520,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-91067\",\n  \"amount_due\": \"$7,135.20\"\n}\n```",
+        "page_chars": 871
+      },
+      "duration_ms": 2058
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 15786754166701899917,
+      "passed": false,
+      "detail": "amount mismatch: 764526",
+      "artifact": {
+        "expected_po": "PO-95486",
+        "expected_amount": 826864,
+        "seed": 15786754166701899917,
+        "error": null,
+        "po_entered": "PO-95486",
+        "amount_entered": 764526,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-95486\",\n  \"amount_due\": \"7,645.26\"\n}\n```",
+        "page_chars": 839
+      },
+      "duration_ms": 2071
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 5823350286200970195,
+      "passed": false,
+      "detail": "amount mismatch: 522777",
+      "artifact": {
+        "expected_po": "PO-38938",
+        "expected_amount": 1384576,
+        "seed": 5823350286200970195,
+        "error": null,
+        "po_entered": "PO-38938",
+        "amount_entered": 522777,
+        "reply_tail": "{\n  \"po\": \"PO-38938\",\n  \"amount_due\": \"$5,227.77\"\n}",
+        "page_chars": 1005
+      },
+      "duration_ms": 2003
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 13725876706221897520,
+      "passed": false,
+      "detail": "amount mismatch: 894853",
+      "artifact": {
+        "expected_po": "PO-63840",
+        "expected_amount": 899481,
+        "seed": 13725876706221897520,
+        "error": null,
+        "po_entered": "PO-63840",
+        "amount_entered": 894853,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-63840\",\n  \"amount_due\": \"8,948.53\"\n}\n```",
+        "page_chars": 816
+      },
+      "duration_ms": 2090
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 6403238604047940141,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-92334",
+        "expected_amount": 603512,
+        "seed": 6403238604047940141,
+        "error": null,
+        "po_entered": "PO-92334",
+        "amount_entered": 603512,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-92334\",\n  \"amount_due\": \"$6,035.12\"\n}\n```",
+        "page_chars": 728
+      },
+      "duration_ms": 2252
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 7003671948952084214,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-98778",
+        "expected_amount": 635693,
+        "seed": 7003671948952084214,
+        "error": null,
+        "po_entered": "PO-98778",
+        "amount_entered": 635693,
+        "reply_tail": "{\n  \"po\": \"PO-98778\",\n  \"amount_due\": \"$6,356.93\"\n}",
+        "page_chars": 715
+      },
+      "duration_ms": 2292
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 7571602765070223218,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-18708",
+        "expected_amount": 834464,
+        "seed": 7571602765070223218,
+        "error": null,
+        "po_entered": "PO-18708",
+        "amount_entered": 834464,
+        "reply_tail": "{\n  \"po\": \"PO-18708\",\n  \"amount_due\": \"$8,344.64\"\n}",
+        "page_chars": 799
+      },
+      "duration_ms": 2371
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 17102866995117360138,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-73316",
+        "expected_amount": 1042811,
+        "seed": 17102866995117360138,
+        "error": null,
+        "po_entered": "PO-73316",
+        "amount_entered": 1042811,
+        "reply_tail": "{\n  \"po\": \"PO-73316\",\n  \"amount_due\": \"$10,428.11\"\n}",
+        "page_chars": 795
+      },
+      "duration_ms": 2002
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 3678272520493799682,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-78667",
+        "expected_amount": 671399,
+        "seed": 3678272520493799682,
+        "error": null,
+        "po_entered": "PO-78667",
+        "amount_entered": 671399,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-78667\",\n  \"amount_due\": \"$6,713.99\"\n}\n```",
+        "page_chars": 785
+      },
+      "duration_ms": 2043
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 14862164215157003396,
+      "passed": false,
+      "detail": "amount mismatch: 168408",
+      "artifact": {
+        "expected_po": "PO-47219",
+        "expected_amount": 1472474,
+        "seed": 14862164215157003396,
+        "error": null,
+        "po_entered": "PO-47219",
+        "amount_entered": 168408,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-47219\",\n  \"amount_due\": \"$1,684.08\"\n}\n```",
+        "page_chars": 901
+      },
+      "duration_ms": 2079
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 11905102152464624388,
+      "passed": false,
+      "detail": "amount mismatch: 1119680",
+      "artifact": {
+        "expected_po": "PO-71885",
+        "expected_amount": 1326052,
+        "seed": 11905102152464624388,
+        "error": null,
+        "po_entered": "PO-71885",
+        "amount_entered": 1119680,
+        "reply_tail": "{\n  \"po\": \"PO-71885\",\n  \"amount_due\": \"$11,196.80\"\n}",
+        "page_chars": 988
+      },
+      "duration_ms": 2079
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 13411904448023833606,
+      "passed": false,
+      "detail": "amount mismatch: 401424",
+      "artifact": {
+        "expected_po": "PO-25565",
+        "expected_amount": 1402439,
+        "seed": 13411904448023833606,
+        "error": null,
+        "po_entered": "PO-25565",
+        "amount_entered": 401424,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-25565\",\n  \"amount_due\": \"$4,014.24\"\n}\n```",
+        "page_chars": 1003
+      },
+      "duration_ms": 2051
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 4398811186688685106,
+      "passed": true,
+      "detail": "po and amount correct",
+      "artifact": {
+        "expected_po": "PO-15623",
+        "expected_amount": 862273,
+        "seed": 4398811186688685106,
+        "error": null,
+        "po_entered": "PO-15623",
+        "amount_entered": 862273,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-15623\",\n  \"amount_due\": \"8,622.73\"\n}\n```",
+        "page_chars": 781
+      },
+      "duration_ms": 2510
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 6714519337635586509,
+      "passed": false,
+      "detail": "amount mismatch: 966336",
+      "artifact": {
+        "expected_po": "PO-39934",
+        "expected_amount": 1044977,
+        "seed": 6714519337635586509,
+        "error": null,
+        "po_entered": "PO-39934",
+        "amount_entered": 966336,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-39934\",\n  \"amount_due\": \"9,663.36\"\n}\n```",
+        "page_chars": 845
+      },
+      "duration_ms": 2021
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 16805057832196164955,
+      "passed": false,
+      "detail": "amount mismatch: 1115431",
+      "artifact": {
+        "expected_po": "PO-24659",
+        "expected_amount": 1186433,
+        "seed": 16805057832196164955,
+        "error": null,
+        "po_entered": "PO-24659",
+        "amount_entered": 1115431,
+        "reply_tail": "```json\n{\n  \"po\": \"PO-24659\",\n  \"amount_due\": \"$11,154.31\"\n}\n```",
+        "page_chars": 833
+      },
+      "duration_ms": 2404
+    }
+  ]
+}
