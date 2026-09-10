@@ -1,0 +1,1596 @@
+{
+  "investigation_id": "live-solari-seed7",
+  "scenario": "live-solari",
+  "factors": [
+    {
+      "id": "two_column_layout",
+      "description": "long line-item tables render in two columns"
+    },
+    {
+      "id": "cookie_banner",
+      "description": "consent banner overlays the page until dismissed"
+    }
+  ],
+  "config": {
+    "alpha": 0.05,
+    "max_trials": 68,
+    "max_rounds": 2,
+    "round_trials_per_branch": 6,
+    "confirm_trials": 16,
+    "futility_min_trials": 16,
+    "pairwise_top_k": 3,
+    "seed": 7
+  },
+  "branches": {
+    "baseline": {
+      "branch_id": "baseline",
+      "neutralized": [],
+      "trials": 28,
+      "successes": 14,
+      "p_value": null,
+      "dropped_for_futility": false,
+      "confirmation_failed": false,
+      "rate": 0.5
+    },
+    "no-two_column_layout": {
+      "branch_id": "no-two_column_layout",
+      "neutralized": [
+        "two_column_layout"
+      ],
+      "trials": 28,
+      "successes": 28,
+      "p_value": 0.006864988558352402,
+      "dropped_for_futility": false,
+      "confirmation_failed": false,
+      "rate": 1.0
+    },
+    "no-cookie_banner": {
+      "branch_id": "no-cookie_banner",
+      "neutralized": [
+        "cookie_banner"
+      ],
+      "trials": 12,
+      "successes": 7,
+      "p_value": 0.5,
+      "dropped_for_futility": false,
+      "confirmation_failed": false,
+      "rate": 0.5833333333333334
+    }
+  },
+  "round_log": [
+    {
+      "round": 1,
+      "alpha_spent": 0.025,
+      "allocations": {
+        "baseline": 6,
+        "no-cookie_banner": 6,
+        "no-two_column_layout": 6
+      },
+      "p_values": {
+        "no-two_column_layout": 0.5,
+        "no-cookie_banner": 0.9924242424242424
+      }
+    },
+    {
+      "round": 2,
+      "alpha_spent": 0.025,
+      "allocations": {
+        "baseline": 6,
+        "no-cookie_banner": 6,
+        "no-two_column_layout": 6
+      },
+      "p_values": {
+        "no-two_column_layout": 0.006864988558352402,
+        "no-cookie_banner": 0.5
+      },
+      "confirmations": [
+        {
+          "branch": "no-two_column_layout",
+          "trials_per_arm": 16,
+          "branch_successes": 16,
+          "baseline_successes": 8,
+          "p": 0.0012235817575083426,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "verdict": {
+    "cause": [
+      "two_column_layout"
+    ],
+    "confirmation_p": 0.0012235817575083426,
+    "baseline_rate": 0.5,
+    "cause_rate": 1.0,
+    "alpha": 0.05,
+    "trials_total": 68,
+    "rounds": 2,
+    "summary": "Neutralizing long line-item tables render in two columns flipped the outcome. The baseline passed 14 of 28 trials, a rate of 50%, while this branch passed 28 of 28, a rate of 100%; those totals include the confirmation trials, and the search phase alone tends to flatter the winner. The fresh confirmation batch is the unbiased read: 16 of 16 passed on this branch against 8 of 16 at baseline, with p = 0.001224 against an alpha of 0.05."
+  },
+  "trials": [
+    {
+      "branch_id": "baseline",
+      "seed": 6146956900983434659,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-910792",
+        "total_entered": 343929,
+        "expected_po": "PO-910792",
+        "expected_total": 343929,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Cascade Instruments",
+          "dismiss consent banner",
+          "type PO PO-910792",
+          "trim older context",
+          "enter total 343929 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 14182
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 4580982551428688069,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-992652",
+        "total_entered": 486809,
+        "expected_po": "PO-992652",
+        "expected_total": 486809,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Bellwether Freight",
+          "dismiss consent banner",
+          "type PO PO-992652",
+          "trim older context",
+          "enter total 486809 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13496
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 16563075434872036064,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-542593",
+        "total_entered": 194357,
+        "expected_po": "PO-542593",
+        "expected_total": 194357,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Acme Supply Co",
+          "dismiss consent banner",
+          "type PO PO-542593",
+          "trim older context",
+          "enter total 194357 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13332
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 6828173287599872071,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-991137",
+        "total_entered": 370770,
+        "expected_po": "PO-991137",
+        "expected_total": 370770,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Acme Supply Co",
+          "dismiss consent banner",
+          "type PO PO-991137",
+          "trim older context",
+          "enter total 370770 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 14080
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 4831076991042889339,
+      "passed": false,
+      "detail": "po mismatch: entered 'PO-249106', expected 'PO-049106'",
+      "artifact": {
+        "po_entered": "PO-249106",
+        "total_entered": 284266,
+        "expected_po": "PO-049106",
+        "expected_total": 284266,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Bellwether Freight",
+          "dismiss consent banner",
+          "type PO PO-249106",
+          "trim older context",
+          "enter total 284266 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 14042
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 13317875009488921845,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-542278",
+        "total_entered": 519566,
+        "expected_po": "PO-542278",
+        "expected_total": 519566,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Cascade Instruments",
+          "dismiss consent banner",
+          "type PO PO-542278",
+          "trim older context",
+          "enter total 519566 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13213
+    },
+    {
+      "branch_id": "no-cookie_banner",
+      "seed": 1534913505569337228,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-517526",
+        "total_entered": 302558,
+        "expected_po": "PO-517526",
+        "expected_total": 302558,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Acme Supply Co",
+          "type PO PO-517526",
+          "trim older context",
+          "enter total 302558 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13447
+    },
+    {
+      "branch_id": "no-cookie_banner",
+      "seed": 16233097349359581211,
+      "passed": false,
+      "detail": "total mismatch: entered 186345, expected 776338",
+      "artifact": {
+        "po_entered": "PO-269663",
+        "total_entered": 186345,
+        "expected_po": "PO-269663",
+        "expected_total": 776338,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Harbor & Sons",
+          "type PO PO-269663",
+          "trim older context",
+          "enter total 186345 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13913
+    },
+    {
+      "branch_id": "no-cookie_banner",
+      "seed": 4098318435375486677,
+      "passed": false,
+      "detail": "total mismatch: entered 371461, expected 663377",
+      "artifact": {
+        "po_entered": "PO-742886",
+        "total_entered": 371461,
+        "expected_po": "PO-742886",
+        "expected_total": 663377,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Harbor & Sons",
+          "type PO PO-742886",
+          "trim older context",
+          "enter total 371461 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13915
+    },
+    {
+      "branch_id": "no-cookie_banner",
+      "seed": 7082536738594147320,
+      "passed": false,
+      "detail": "total mismatch: entered 285725, expected 573561",
+      "artifact": {
+        "po_entered": "PO-225172",
+        "total_entered": 285725,
+        "expected_po": "PO-225172",
+        "expected_total": 573561,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Acme Supply Co",
+          "type PO PO-225172",
+          "trim older context",
+          "enter total 285725 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 15783
+    },
+    {
+      "branch_id": "no-cookie_banner",
+      "seed": 6889439327685745863,
+      "passed": false,
+      "detail": "total mismatch: entered 326551, expected 689975",
+      "artifact": {
+        "po_entered": "PO-033645",
+        "total_entered": 326551,
+        "expected_po": "PO-033645",
+        "expected_total": 689975,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Cascade Instruments",
+          "type PO PO-033645",
+          "trim older context",
+          "enter total 326551 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13352
+    },
+    {
+      "branch_id": "no-cookie_banner",
+      "seed": 6880488692066986755,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-917307",
+        "total_entered": 518871,
+        "expected_po": "PO-917307",
+        "expected_total": 518871,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Northwind Traders",
+          "type PO PO-917307",
+          "trim older context",
+          "enter total 518871 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13572
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 1311251823131664346,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-716133",
+        "total_entered": 678635,
+        "expected_po": "PO-716133",
+        "expected_total": 678635,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Cascade Instruments",
+          "dismiss consent banner",
+          "type PO PO-716133",
+          "trim older context",
+          "enter total 678635 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13590
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 5079389749926459676,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-857439",
+        "total_entered": 174046,
+        "expected_po": "PO-857439",
+        "expected_total": 174046,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Bellwether Freight",
+          "dismiss consent banner",
+          "type PO PO-857439",
+          "trim older context",
+          "enter total 174046 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 14438
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 7692945254778705425,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-619413",
+        "total_entered": 521858,
+        "expected_po": "PO-619413",
+        "expected_total": 521858,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Bellwether Freight",
+          "dismiss consent banner",
+          "type PO PO-619413",
+          "trim older context",
+          "enter total 521858 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13820
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 7311690040688181158,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-956580",
+        "total_entered": 110630,
+        "expected_po": "PO-956580",
+        "expected_total": 110630,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Cascade Instruments",
+          "dismiss consent banner",
+          "type PO PO-956580",
+          "trim older context",
+          "enter total 110630 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13565
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 1774507287174220883,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-333055",
+        "total_entered": 300713,
+        "expected_po": "PO-333055",
+        "expected_total": 300713,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Acme Supply Co",
+          "dismiss consent banner",
+          "type PO PO-333055",
+          "trim older context",
+          "enter total 300713 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 14213
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 14552210398112145401,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-365119",
+        "total_entered": 295020,
+        "expected_po": "PO-365119",
+        "expected_total": 295020,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Harbor & Sons",
+          "dismiss consent banner",
+          "type PO PO-365119",
+          "trim older context",
+          "enter total 295020 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 17154
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 3971218388630458281,
+      "passed": false,
+      "detail": "total mismatch: entered 364790, expected 701551",
+      "artifact": {
+        "po_entered": "PO-399191",
+        "total_entered": 364790,
+        "expected_po": "PO-399191",
+        "expected_total": 701551,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Harbor & Sons",
+          "dismiss consent banner",
+          "type PO PO-399191",
+          "trim older context",
+          "enter total 364790 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13992
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 13950555085495062471,
+      "passed": false,
+      "detail": "total mismatch: entered 475964, expected 1061331",
+      "artifact": {
+        "po_entered": "PO-296793",
+        "total_entered": 475964,
+        "expected_po": "PO-296793",
+        "expected_total": 1061331,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Bellwether Freight",
+          "dismiss consent banner",
+          "type PO PO-296793",
+          "trim older context",
+          "enter total 475964 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13631
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 6877687089306930629,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-448495",
+        "total_entered": 186522,
+        "expected_po": "PO-448495",
+        "expected_total": 186522,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Acme Supply Co",
+          "dismiss consent banner",
+          "type PO PO-448495",
+          "trim older context",
+          "enter total 186522 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13899
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 17723479835678296978,
+      "passed": false,
+      "detail": "total mismatch: entered 272419, expected 652775",
+      "artifact": {
+        "po_entered": "PO-678185",
+        "total_entered": 272419,
+        "expected_po": "PO-678185",
+        "expected_total": 652775,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Acme Supply Co",
+          "dismiss consent banner",
+          "type PO PO-678185",
+          "trim older context",
+          "enter total 272419 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 14982
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 12340623627778309668,
+      "passed": false,
+      "detail": "total mismatch: entered 287591, expected 391780",
+      "artifact": {
+        "po_entered": "PO-121700",
+        "total_entered": 287591,
+        "expected_po": "PO-121700",
+        "expected_total": 391780,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Northwind Traders",
+          "dismiss consent banner",
+          "type PO PO-121700",
+          "trim older context",
+          "enter total 287591 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13348
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 4566410738542030464,
+      "passed": false,
+      "detail": "total mismatch: entered 314464, expected 778471",
+      "artifact": {
+        "po_entered": "PO-932962",
+        "total_entered": 314464,
+        "expected_po": "PO-932962",
+        "expected_total": 778471,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Cascade Instruments",
+          "dismiss consent banner",
+          "type PO PO-932962",
+          "trim older context",
+          "enter total 314464 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13296
+    },
+    {
+      "branch_id": "no-cookie_banner",
+      "seed": 1481752805941796544,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-589197",
+        "total_entered": 225178,
+        "expected_po": "PO-589197",
+        "expected_total": 225178,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Acme Supply Co",
+          "type PO PO-589197",
+          "trim older context",
+          "enter total 225178 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13111
+    },
+    {
+      "branch_id": "no-cookie_banner",
+      "seed": 15802015851672238117,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-909861",
+        "total_entered": 227117,
+        "expected_po": "PO-909861",
+        "expected_total": 227117,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Cascade Instruments",
+          "type PO PO-909861",
+          "trim older context",
+          "enter total 227117 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13061
+    },
+    {
+      "branch_id": "no-cookie_banner",
+      "seed": 3997441964119955603,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-035252",
+        "total_entered": 352950,
+        "expected_po": "PO-035252",
+        "expected_total": 352950,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Harbor & Sons",
+          "type PO PO-035252",
+          "trim older context",
+          "enter total 352950 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13194
+    },
+    {
+      "branch_id": "no-cookie_banner",
+      "seed": 8236737172084835282,
+      "passed": false,
+      "detail": "total mismatch: entered 353169, expected 880713",
+      "artifact": {
+        "po_entered": "PO-205181",
+        "total_entered": 353169,
+        "expected_po": "PO-205181",
+        "expected_total": 880713,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Harbor & Sons",
+          "type PO PO-205181",
+          "trim older context",
+          "enter total 353169 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13102
+    },
+    {
+      "branch_id": "no-cookie_banner",
+      "seed": 6943335012126237181,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-555928",
+        "total_entered": 167626,
+        "expected_po": "PO-555928",
+        "expected_total": 167626,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Harbor & Sons",
+          "type PO PO-555928",
+          "trim older context",
+          "enter total 167626 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13806
+    },
+    {
+      "branch_id": "no-cookie_banner",
+      "seed": 8963411025191112080,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-095305",
+        "total_entered": 324176,
+        "expected_po": "PO-095305",
+        "expected_total": 324176,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Acme Supply Co",
+          "type PO PO-095305",
+          "trim older context",
+          "enter total 324176 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13111
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 12679322286165720572,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-156290",
+        "total_entered": 259020,
+        "expected_po": "PO-156290",
+        "expected_total": 259020,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Northwind Traders",
+          "dismiss consent banner",
+          "type PO PO-156290",
+          "trim older context",
+          "enter total 259020 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 14676
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 13767490310108754756,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-201924",
+        "total_entered": 221615,
+        "expected_po": "PO-201924",
+        "expected_total": 221615,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Northwind Traders",
+          "dismiss consent banner",
+          "type PO PO-201924",
+          "trim older context",
+          "enter total 221615 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13142
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 10681302749576880832,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-089560",
+        "total_entered": 490474,
+        "expected_po": "PO-089560",
+        "expected_total": 490474,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Harbor & Sons",
+          "dismiss consent banner",
+          "type PO PO-089560",
+          "trim older context",
+          "enter total 490474 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 17287
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 723829938419165834,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-935915",
+        "total_entered": 942065,
+        "expected_po": "PO-935915",
+        "expected_total": 942065,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Bellwether Freight",
+          "dismiss consent banner",
+          "type PO PO-935915",
+          "trim older context",
+          "enter total 942065 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13399
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 8470804242567634498,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-339019",
+        "total_entered": 477763,
+        "expected_po": "PO-339019",
+        "expected_total": 477763,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Acme Supply Co",
+          "dismiss consent banner",
+          "type PO PO-339019",
+          "trim older context",
+          "enter total 477763 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13280
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 15180269645207784981,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-898454",
+        "total_entered": 734236,
+        "expected_po": "PO-898454",
+        "expected_total": 734236,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Northwind Traders",
+          "dismiss consent banner",
+          "type PO PO-898454",
+          "trim older context",
+          "enter total 734236 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13337
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 2285475241732053662,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-398477",
+        "total_entered": 640852,
+        "expected_po": "PO-398477",
+        "expected_total": 640852,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Bellwether Freight",
+          "dismiss consent banner",
+          "type PO PO-398477",
+          "trim older context",
+          "enter total 640852 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13405
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 17749707889986773644,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-568904",
+        "total_entered": 524209,
+        "expected_po": "PO-568904",
+        "expected_total": 524209,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Bellwether Freight",
+          "dismiss consent banner",
+          "type PO PO-568904",
+          "trim older context",
+          "enter total 524209 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13191
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 17590386665676434936,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-123652",
+        "total_entered": 808783,
+        "expected_po": "PO-123652",
+        "expected_total": 808783,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Harbor & Sons",
+          "dismiss consent banner",
+          "type PO PO-123652",
+          "trim older context",
+          "enter total 808783 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13472
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 3602218160928857905,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-555125",
+        "total_entered": 871999,
+        "expected_po": "PO-555125",
+        "expected_total": 871999,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Acme Supply Co",
+          "dismiss consent banner",
+          "type PO PO-555125",
+          "trim older context",
+          "enter total 871999 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13572
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 3906692232286787373,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-679276",
+        "total_entered": 495022,
+        "expected_po": "PO-679276",
+        "expected_total": 495022,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Cascade Instruments",
+          "dismiss consent banner",
+          "type PO PO-679276",
+          "trim older context",
+          "enter total 495022 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 15555
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 17904662781215880670,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-995971",
+        "total_entered": 1102196,
+        "expected_po": "PO-995971",
+        "expected_total": 1102196,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Harbor & Sons",
+          "dismiss consent banner",
+          "type PO PO-995971",
+          "trim older context",
+          "enter total 1102196 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13383
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 1023986487523740542,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-549287",
+        "total_entered": 882189,
+        "expected_po": "PO-549287",
+        "expected_total": 882189,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Northwind Traders",
+          "dismiss consent banner",
+          "type PO PO-549287",
+          "trim older context",
+          "enter total 882189 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13223
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 632459998322551089,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-800917",
+        "total_entered": 506993,
+        "expected_po": "PO-800917",
+        "expected_total": 506993,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Acme Supply Co",
+          "dismiss consent banner",
+          "type PO PO-800917",
+          "trim older context",
+          "enter total 506993 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 14402
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 14325849911109870760,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-436818",
+        "total_entered": 289166,
+        "expected_po": "PO-436818",
+        "expected_total": 289166,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Cascade Instruments",
+          "dismiss consent banner",
+          "type PO PO-436818",
+          "trim older context",
+          "enter total 289166 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13243
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 8964485986841250895,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-309342",
+        "total_entered": 676051,
+        "expected_po": "PO-309342",
+        "expected_total": 676051,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Acme Supply Co",
+          "dismiss consent banner",
+          "type PO PO-309342",
+          "trim older context",
+          "enter total 676051 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 14015
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 15701430852028136301,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-471894",
+        "total_entered": 362291,
+        "expected_po": "PO-471894",
+        "expected_total": 362291,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Harbor & Sons",
+          "dismiss consent banner",
+          "type PO PO-471894",
+          "trim older context",
+          "enter total 362291 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13581
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 17130718049439805861,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-014896",
+        "total_entered": 314362,
+        "expected_po": "PO-014896",
+        "expected_total": 314362,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Acme Supply Co",
+          "dismiss consent banner",
+          "type PO PO-014896",
+          "trim older context",
+          "enter total 314362 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13675
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 7559205591948128605,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-732576",
+        "total_entered": 65696,
+        "expected_po": "PO-732576",
+        "expected_total": 65696,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Northwind Traders",
+          "dismiss consent banner",
+          "type PO PO-732576",
+          "trim older context",
+          "enter total 65696 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 14944
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 11733539140263096191,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-442256",
+        "total_entered": 833621,
+        "expected_po": "PO-442256",
+        "expected_total": 833621,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Acme Supply Co",
+          "dismiss consent banner",
+          "type PO PO-442256",
+          "trim older context",
+          "enter total 833621 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13364
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 13751423749837653207,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-492593",
+        "total_entered": 105186,
+        "expected_po": "PO-492593",
+        "expected_total": 105186,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Harbor & Sons",
+          "dismiss consent banner",
+          "type PO PO-492593",
+          "trim older context",
+          "enter total 105186 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13368
+    },
+    {
+      "branch_id": "no-two_column_layout",
+      "seed": 11459090618902015992,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-320041",
+        "total_entered": 726755,
+        "expected_po": "PO-320041",
+        "expected_total": 726755,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Northwind Traders",
+          "dismiss consent banner",
+          "type PO PO-320041",
+          "trim older context",
+          "enter total 726755 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 16277
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 14819297735485762700,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-414943",
+        "total_entered": 401027,
+        "expected_po": "PO-414943",
+        "expected_total": 401027,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Cascade Instruments",
+          "dismiss consent banner",
+          "type PO PO-414943",
+          "trim older context",
+          "enter total 401027 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13254
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 16764816988090179460,
+      "passed": false,
+      "detail": "total mismatch: entered 255687, expected 476829",
+      "artifact": {
+        "po_entered": "PO-569684",
+        "total_entered": 255687,
+        "expected_po": "PO-569684",
+        "expected_total": 476829,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Northwind Traders",
+          "dismiss consent banner",
+          "type PO PO-569684",
+          "trim older context",
+          "enter total 255687 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 14487
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 7822596939935313357,
+      "passed": false,
+      "detail": "total mismatch: entered 414655, expected 844828",
+      "artifact": {
+        "po_entered": "PO-758968",
+        "total_entered": 414655,
+        "expected_po": "PO-758968",
+        "expected_total": 844828,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Bellwether Freight",
+          "dismiss consent banner",
+          "type PO PO-758968",
+          "trim older context",
+          "enter total 414655 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13672
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 8693122880130075321,
+      "passed": false,
+      "detail": "total mismatch: entered 516004, expected 880699",
+      "artifact": {
+        "po_entered": "PO-488715",
+        "total_entered": 516004,
+        "expected_po": "PO-488715",
+        "expected_total": 880699,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Northwind Traders",
+          "dismiss consent banner",
+          "type PO PO-488715",
+          "trim older context",
+          "enter total 516004 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13572
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 4544180474376684039,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-153510",
+        "total_entered": 288745,
+        "expected_po": "PO-153510",
+        "expected_total": 288745,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Harbor & Sons",
+          "dismiss consent banner",
+          "type PO PO-153510",
+          "trim older context",
+          "enter total 288745 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 16798
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 10194076035261188608,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-433259",
+        "total_entered": 225774,
+        "expected_po": "PO-433259",
+        "expected_total": 225774,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Harbor & Sons",
+          "dismiss consent banner",
+          "type PO PO-433259",
+          "trim older context",
+          "enter total 225774 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 14916
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 17092533532229522864,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-248036",
+        "total_entered": 427196,
+        "expected_po": "PO-248036",
+        "expected_total": 427196,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Harbor & Sons",
+          "dismiss consent banner",
+          "type PO PO-248036",
+          "trim older context",
+          "enter total 427196 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13557
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 11049936509556102181,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-284370",
+        "total_entered": 143010,
+        "expected_po": "PO-284370",
+        "expected_total": 143010,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Bellwether Freight",
+          "dismiss consent banner",
+          "type PO PO-284370",
+          "trim older context",
+          "enter total 143010 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13456
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 14627314148836295384,
+      "passed": false,
+      "detail": "total mismatch: entered 434817, expected 962826",
+      "artifact": {
+        "po_entered": "PO-961447",
+        "total_entered": 434817,
+        "expected_po": "PO-961447",
+        "expected_total": 962826,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Harbor & Sons",
+          "dismiss consent banner",
+          "type PO PO-961447",
+          "trim older context",
+          "enter total 434817 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13260
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 1988329669274141272,
+      "passed": false,
+      "detail": "total mismatch: entered 393017, expected 768697",
+      "artifact": {
+        "po_entered": "PO-006919",
+        "total_entered": 393017,
+        "expected_po": "PO-006919",
+        "expected_total": 768697,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Bellwether Freight",
+          "dismiss consent banner",
+          "type PO PO-006919",
+          "trim older context",
+          "enter total 393017 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 14743
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 9170306887525129146,
+      "passed": false,
+      "detail": "total mismatch: entered 453260, expected 813431",
+      "artifact": {
+        "po_entered": "PO-960673",
+        "total_entered": 453260,
+        "expected_po": "PO-960673",
+        "expected_total": 813431,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Bellwether Freight",
+          "dismiss consent banner",
+          "type PO PO-960673",
+          "trim older context",
+          "enter total 453260 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13054
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 5718533976181301162,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-621376",
+        "total_entered": 284311,
+        "expected_po": "PO-621376",
+        "expected_total": 284311,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Bellwether Freight",
+          "dismiss consent banner",
+          "type PO PO-621376",
+          "trim older context",
+          "enter total 284311 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13380
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 14840945568135261704,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-997356",
+        "total_entered": 348674,
+        "expected_po": "PO-997356",
+        "expected_total": 348674,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Harbor & Sons",
+          "dismiss consent banner",
+          "type PO PO-997356",
+          "trim older context",
+          "enter total 348674 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13235
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 9316523530274145731,
+      "passed": true,
+      "detail": "po and total both correct",
+      "artifact": {
+        "po_entered": "PO-171242",
+        "total_entered": 273473,
+        "expected_po": "PO-171242",
+        "expected_total": 273473,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Acme Supply Co",
+          "dismiss consent banner",
+          "type PO PO-171242",
+          "trim older context",
+          "enter total 273473 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13415
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 7965550929918678618,
+      "passed": false,
+      "detail": "total mismatch: entered 417864, expected 794399",
+      "artifact": {
+        "po_entered": "PO-209488",
+        "total_entered": 417864,
+        "expected_po": "PO-209488",
+        "expected_total": 794399,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Cascade Instruments",
+          "dismiss consent banner",
+          "type PO PO-209488",
+          "trim older context",
+          "enter total 417864 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 13249
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 11666167701242582780,
+      "passed": false,
+      "detail": "total mismatch: entered 377394, expected 710478",
+      "artifact": {
+        "po_entered": "PO-267497",
+        "total_entered": 377394,
+        "expected_po": "PO-267497",
+        "expected_total": 710478,
+        "timed_out": false,
+        "steps": [
+          "open invoice from Harbor & Sons",
+          "dismiss consent banner",
+          "type PO PO-267497",
+          "trim older context",
+          "enter total 377394 cents",
+          "submit form"
+        ]
+      },
+      "duration_ms": 14459
+    }
+  ]
+}

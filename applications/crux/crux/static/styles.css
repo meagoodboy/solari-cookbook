@@ -1,0 +1,308 @@
+/* Crux dashboard styles. Dark by default, light when the OS asks. */
+
+:root {
+  color-scheme: dark light;
+  --bg: #14161c;
+  --panel: #1c1f27;
+  --text: #e6e8ee;
+  --muted: #9aa1b0;
+  --border: #2b2f3a;
+  --accent: #5fb0ff;
+  --good: #3ecf8e;
+  --bad: #ff7a6e;
+  --bar: #3a6ea5;
+  --bar-cause: #3ecf8e;
+  --ci: rgba(230, 232, 238, 0.85);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f6f7f9;
+    --panel: #ffffff;
+    --text: #1c2130;
+    --muted: #5c6474;
+    --border: #d8dce4;
+    --accent: #1f6fd6;
+    --good: #148a5e;
+    --bad: #c6453a;
+    --bar: #4a86c8;
+    --bar-cause: #148a5e;
+    --ci: rgba(28, 33, 48, 0.75);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+  max-width: 60rem;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+header h1 {
+  margin: 0 0 0.15rem;
+  font-size: 1.6rem;
+  letter-spacing: 0.02em;
+}
+
+h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+}
+
+code {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.05rem 0.3rem;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.hidden {
+  display: none;
+}
+
+.panel,
+.banner {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  margin: 0 0 1rem;
+}
+
+.banner-title {
+  margin-bottom: 0.3rem;
+}
+
+.banner.decided {
+  border-left: 5px solid var(--good);
+}
+
+.banner.undecided {
+  border-left: 5px solid var(--bad);
+}
+
+.banner.pending {
+  border-left: 5px solid var(--muted);
+}
+
+.confirm-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.6rem;
+}
+
+.confirm-cell {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem 0.8rem;
+  min-width: 9rem;
+}
+
+.confirm-label {
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.confirm-value {
+  font-size: 1.2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Branch rows */
+
+.branch-row {
+  padding: 0.55rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.branch-row:first-child {
+  border-top: none;
+}
+
+.branch-row.greyed {
+  opacity: 0.45;
+}
+
+.branch-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.branch-id {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.92rem;
+}
+
+.branch-status {
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.branch-row.cause .branch-status {
+  color: var(--good);
+}
+
+.branch-row.baseline .branch-status {
+  color: var(--accent);
+}
+
+.track {
+  position: relative;
+  height: 14px;
+  margin: 0.35rem 0 0.25rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+.bar {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--bar);
+  border-radius: 7px 0 0 7px;
+}
+
+.branch-row.cause .bar {
+  background: var(--bar-cause);
+}
+
+/* Wilson interval whisker: a thin line with end caps, drawn over the bar. */
+.ci {
+  position: absolute;
+  top: 50%;
+  height: 0;
+  border-top: 2px solid var(--ci);
+  transform: translateY(-1px);
+}
+
+.ci::before,
+.ci::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  width: 2px;
+  height: 8px;
+  background: var(--ci);
+}
+
+.ci::before {
+  left: 0;
+}
+
+.ci::after {
+  right: 0;
+}
+
+.baseline-marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--accent);
+  opacity: 0.8;
+}
+
+.branch-meta {
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Timeline */
+
+#timeline {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.round {
+  margin-bottom: 0.7rem;
+}
+
+.round-head {
+  display: flex;
+  gap: 0.7rem;
+  align-items: baseline;
+}
+
+.round-num {
+  font-weight: 600;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.2rem;
+}
+
+.chip {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.05rem 0.55rem;
+  font-size: 0.78rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* Trials table */
+
+.table-wrap {
+  overflow-x: auto;
+  margin-top: 0.5rem;
+}
+
+#trials-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.85rem;
+}
+
+#trials-table th,
+#trials-table td {
+  text-align: left;
+  padding: 0.25rem 0.6rem 0.25rem 0;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+#trials-table td:nth-child(5) {
+  white-space: normal;
+  min-width: 14rem;
+}
+
+tr.pass td:nth-child(4) {
+  color: var(--good);
+}
+
+tr.fail td:nth-child(4) {
+  color: var(--bad);
+}
+
+summary {
+  cursor: pointer;
+  color: var(--accent);
+}
+
+footer {
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+}

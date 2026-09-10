@@ -1,0 +1,18 @@
+{
+  "conviction": "no-hash_randomization",
+  "gaps": {
+    "no-bytecode_cache": 0.0,
+    "no-hash_randomization": 0.4,
+    "no-locale": 0.20000000000000007,
+    "no-malloc_allocator": 0.0,
+    "no-timezone": 0.0
+  },
+  "rates": {
+    "baseline": 0.6,
+    "no-bytecode_cache": 0.6,
+    "no-hash_randomization": 1.0,
+    "no-locale": 0.8,
+    "no-malloc_allocator": 0.6,
+    "no-timezone": 0.6
+  }
+}

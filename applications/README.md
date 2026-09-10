@@ -39,4 +39,5 @@ variable it reads and nothing else.
 
 | Application | Language | What it does |
 | --- | --- | --- |
+| [crux](crux) | Python | Find the minimal change that flips a flaky test or stochastic agent, with statistics you can replay |
 | [worldline](worldline) | Python | Snapshot-branch competing plans, verify their artifacts, and replay only the winner |

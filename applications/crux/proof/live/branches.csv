@@ -1,0 +1,4 @@
+branch_id,neutralized,trials,successes,rate,wilson_low,wilson_high,p_value,status
+baseline,,28,14,0.500000,0.326328,0.673672,,baseline
+no-cookie_banner,cookie_banner,12,7,0.583333,0.319507,0.806743,0.5,live
+no-two_column_layout,two_column_layout,28,28,1.000000,0.879353,1.000000,0.006864988558352402,cause

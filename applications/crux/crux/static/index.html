@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Crux dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Crux</h1>
+    <p id="subtitle" class="muted">Loading investigation...</p>
+  </header>
+
+  <main>
+    <section id="verdict" class="banner pending">
+      <p>Fetching /data/investigation.json</p>
+    </section>
+
+    <section id="confirmation" class="panel hidden">
+      <h2>Confirmation</h2>
+      <div id="confirmation-body"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Branches</h2>
+      <p class="muted">
+        Bars show the success rate per branch with a Wilson 95% interval.
+        The baseline stays pinned at the top. Greyed rows were dropped for
+        futility or failed their one confirmation attempt.
+      </p>
+      <div id="branches"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Round timeline</h2>
+      <ol id="timeline"></ol>
+    </section>
+
+    <section class="panel">
+      <h2>Trials</h2>
+      <details id="trials-box">
+        <summary id="trials-summary">Show trials</summary>
+        <div class="table-wrap">
+          <table id="trials-table">
+            <thead>
+              <tr>
+                <th>#</th><th>branch</th><th>seed</th><th>result</th>
+                <th>detail</th><th>ms</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <footer class="muted">
+    Replay this run with <code>crux verify &lt;bundle-dir&gt;</code>.
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
