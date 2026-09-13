@@ -3,6 +3,9 @@
 Crux finds the minimal change that flips a stochastic agent's outcome, and backs
 the answer with statistics you can replay. For the plain-words version of
 everything tested here and what came of it, read [FINDINGS.md](FINDINGS.md).
+For how this differs from the flaky-test managers, bisectors, replay
+debuggers, and agent-observability products, read
+[COMPARISON.md](COMPARISON.md).
 
 ## The problem it is built around
 
