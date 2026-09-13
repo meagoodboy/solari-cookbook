@@ -93,7 +93,7 @@ LangSmith, Braintrust, W&B Weave, and OpenAI's eval tooling trace agent
 runs, score them with evaluators, and increasingly point LLMs at the traces
 to draft diagnoses (LangSmith's Engine "diagnoses the root cause against
 your traces and code"). Reading traces is not running experiments: none of
-these products freeze the world, vary one factor, reréun, and count. Crux
+these products freeze the world, vary one factor, rerun, and count. Crux
 did exactly that to a real sampled model on a real cloud browser and proved
 the failure was context truncation rather than temperature, layout, prompt,
 or distractors, at p = 0.0000226, with the varying suspect released. What
