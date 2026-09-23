@@ -10,8 +10,9 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
 dependencies = [
-  # <1: the PyPI crux is an unrelated client at 0.0.x and 1.x; pip must stop, not install it.
-  "crux>=0.2,<1",
+  # The distribution is crux-flaky; the bare name on PyPI is an unrelated client.
+  # The import and the command it installs are both still crux.
+  "crux-flaky>=0.2",
   "solari-sandbox>=0.2.0",
   "httpx>=0.24",
 ]

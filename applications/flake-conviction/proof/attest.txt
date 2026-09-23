@@ -1,0 +1,14 @@
+plan     1 base sandbox, 1 snapshot, 5 clones one at a time; normal Solari charges apply
+run fc-302b7f99f5af   (if this process dies: python -m flake_conviction reap fc-302b7f99f5af)
+before   sandboxes 0 (this run 0)   snapshots 6 (this run 0)
+base     sbx-ce903abe96cf   world /root/flake-fixture: 2 files, 2452 bytes, sha256 7fea0a7fe19c
+snapshot snap-dd1d205372c7  28.1 s, base killed
+clone  id                restored  digest        create s  read ms
+1      sbx-3da966a2e9b9  yes       7fea0a7fe19c  14.4      2508
+2      sbx-286a981155c2  yes       7fea0a7fe19c  14.7      2526
+3      sbx-243c97352621  yes       7fea0a7fe19c  15.4      2469
+4      sbx-db38fb6f624a  yes       7fea0a7fe19c  15.3      2572
+5      sbx-d779d172445d  yes       7fea0a7fe19c  14.9      2715
+5 of 5 clones restored the world byte for byte; each was overwritten after its read, so every later clone restored from the snapshot and not from its predecessor
+sweep    killed 0 with this tag (0 beyond the ledger), deleted 0 snapshots, 0 filter leaks, 0 kill or delete calls failed
+after    sandboxes 0 (this run 0)   snapshots 6 (this run 0)

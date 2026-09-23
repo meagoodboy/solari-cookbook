@@ -29,12 +29,24 @@ def gate(args, plan: str) -> bool:
 
 
 def wrong_crux() -> str:
-    """Names the distribution that answered, since the PyPI crux is somebody else's."""
+    """Says which distribution answered, since the bare name on PyPI is somebody else's.
+
+    The package this needs is crux-flaky and it imports as crux. A reader who
+    types `pip install crux` gets an unrelated API client whose releases reach
+    1.4, and the import then fails somewhere deep. Naming the version that
+    answered turns that into one readable line.
+    """
     try:
-        found = f"the crux {metadata.version('crux')} on this interpreter is not it"
+        metadata.version("crux-flaky")
+    except metadata.PackageNotFoundError:
+        pass
+    else:
+        return "crux-flaky is installed but crux did not import; the install looks broken"
+    try:
+        found = f"the crux {metadata.version('crux')} on this interpreter is a different project"
     except metadata.PackageNotFoundError:
         found = "crux is not installed"
-    return f"{found}; this needs github.com/meagoodboy/crux, installed from its repository"
+    return f"{found}; this needs crux-flaky (pip install crux-flaky), which imports as crux"
 
 
 def with_client(key: str, verb, redactor: Redactor) -> int:

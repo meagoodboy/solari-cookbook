@@ -22,18 +22,18 @@ this directory holds only the fixture, the attestation, the probe and the sweep.
 cd applications/flake-conviction
 python -m venv .venv
 source .venv/bin/activate
-python -m pip install git+https://github.com/meagoodboy/crux
 python -m pip install .
 ```
 
 Needs Python 3.11 or newer for the venv line. On Windows PowerShell, replace
 the activation command with `.venv\Scripts\Activate.ps1`; the rest is the same.
 
-crux is declared as an ordinary dependency, `crux>=0.2,<1`, but its repository
-is private at the time of writing, so the crux line above needs access to it.
-The `crux` on PyPI is an unrelated client whose releases the pin excludes, so
-`pip install .` alone stops at that requirement rather than installing the
-wrong package, and `convict` names the crux it found if the wrong one is there.
+The one dependency that is not a Solari SDK is `crux-flaky`, which imports and
+runs as `crux`. The bare name on PyPI belongs to an unrelated API client, which
+is why the distribution carries the longer one. If `crux-flaky` is not on the
+index yet when you read this, install it from its repository first with
+`python -m pip install git+https://github.com/meagoodboy/crux`, and `convict`
+will name whatever it found if the wrong package answers.
 
 ## Run
 
@@ -59,8 +59,10 @@ changes the digest, so the next clone has to restore from the snapshot and not
 from its predecessor. It prints a per-clone table,
 sweeps by run tag (a kill the sweep could not finish is counted, not printed),
 and prints the account census before and after. Cost: 1 base, 1 snapshot, N
-clones; on the account crux measured (PLATFORM.md, 2026-09-19) a snapshot takes
-about 28 s and a clone about 23 s.
+clones. On this application's own proof run (2026-09-23, `proof/attest.txt`,
+5 clones) the snapshot took 28.1 s, `create()` returned in 14.4 to 15.4 s per
+clone (median 14.9 s), reading the two files back took 2.5 to 2.7 s per clone,
+and the whole command ran 131 s from its first line to its last.
 
 **convict** runs one crux investigation of the planted fixture: four suspects
 (hash randomization, test order, timezone, locale), six trials per branch, ten
@@ -70,7 +72,13 @@ the sandbox as an env value, and both are recorded verbatim in the bundle's
 `world.json`. The bundle lands in `runs/` and replays two ways: `crux verify
 <bundle> --recorded` re-derives the verdict from the recorded trials with no
 key, and `crux verify <bundle> --yes` rebuilds the same world and reruns it.
-Cost: 1 base plus up to 50 clones; crux's own 50-clone run took 1,410 s.
+Cost: 1 base plus up to 50 clones. On this application's own proof run
+(2026-09-23, `proof/convict.txt`) the full investigation ran 1273 s from its
+first line to its last: 50 trials in 50 clones at a per-trial p50 of 19.2 s
+(create 15.6 s, connect 0.5 s, run 0.3 s, kill 0.3 s), 0 refusals, 0 retries,
+and a client-side slot-holding bound of 1254 s. The snapshot call on that run
+did not return within crux's 290 s bound; crux found the finished snapshot by
+name, adopted it, and all 50 clones attested against it.
 
 **probe-429** needs no key: the SDK is handed an `httpx.MockTransport` that
 answers every request with the gateway's concurrency refusal body, and the
@@ -96,10 +104,15 @@ run the real SDK over the mock transport, about five seconds of its backoff.
 
 ## Proof
 
-The live transcripts are pending. `proof/probe-429.txt` needs no key and is
-real; `proof/README.md` holds the commands that produce the others, which the
-owner runs with a key before this is merged, and names the versions behind each
-file. Until then every cost line above cites crux's own receipt, not this one.
+The transcripts in `proof/` are from this application's own live run on
+2026-09-23 against solari-sandbox 0.2.1 and crux 0.2.0: `attest.txt` (5
+clones), `convict.txt` (the 50-trial investigation followed by its `crux
+verify --recorded` transcript), `convict-report.md` (the bundle's report) and
+`probe-429.txt` (no key). `proof/README.md` names the versions, the commands,
+what each file records and the account census on either side of the run.
+Every cost and timing above that names one of those files was measured on
+that run. The one number still cited from crux is the live 429 measurement
+behind probe-429's mock, which this run did not repeat.
 
 ## Limits
 

@@ -1,4 +1,4 @@
 sdk      solari-sandbox 0.2.1, solari-core 0.2.1
-create   retryable 429: 6 HTTP attempts, 4.95 s, raised ConcurrencyLimitError
+create   retryable 429: 6 HTTP attempts, 5.38 s, raised ConcurrencyLimitError
 promote  same body, no Idempotency-Key: 1 HTTP attempt(s), raised ConcurrencyLimitError
 reproduced: the SDK documents a 429 as never retried and retried this one 5 times

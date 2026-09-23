@@ -1,0 +1,17 @@
+plan     1 base sandbox plus up to 50 trial clones (5 branches x 6, then 2 x 10 to confirm); normal Solari charges apply
+[crux] base sandbox sbx_cf7e128c12b4 is up
+[crux] setup stage build starting
+[crux] recorded: usd=10.00 jpy=40.00 eur=20.00 gbp=30.00
+[crux] decoy inert: LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+[crux] snapshot call failed (TimeoutError); looking it up by name
+[crux] snapshot taken; base retired
+verdict  Neutralizing per-process string hash randomization flipped the outcome. The baseline passed 0 of 16 trials, a rate of 0%, while this branch passed 16 of 16, a rate of 100%; those totals include the confirmation trials, and the search phase alone tends to flatter the winner. The fresh confirmation batch is the unbiased read: 10 of 10 passed on this branch against 0 of 10 at baseline, with p = 5.413e-06 against an alpha of 0.05.
+bundle   runs/flake-conviction-seed11   (crux verify runs/flake-conviction-seed11 --recorded)
+clones   50 trials in 50 clones, 50 attested at content level, 1 distinct world digest 1b4bd702796a, 0 refusals
+cleanup  created 50, killed 51, reaped 0, snapshot deleted, filter leaks 0, clean
+before   sandboxes 0 (this run 0)   snapshots 6   after    sandboxes 0 (this run 0)   snapshots 6
+Re-derived with the sequential procedure from the 50 recorded trials; nothing was rerun.
+Recorded cause:    hash_randomization
+Re-derived cause:  hash_randomization
+Same verdict, branches and round log, from the same 50 trials in the same order.
+Verify passed. The recorded trials re-derive the recorded verdict.
