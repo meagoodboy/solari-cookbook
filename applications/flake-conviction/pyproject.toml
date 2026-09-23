@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flake-conviction"
+version = "0.1.0"
+description = "Convict the cause of a flaky test by rerunning it in attested snapshot clones on Solari"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+  # <1: the PyPI crux is an unrelated client at 0.0.x and 1.x; pip must stop, not install it.
+  "crux>=0.2,<1",
+  "solari-sandbox>=0.2.0",
+  "httpx>=0.24",
+]
+
+[tool.setuptools]
+packages = ["flake_conviction"]
+
+[tool.setuptools.package-data]
+flake_conviction = ["fixture/*"]
