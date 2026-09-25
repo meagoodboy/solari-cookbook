@@ -1,0 +1,6 @@
+branch_id,neutralized,trials,successes,rate,wilson_low,wilson_high,p_value,status
+baseline,,16,0,0.000000,0.000000,0.193613,,baseline
+no-hash_randomization,hash_randomization,16,16,1.000000,0.806387,1.000000,0.0010822510822510823,cause
+no-locale,locale,6,2,0.333333,0.096769,0.700012,0.22727272727272727,live
+no-test_order,test_order,6,1,0.166667,0.030053,0.563509,0.5,live
+no-timezone,timezone,6,0,0.000000,0.000000,0.390343,1.0,live

@@ -1,0 +1,2935 @@
+{
+  "investigation_id": "flake-conviction-seed11",
+  "scenario": "flake-conviction",
+  "factors": [
+    {
+      "id": "hash_randomization",
+      "description": "per-process string hash randomization"
+    },
+    {
+      "id": "test_order",
+      "description": "randomized test execution order"
+    },
+    {
+      "id": "timezone",
+      "description": "host timezone applied through TZ"
+    },
+    {
+      "id": "locale",
+      "description": "UTF-8 host locale"
+    }
+  ],
+  "config": {
+    "alpha": 0.05,
+    "max_trials": 50,
+    "max_rounds": 1,
+    "round_trials_per_branch": 6,
+    "confirm_trials": 10,
+    "futility_min_trials": 16,
+    "pairwise_top_k": 3,
+    "seed": 11
+  },
+  "branches": {
+    "baseline": {
+      "branch_id": "baseline",
+      "neutralized": [],
+      "trials": 16,
+      "successes": 0,
+      "p_value": null,
+      "dropped_for_futility": false,
+      "confirmation_failed": false,
+      "rate": 0.0
+    },
+    "no-hash_randomization": {
+      "branch_id": "no-hash_randomization",
+      "neutralized": [
+        "hash_randomization"
+      ],
+      "trials": 16,
+      "successes": 16,
+      "p_value": 0.0010822510822510823,
+      "dropped_for_futility": false,
+      "confirmation_failed": false,
+      "rate": 1.0
+    },
+    "no-test_order": {
+      "branch_id": "no-test_order",
+      "neutralized": [
+        "test_order"
+      ],
+      "trials": 6,
+      "successes": 1,
+      "p_value": 0.5,
+      "dropped_for_futility": false,
+      "confirmation_failed": false,
+      "rate": 0.16666666666666666
+    },
+    "no-timezone": {
+      "branch_id": "no-timezone",
+      "neutralized": [
+        "timezone"
+      ],
+      "trials": 6,
+      "successes": 0,
+      "p_value": 1.0,
+      "dropped_for_futility": false,
+      "confirmation_failed": false,
+      "rate": 0.0
+    },
+    "no-locale": {
+      "branch_id": "no-locale",
+      "neutralized": [
+        "locale"
+      ],
+      "trials": 6,
+      "successes": 2,
+      "p_value": 0.22727272727272727,
+      "dropped_for_futility": false,
+      "confirmation_failed": false,
+      "rate": 0.3333333333333333
+    }
+  },
+  "round_log": [
+    {
+      "round": 1,
+      "alpha_spent": 0.05,
+      "allocations": {
+        "baseline": 6,
+        "no-hash_randomization": 6,
+        "no-locale": 6,
+        "no-test_order": 6,
+        "no-timezone": 6
+      },
+      "p_values": {
+        "no-hash_randomization": 0.0010822510822510823,
+        "no-test_order": 0.5,
+        "no-timezone": 1.0,
+        "no-locale": 0.22727272727272727
+      },
+      "confirmations": [
+        {
+          "branch": "no-hash_randomization",
+          "trials_per_arm": 10,
+          "branch_successes": 10,
+          "baseline_successes": 0,
+          "p": 5.412544112234515e-06,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "verdict": {
+    "cause": [
+      "hash_randomization"
+    ],
+    "confirmation_p": 5.412544112234515e-06,
+    "baseline_rate": 0.0,
+    "cause_rate": 1.0,
+    "alpha": 0.05,
+    "trials_total": 50,
+    "rounds": 1,
+    "summary": "Neutralizing per-process string hash randomization flipped the outcome. The baseline passed 0 of 16 trials, a rate of 0%, while this branch passed 16 of 16, a rate of 100%; those totals include the confirmation trials, and the search phase alone tends to flatter the winner. The fresh confirmation batch is the unbiased read: 10 of 10 passed on this branch against 0 of 10 at baseline, with p = 5.413e-06 against an alpha of 0.05."
+  },
+  "trials": [
+    {
+      "branch_id": "baseline",
+      "seed": 6610364630300065165,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 6610364630300065165,
+        "env_overrides": {
+          "PYTHONHASHSEED": "2832694669",
+          "FIXTURE_TEST_ORDER": "2832694669",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_every_currency_named\nFAIL check_recorded_summary: 'gbp=30.00 usd=10.00 eur=20.00 jpy=40.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_709c094ca8ee",
+          "clone_seq": 1,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 286321,
+          "ms": {
+            "create": 16474,
+            "create_wait": 0,
+            "connect": 364,
+            "attest": 0,
+            "run": 296,
+            "kill": 269,
+            "total": 19916
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 19916
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 9024684890892544015,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 9024684890892544015,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3950782479",
+          "FIXTURE_TEST_ORDER": "3950782479",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_usd_total_order_independent\nok   check_every_currency_named\nFAIL check_recorded_summary: 'usd=10.00 jpy=40.00 gbp=30.00 eur=20.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_8a5ac83e3483",
+          "clone_seq": 2,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 287124,
+          "ms": {
+            "create": 17290,
+            "create_wait": 0,
+            "connect": 446,
+            "attest": 0,
+            "run": 291,
+            "kill": 261,
+            "total": 20784
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 20784
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 7116320744461128695,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 7116320744461128695,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1633244151",
+          "FIXTURE_TEST_ORDER": "1633244151",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "FAIL check_recorded_summary: 'gbp=30.00 jpy=40.00 usd=10.00 eur=20.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_every_currency_named\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_772b95ccf736",
+          "clone_seq": 3,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 284522,
+          "ms": {
+            "create": 14668,
+            "create_wait": 4,
+            "connect": 383,
+            "attest": 0,
+            "run": 296,
+            "kill": 906,
+            "total": 18768
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 18768
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 9486892058975761105,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 9486892058975761105,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1572434641",
+          "FIXTURE_TEST_ORDER": "1572434641",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "FAIL check_recorded_summary: 'eur=20.00 gbp=30.00 usd=10.00 jpy=40.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_every_currency_named\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_a0b5582df499",
+          "clone_seq": 4,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 284309,
+          "ms": {
+            "create": 14560,
+            "create_wait": 0,
+            "connect": 387,
+            "attest": 0,
+            "run": 309,
+            "kill": 258,
+            "total": 18031
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 18031
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 12149123035434207894,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 12149123035434207894,
+        "env_overrides": {
+          "PYTHONHASHSEED": "731007638",
+          "FIXTURE_TEST_ORDER": "731007638",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_usd_total_order_independent\nok   check_every_currency_named\nFAIL check_recorded_summary: 'eur=20.00 usd=10.00 gbp=30.00 jpy=40.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_3b774c27c2f6",
+          "clone_seq": 5,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 284779,
+          "ms": {
+            "create": 14965,
+            "create_wait": 0,
+            "connect": 496,
+            "attest": 0,
+            "run": 297,
+            "kill": 260,
+            "total": 18488
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 18488
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 9468801426598096569,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 9468801426598096569,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3373756089",
+          "FIXTURE_TEST_ORDER": "3373756089",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_usd_total_order_independent\nFAIL check_recorded_summary: 'usd=10.00 eur=20.00 gbp=30.00 jpy=40.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_every_currency_named\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_acde97dfd1d2",
+          "clone_seq": 6,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 285182,
+          "ms": {
+            "create": 15323,
+            "create_wait": 0,
+            "connect": 385,
+            "attest": 0,
+            "run": 357,
+            "kill": 289,
+            "total": 18888
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 18888
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 9773802582099261188,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 9773802582099261188,
+        "env_overrides": {
+          "PYTHONHASHSEED": "0",
+          "FIXTURE_TEST_ORDER": "584218372",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_recorded_summary\nok   check_usd_total_order_independent\nok   check_every_currency_named\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_836bbc11acd7",
+          "clone_seq": 7,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 285421,
+          "ms": {
+            "create": 15602,
+            "create_wait": 0,
+            "connect": 490,
+            "attest": 0,
+            "run": 297,
+            "kill": 258,
+            "total": 19151
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 19151
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 4629449172980187592,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 4629449172980187592,
+        "env_overrides": {
+          "PYTHONHASHSEED": "0",
+          "FIXTURE_TEST_ORDER": "3040199112",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_usd_total_order_independent\nok   check_every_currency_named\nok   check_recorded_summary\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_5742928ff258",
+          "clone_seq": 8,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 284942,
+          "ms": {
+            "create": 15094,
+            "create_wait": 0,
+            "connect": 362,
+            "attest": 0,
+            "run": 289,
+            "kill": 261,
+            "total": 18570
+          },
+          "runner_ms": 17,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 18570
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 10491236675666082461,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 10491236675666082461,
+        "env_overrides": {
+          "PYTHONHASHSEED": "0",
+          "FIXTURE_TEST_ORDER": "3953162909",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_usd_total_order_independent\nok   check_every_currency_named\nok   check_recorded_summary\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_98c15480ce8e",
+          "clone_seq": 9,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 285777,
+          "ms": {
+            "create": 15979,
+            "create_wait": 0,
+            "connect": 523,
+            "attest": 0,
+            "run": 299,
+            "kill": 257,
+            "total": 19524
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 19524
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 10245085189278512828,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 10245085189278512828,
+        "env_overrides": {
+          "PYTHONHASHSEED": "0",
+          "FIXTURE_TEST_ORDER": "3901732540",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_every_currency_named\nok   check_usd_total_order_independent\nok   check_recorded_summary\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_3ff1016ad26e",
+          "clone_seq": 10,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 287499,
+          "ms": {
+            "create": 17645,
+            "create_wait": 0,
+            "connect": 425,
+            "attest": 0,
+            "run": 318,
+            "kill": 267,
+            "total": 21148
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 21148
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 2350980138716357552,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 2350980138716357552,
+        "env_overrides": {
+          "PYTHONHASHSEED": "0",
+          "FIXTURE_TEST_ORDER": "3929007024",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_every_currency_named\nok   check_recorded_summary\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_71232a960b7e",
+          "clone_seq": 11,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 285087,
+          "ms": {
+            "create": 15237,
+            "create_wait": 0,
+            "connect": 459,
+            "attest": 0,
+            "run": 337,
+            "kill": 289,
+            "total": 18838
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 18838
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 12321550944077967179,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 12321550944077967179,
+        "env_overrides": {
+          "PYTHONHASHSEED": "0",
+          "FIXTURE_TEST_ORDER": "530935627",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_recorded_summary\nok   check_every_currency_named\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_13ee79fa1cd8",
+          "clone_seq": 12,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 285320,
+          "ms": {
+            "create": 15460,
+            "create_wait": 0,
+            "connect": 396,
+            "attest": 0,
+            "run": 315,
+            "kill": 277,
+            "total": 18992
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 18992
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 6728241298556680047,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 6728241298556680047,
+        "env_overrides": {
+          "PYTHONHASHSEED": "865433455",
+          "FIXTURE_TEST_ORDER": "865433455",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "ok   check_every_currency_named\nFAIL check_recorded_summary: 'gbp=30.00 usd=10.00 eur=20.00 jpy=40.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_2d14317367a0",
+          "clone_seq": 13,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 284303,
+          "ms": {
+            "create": 14446,
+            "create_wait": 0,
+            "connect": 376,
+            "attest": 0,
+            "run": 289,
+            "kill": 259,
+            "total": 17865
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 17865
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 14120946449949016910,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 14120946449949016910,
+        "env_overrides": {
+          "PYTHONHASHSEED": "4052108110",
+          "FIXTURE_TEST_ORDER": "4052108110",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "ok   check_usd_total_order_independent\nok   check_every_currency_named\nok   check_recorded_summary\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_7a1f5c3893ed",
+          "clone_seq": 14,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 283751,
+          "ms": {
+            "create": 13918,
+            "create_wait": 0,
+            "connect": 422,
+            "attest": 0,
+            "run": 298,
+            "kill": 312,
+            "total": 17522
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 17522
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 3145524336091510652,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 3145524336091510652,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3440686972",
+          "FIXTURE_TEST_ORDER": "3440686972",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "ok   check_usd_total_order_independent\nok   check_recorded_summary\nok   check_every_currency_named\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_26a4d199e0a9",
+          "clone_seq": 15,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 284677,
+          "ms": {
+            "create": 14840,
+            "create_wait": 2,
+            "connect": 516,
+            "attest": 0,
+            "run": 314,
+            "kill": 272,
+            "total": 18486
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 18486
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 16482759249009648431,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 16482759249009648431,
+        "env_overrides": {
+          "PYTHONHASHSEED": "595665711",
+          "FIXTURE_TEST_ORDER": "595665711",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "ok   check_every_currency_named\nFAIL check_recorded_summary: 'usd=10.00 gbp=30.00 jpy=40.00 eur=20.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_8f66b5ce4ce2",
+          "clone_seq": 16,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 286383,
+          "ms": {
+            "create": 16535,
+            "create_wait": 0,
+            "connect": 437,
+            "attest": 0,
+            "run": 301,
+            "kill": 287,
+            "total": 20061
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 20061
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 16584248300718607919,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 16584248300718607919,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1597328943",
+          "FIXTURE_TEST_ORDER": "1597328943",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "ok   check_every_currency_named\nFAIL check_recorded_summary: 'jpy=40.00 usd=10.00 eur=20.00 gbp=30.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_0c6e4067c69f",
+          "clone_seq": 17,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 284478,
+          "ms": {
+            "create": 14663,
+            "create_wait": 0,
+            "connect": 449,
+            "attest": 0,
+            "run": 338,
+            "kill": 289,
+            "total": 18292
+          },
+          "runner_ms": 17,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 18292
+    },
+    {
+      "branch_id": "no-locale",
+      "seed": 6864451027510191612,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 6864451027510191612,
+        "env_overrides": {
+          "PYTHONHASHSEED": "282027516",
+          "FIXTURE_TEST_ORDER": "282027516",
+          "TZ": "Asia/Kolkata",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8"
+        },
+        "output_tail": "ok   check_usd_total_order_independent\nFAIL check_recorded_summary: 'usd=10.00 eur=20.00 gbp=30.00 jpy=40.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_every_currency_named\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_54d7674edca2",
+          "clone_seq": 18,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 286875,
+          "ms": {
+            "create": 17040,
+            "create_wait": 0,
+            "connect": 446,
+            "attest": 0,
+            "run": 321,
+            "kill": 284,
+            "total": 20626
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 20626
+    },
+    {
+      "branch_id": "no-test_order",
+      "seed": 7528412756881938273,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 7528412756881938273,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3765933921",
+          "FIXTURE_TEST_ORDER": "0",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "FAIL check_recorded_summary: 'jpy=40.00 usd=10.00 gbp=30.00 eur=20.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_every_currency_named\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_f441402a2e64",
+          "clone_seq": 19,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 286071,
+          "ms": {
+            "create": 16230,
+            "create_wait": 0,
+            "connect": 476,
+            "attest": 0,
+            "run": 343,
+            "kill": 311,
+            "total": 19960
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 19960
+    },
+    {
+      "branch_id": "no-test_order",
+      "seed": 5132198743560958489,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 5132198743560958489,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3534238233",
+          "FIXTURE_TEST_ORDER": "0",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_recorded_summary\nok   check_every_currency_named\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_0dd96a98c998",
+          "clone_seq": 20,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 284712,
+          "ms": {
+            "create": 14854,
+            "create_wait": 0,
+            "connect": 517,
+            "attest": 0,
+            "run": 313,
+            "kill": 283,
+            "total": 18388
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 18388
+    },
+    {
+      "branch_id": "no-test_order",
+      "seed": 16233548170339183850,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 16233548170339183850,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1229090026",
+          "FIXTURE_TEST_ORDER": "0",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "FAIL check_recorded_summary: 'jpy=40.00 eur=20.00 usd=10.00 gbp=30.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_every_currency_named\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_70d9055c1429",
+          "clone_seq": 21,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 285141,
+          "ms": {
+            "create": 15321,
+            "create_wait": 0,
+            "connect": 526,
+            "attest": 0,
+            "run": 357,
+            "kill": 281,
+            "total": 19005
+          },
+          "runner_ms": 17,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 19005
+    },
+    {
+      "branch_id": "no-test_order",
+      "seed": 3429446625488525693,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 3429446625488525693,
+        "env_overrides": {
+          "PYTHONHASHSEED": "812112253",
+          "FIXTURE_TEST_ORDER": "0",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "FAIL check_recorded_summary: 'jpy=40.00 eur=20.00 gbp=30.00 usd=10.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_every_currency_named\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_698dc6215ba5",
+          "clone_seq": 22,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 285167,
+          "ms": {
+            "create": 15336,
+            "create_wait": 0,
+            "connect": 424,
+            "attest": 0,
+            "run": 357,
+            "kill": 284,
+            "total": 19001
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 19001
+    },
+    {
+      "branch_id": "no-test_order",
+      "seed": 1851423893428986472,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 1851423893428986472,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3363922536",
+          "FIXTURE_TEST_ORDER": "0",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "FAIL check_recorded_summary: 'usd=10.00 gbp=30.00 eur=20.00 jpy=40.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_every_currency_named\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_afdc1db6cd72",
+          "clone_seq": 23,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 284812,
+          "ms": {
+            "create": 14995,
+            "create_wait": 0,
+            "connect": 434,
+            "attest": 0,
+            "run": 324,
+            "kill": 317,
+            "total": 18628
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 18628
+    },
+    {
+      "branch_id": "no-test_order",
+      "seed": 7573005303864382224,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 7573005303864382224,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1258050320",
+          "FIXTURE_TEST_ORDER": "0",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "FAIL check_recorded_summary: 'gbp=30.00 jpy=40.00 usd=10.00 eur=20.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_every_currency_named\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_810edf77d752",
+          "clone_seq": 24,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 286222,
+          "ms": {
+            "create": 16371,
+            "create_wait": 0,
+            "connect": 562,
+            "attest": 0,
+            "run": 331,
+            "kill": 419,
+            "total": 20210
+          },
+          "runner_ms": 17,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 20210
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 13555209866928062468,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 13555209866928062468,
+        "env_overrides": {
+          "PYTHONHASHSEED": "773718020",
+          "FIXTURE_TEST_ORDER": "773718020",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_usd_total_order_independent\nFAIL check_recorded_summary: 'gbp=30.00 usd=10.00 eur=20.00 jpy=40.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_every_currency_named\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_32392d0a39b2",
+          "clone_seq": 25,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 284797,
+          "ms": {
+            "create": 14942,
+            "create_wait": 0,
+            "connect": 437,
+            "attest": 0,
+            "run": 339,
+            "kill": 314,
+            "total": 18592
+          },
+          "runner_ms": 17,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 18592
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 10677430088327331591,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 10677430088327331591,
+        "env_overrides": {
+          "PYTHONHASHSEED": "147947271",
+          "FIXTURE_TEST_ORDER": "147947271",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_every_currency_named\nok   check_usd_total_order_independent\nFAIL check_recorded_summary: 'jpy=40.00 eur=20.00 gbp=30.00 usd=10.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_1f3fdda43a63",
+          "clone_seq": 26,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 285840,
+          "ms": {
+            "create": 15997,
+            "create_wait": 0,
+            "connect": 436,
+            "attest": 0,
+            "run": 382,
+            "kill": 299,
+            "total": 19673
+          },
+          "runner_ms": 17,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 19673
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 11013749945420376458,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 11013749945420376458,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3586288010",
+          "FIXTURE_TEST_ORDER": "3586288010",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_usd_total_order_independent\nok   check_every_currency_named\nFAIL check_recorded_summary: 'eur=20.00 jpy=40.00 usd=10.00 gbp=30.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_49484443d21d",
+          "clone_seq": 27,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 285838,
+          "ms": {
+            "create": 15983,
+            "create_wait": 0,
+            "connect": 484,
+            "attest": 0,
+            "run": 336,
+            "kill": 285,
+            "total": 19659
+          },
+          "runner_ms": 17,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 19659
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 14003131098029689543,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 14003131098029689543,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3108571847",
+          "FIXTURE_TEST_ORDER": "3108571847",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_every_currency_named\nFAIL check_recorded_summary: 'eur=20.00 gbp=30.00 jpy=40.00 usd=10.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_3ad9cbabf19e",
+          "clone_seq": 28,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 285374,
+          "ms": {
+            "create": 15552,
+            "create_wait": 0,
+            "connect": 511,
+            "attest": 0,
+            "run": 306,
+            "kill": 273,
+            "total": 19194
+          },
+          "runner_ms": 17,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 19194
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 6937155739282220626,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 6937155739282220626,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3883574866",
+          "FIXTURE_TEST_ORDER": "3883574866",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_every_currency_named\nFAIL check_recorded_summary: 'usd=10.00 jpy=40.00 gbp=30.00 eur=20.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_f3d7cc5e6a0e",
+          "clone_seq": 29,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 285443,
+          "ms": {
+            "create": 15607,
+            "create_wait": 0,
+            "connect": 482,
+            "attest": 0,
+            "run": 329,
+            "kill": 293,
+            "total": 19243
+          },
+          "runner_ms": 17,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 19243
+    },
+    {
+      "branch_id": "no-timezone",
+      "seed": 11751521423715584108,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 11751521423715584108,
+        "env_overrides": {
+          "PYTHONHASHSEED": "4277520492",
+          "FIXTURE_TEST_ORDER": "4277520492",
+          "TZ": "UTC",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "FAIL check_recorded_summary: 'gbp=30.00 eur=20.00 jpy=40.00 usd=10.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_usd_total_order_independent\nok   check_every_currency_named\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_ac41d0379dfb",
+          "clone_seq": 30,
+          "batch": 1,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 285658,
+          "ms": {
+            "create": 15824,
+            "create_wait": 0,
+            "connect": 491,
+            "attest": 0,
+            "run": 311,
+            "kill": 293,
+            "total": 19459
+          },
+          "runner_ms": 17,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 19459
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 16684150952695101109,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 16684150952695101109,
+        "env_overrides": {
+          "PYTHONHASHSEED": "0",
+          "FIXTURE_TEST_ORDER": "576911029",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_every_currency_named\nok   check_recorded_summary\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_8087c8e5c17b",
+          "clone_seq": 31,
+          "batch": 2,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 285773,
+          "ms": {
+            "create": 15925,
+            "create_wait": 0,
+            "connect": 1127,
+            "attest": 0,
+            "run": 418,
+            "kill": 313,
+            "total": 20388
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 20388
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 15768922119787568168,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 15768922119787568168,
+        "env_overrides": {
+          "PYTHONHASHSEED": "0",
+          "FIXTURE_TEST_ORDER": "3770473512",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_every_currency_named\nok   check_usd_total_order_independent\nok   check_recorded_summary\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_11be6c118a72",
+          "clone_seq": 32,
+          "batch": 2,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 286216,
+          "ms": {
+            "create": 16359,
+            "create_wait": 0,
+            "connect": 572,
+            "attest": 0,
+            "run": 331,
+            "kill": 285,
+            "total": 20074
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 20074
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 10692267796267229841,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 10692267796267229841,
+        "env_overrides": {
+          "PYTHONHASHSEED": "0",
+          "FIXTURE_TEST_ORDER": "534471313",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_recorded_summary\nok   check_every_currency_named\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_448574b66bf8",
+          "clone_seq": 33,
+          "batch": 2,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 285214,
+          "ms": {
+            "create": 15370,
+            "create_wait": 0,
+            "connect": 455,
+            "attest": 0,
+            "run": 295,
+            "kill": 292,
+            "total": 18901
+          },
+          "runner_ms": 20,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 18901
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 4556423721189554365,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 4556423721189554365,
+        "env_overrides": {
+          "PYTHONHASHSEED": "0",
+          "FIXTURE_TEST_ORDER": "3282745533",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_recorded_summary\nok   check_every_currency_named\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_ae6196b55692",
+          "clone_seq": 34,
+          "batch": 2,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 285756,
+          "ms": {
+            "create": 15907,
+            "create_wait": 0,
+            "connect": 470,
+            "attest": 0,
+            "run": 295,
+            "kill": 281,
+            "total": 19473
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 19473
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 11105049538056865730,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 11105049538056865730,
+        "env_overrides": {
+          "PYTHONHASHSEED": "0",
+          "FIXTURE_TEST_ORDER": "3237922754",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_recorded_summary\nok   check_usd_total_order_independent\nok   check_every_currency_named\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_b14e2128a782",
+          "clone_seq": 35,
+          "batch": 2,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 287185,
+          "ms": {
+            "create": 17340,
+            "create_wait": 1,
+            "connect": 450,
+            "attest": 0,
+            "run": 297,
+            "kill": 270,
+            "total": 20868
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 20868
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 4307926587944777848,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 4307926587944777848,
+        "env_overrides": {
+          "PYTHONHASHSEED": "0",
+          "FIXTURE_TEST_ORDER": "1223211128",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_every_currency_named\nok   check_recorded_summary\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_f95c44b845d0",
+          "clone_seq": 36,
+          "batch": 2,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 286087,
+          "ms": {
+            "create": 16245,
+            "create_wait": 0,
+            "connect": 512,
+            "attest": 0,
+            "run": 344,
+            "kill": 282,
+            "total": 19919
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 19919
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 8075354465472226059,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 8075354465472226059,
+        "env_overrides": {
+          "PYTHONHASHSEED": "0",
+          "FIXTURE_TEST_ORDER": "3990233867",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_every_currency_named\nok   check_usd_total_order_independent\nok   check_recorded_summary\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_6ec55074b614",
+          "clone_seq": 37,
+          "batch": 2,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 286664,
+          "ms": {
+            "create": 16902,
+            "create_wait": 0,
+            "connect": 748,
+            "attest": 0,
+            "run": 357,
+            "kill": 356,
+            "total": 20991
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 20991
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 1987739350138561765,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 1987739350138561765,
+        "env_overrides": {
+          "PYTHONHASHSEED": "0",
+          "FIXTURE_TEST_ORDER": "1326654693",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_recorded_summary\nok   check_every_currency_named\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_178f6bb0aa61",
+          "clone_seq": 38,
+          "batch": 2,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 285299,
+          "ms": {
+            "create": 15444,
+            "create_wait": 0,
+            "connect": 470,
+            "attest": 0,
+            "run": 383,
+            "kill": 280,
+            "total": 19141
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 19141
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 13386980640464104526,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 13386980640464104526,
+        "env_overrides": {
+          "PYTHONHASHSEED": "0",
+          "FIXTURE_TEST_ORDER": "434433102",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_usd_total_order_independent\nok   check_every_currency_named\nok   check_recorded_summary\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_731ecf795e4d",
+          "clone_seq": 39,
+          "batch": 2,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 286154,
+          "ms": {
+            "create": 16307,
+            "create_wait": 0,
+            "connect": 383,
+            "attest": 0,
+            "run": 330,
+            "kill": 292,
+            "total": 19857
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 19857
+    },
+    {
+      "branch_id": "no-hash_randomization",
+      "seed": 14852742061699591360,
+      "passed": true,
+      "detail": "exit 0",
+      "artifact": {
+        "exit_code": 0,
+        "timed_out": false,
+        "seed": 14852742061699591360,
+        "env_overrides": {
+          "PYTHONHASHSEED": "0",
+          "FIXTURE_TEST_ORDER": "1075539136",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_usd_total_order_independent\nok   check_recorded_summary\nok   check_every_currency_named\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_de806b46af1c",
+          "clone_seq": 40,
+          "batch": 2,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 286399,
+          "ms": {
+            "create": 16546,
+            "create_wait": 0,
+            "connect": 478,
+            "attest": 0,
+            "run": 317,
+            "kill": 272,
+            "total": 20162
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 20162
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 9563435206227693778,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 9563435206227693778,
+        "env_overrides": {
+          "PYTHONHASHSEED": "2611646674",
+          "FIXTURE_TEST_ORDER": "2611646674",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_every_currency_named\nFAIL check_recorded_summary: 'jpy=40.00 eur=20.00 gbp=30.00 usd=10.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_0b984d6a488c",
+          "clone_seq": 41,
+          "batch": 2,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 285872,
+          "ms": {
+            "create": 16034,
+            "create_wait": 0,
+            "connect": 468,
+            "attest": 0,
+            "run": 316,
+            "kill": 295,
+            "total": 19668
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 19668
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 4824335938805908115,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 4824335938805908115,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3584901779",
+          "FIXTURE_TEST_ORDER": "3584901779",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_every_currency_named\nFAIL check_recorded_summary: 'jpy=40.00 gbp=30.00 eur=20.00 usd=10.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_3f00cfdd0e76",
+          "clone_seq": 42,
+          "batch": 2,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 286493,
+          "ms": {
+            "create": 16648,
+            "create_wait": 0,
+            "connect": 466,
+            "attest": 0,
+            "run": 307,
+            "kill": 305,
+            "total": 20250
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 20250
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 6893486277407153784,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 6893486277407153784,
+        "env_overrides": {
+          "PYTHONHASHSEED": "4242677368",
+          "FIXTURE_TEST_ORDER": "4242677368",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_every_currency_named\nFAIL check_recorded_summary: 'gbp=30.00 usd=10.00 eur=20.00 jpy=40.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_286e63cebe2a",
+          "clone_seq": 43,
+          "batch": 2,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 286931,
+          "ms": {
+            "create": 17121,
+            "create_wait": 0,
+            "connect": 506,
+            "attest": 0,
+            "run": 361,
+            "kill": 288,
+            "total": 20819
+          },
+          "runner_ms": 17,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 20819
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 9195877078395022481,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 9195877078395022481,
+        "env_overrides": {
+          "PYTHONHASHSEED": "535063697",
+          "FIXTURE_TEST_ORDER": "535063697",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "FAIL check_recorded_summary: 'jpy=40.00 eur=20.00 gbp=30.00 usd=10.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_every_currency_named\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_d9e21f422c52",
+          "clone_seq": 44,
+          "batch": 2,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 286793,
+          "ms": {
+            "create": 16957,
+            "create_wait": 0,
+            "connect": 551,
+            "attest": 0,
+            "run": 366,
+            "kill": 287,
+            "total": 20689
+          },
+          "runner_ms": 17,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 20689
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 7787070343949209202,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 7787070343949209202,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1544703602",
+          "FIXTURE_TEST_ORDER": "1544703602",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "FAIL check_recorded_summary: 'usd=10.00 gbp=30.00 jpy=40.00 eur=20.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_usd_total_order_independent\nok   check_every_currency_named\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_3728688d1c99",
+          "clone_seq": 45,
+          "batch": 2,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 285035,
+          "ms": {
+            "create": 15205,
+            "create_wait": 0,
+            "connect": 450,
+            "attest": 0,
+            "run": 312,
+            "kill": 282,
+            "total": 18816
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 18816
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 15690077283505076441,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 15690077283505076441,
+        "env_overrides": {
+          "PYTHONHASHSEED": "3854498009",
+          "FIXTURE_TEST_ORDER": "3854498009",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_every_currency_named\nok   check_usd_total_order_independent\nFAIL check_recorded_summary: 'usd=10.00 eur=20.00 jpy=40.00 gbp=30.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_0547d8325686",
+          "clone_seq": 46,
+          "batch": 2,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 285390,
+          "ms": {
+            "create": 15543,
+            "create_wait": 0,
+            "connect": 485,
+            "attest": 0,
+            "run": 321,
+            "kill": 285,
+            "total": 19184
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 19184
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 18040128173042233902,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 18040128173042233902,
+        "env_overrides": {
+          "PYTHONHASHSEED": "548598318",
+          "FIXTURE_TEST_ORDER": "548598318",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_every_currency_named\nok   check_usd_total_order_independent\nFAIL check_recorded_summary: 'jpy=40.00 gbp=30.00 usd=10.00 eur=20.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_68f623a63a6c",
+          "clone_seq": 47,
+          "batch": 2,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 286231,
+          "ms": {
+            "create": 16398,
+            "create_wait": 0,
+            "connect": 638,
+            "attest": 0,
+            "run": 382,
+            "kill": 312,
+            "total": 20268
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 20268
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 10576895483705698922,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 10576895483705698922,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1421224554",
+          "FIXTURE_TEST_ORDER": "1421224554",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "FAIL check_recorded_summary: 'jpy=40.00 eur=20.00 usd=10.00 gbp=30.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_every_currency_named\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_18d7b1818921",
+          "clone_seq": 48,
+          "batch": 2,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 284337,
+          "ms": {
+            "create": 14493,
+            "create_wait": 0,
+            "connect": 364,
+            "attest": 0,
+            "run": 307,
+            "kill": 277,
+            "total": 17970
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 17970
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 11432744434543455367,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 11432744434543455367,
+        "env_overrides": {
+          "PYTHONHASHSEED": "1825139847",
+          "FIXTURE_TEST_ORDER": "1825139847",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "FAIL check_recorded_summary: 'eur=20.00 gbp=30.00 usd=10.00 jpy=40.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_every_currency_named\nok   check_usd_total_order_independent\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_277e677c17d8",
+          "clone_seq": 49,
+          "batch": 2,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 285301,
+          "ms": {
+            "create": 15462,
+            "create_wait": 0,
+            "connect": 491,
+            "attest": 0,
+            "run": 359,
+            "kill": 324,
+            "total": 19251
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 19251
+    },
+    {
+      "branch_id": "baseline",
+      "seed": 6420038783374494222,
+      "passed": false,
+      "detail": "exit 1",
+      "artifact": {
+        "exit_code": 1,
+        "timed_out": false,
+        "seed": 6420038783374494222,
+        "env_overrides": {
+          "PYTHONHASHSEED": "927238670",
+          "FIXTURE_TEST_ORDER": "927238670",
+          "TZ": "Asia/Kolkata",
+          "LANG": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "output_tail": "ok   check_usd_total_order_independent\nFAIL check_recorded_summary: 'gbp=30.00 jpy=40.00 usd=10.00 eur=20.00' != recorded 'usd=10.00 jpy=40.00 eur=20.00 gbp=30.00'\nok   check_every_currency_named\n",
+        "platform": {
+          "backend": "solari",
+          "isolation": "clone",
+          "clone": "sbx_f96b6e53714d",
+          "clone_seq": 50,
+          "batch": 2,
+          "position": 0,
+          "attempts": 1,
+          "infra_errors": [],
+          "create_waits": 0,
+          "refused_creates": 0,
+          "reaped": 0,
+          "kill_failed": false,
+          "ttl_requested_ms": 270000,
+          "ttl_granted_ms": 283838,
+          "ms": {
+            "create": 14007,
+            "create_wait": 0,
+            "connect": 529,
+            "attest": 0,
+            "run": 321,
+            "kill": 268,
+            "total": 17636
+          },
+          "runner_ms": 16,
+          "saw_path": true
+        },
+        "attestation": {
+          "level": "content",
+          "ok": true,
+          "digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+          "files": 5,
+          "ms": 0,
+          "nonce_ok": true,
+          "canary_readback": true
+        }
+      },
+      "duration_ms": 17636
+    }
+  ]
+}

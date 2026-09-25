@@ -1,0 +1,180 @@
+{
+  "attestation": {
+    "bytes": 36170,
+    "canary_readback": true,
+    "content_digest": "1b4bd702796aa8c993f486133f813c14ecb088b0291ce8ad28d1eed82be712c3",
+    "exclude_dirs": [
+      "__pycache__",
+      ".pytest_cache",
+      ".mypy_cache",
+      ".ruff_cache",
+      ".hypothesis",
+      ".tox",
+      ".nox"
+    ],
+    "files": 5,
+    "level": "content",
+    "level_downgraded": null,
+    "refusals": 0,
+    "roots": [
+      "/opt/crux",
+      "/root/flake-fixture"
+    ],
+    "stat_digest": "15a8661add83e59e659a8edb10794763ce8ffa16ea85478e4d2239329e3b8684"
+  },
+  "backend": "solari",
+  "cleanup": {
+    "clean": true,
+    "created": 51,
+    "filter_leaks": 0,
+    "kill_failures": 0,
+    "killed": 51,
+    "listing_truncated": false,
+    "reaped": 0,
+    "reason": null,
+    "snapshot_deleted": true,
+    "snapshot_unresolved": false,
+    "tagged_remaining": 0
+  },
+  "code": {
+    "fixture_sha256": null,
+    "runner_sha256": "d7ef587ca0e1ad37686998dce75076ce866e1deddf873410980b9d90d8b70766"
+  },
+  "concurrency": {
+    "effective": 1,
+    "lowered": [],
+    "proven": 1,
+    "refusals_lag": 0,
+    "refusals_unexplained": 0,
+    "refused_creates": 0,
+    "requested": 1,
+    "settle_s": 0.0
+  },
+  "counts": {
+    "clones_created": 50,
+    "clones_killed": 51,
+    "create_attempts": 51,
+    "filter_leaks": 0,
+    "heartbeat_failures": 0,
+    "infra_retries": 0,
+    "kill_failures": 0,
+    "list_truncated": 0,
+    "reaped": 0,
+    "slot_waits": 0,
+    "trials": 50
+  },
+  "cpu": null,
+  "env_semantics_observed": "merge",
+  "inventory": {
+    "after": {
+      "at": "2026-09-23T06:40:37Z",
+      "by_state": {},
+      "crux_other_runs": 0,
+      "foreign": 0,
+      "run_snapshot_present": false,
+      "sandboxes_total": 0,
+      "sandboxes_truncated": false,
+      "snapshots_total": 6,
+      "snapshots_truncated": false,
+      "tagged_this_run": 0
+    },
+    "before": {
+      "at": "2026-09-23T06:19:26Z",
+      "by_state": {},
+      "crux_other_runs": 0,
+      "foreign": 0,
+      "run_snapshot_present": false,
+      "sandboxes_total": 0,
+      "sandboxes_truncated": false,
+      "snapshots_total": 6,
+      "snapshots_truncated": false,
+      "tagged_this_run": 0
+    }
+  },
+  "isolation": {
+    "effective": "clone",
+    "escalated": null,
+    "independence": null,
+    "trials_per_clone": 1
+  },
+  "mem_mb": null,
+  "provision": {
+    "commit": "",
+    "ref": null,
+    "subdir": null,
+    "url": null
+  },
+  "run": "crux-f70459b18181",
+  "schema": 2,
+  "sdk": {
+    "package": "solari-sandbox",
+    "version": "0.2.1",
+    "version_source": "dist"
+  },
+  "session_seconds": 1253.6,
+  "setup": [
+    {
+      "exit_code": 0,
+      "ms": 599,
+      "stage": "build"
+    }
+  ],
+  "setup_notes": [],
+  "snapshot": {
+    "adopted": true,
+    "ms": 292746,
+    "name": "flake-conviction-f70459b1",
+    "ref": "snap_16ea02876058",
+    "reused": false
+  },
+  "template": "base",
+  "timing_ms": {
+    "attest": {
+      "max": 0,
+      "n": 50,
+      "p50": 0,
+      "p90": 0
+    },
+    "connect": {
+      "max": 1127,
+      "n": 50,
+      "p50": 468,
+      "p90": 551
+    },
+    "create": {
+      "max": 17645,
+      "n": 50,
+      "p50": 15602,
+      "p90": 16957
+    },
+    "create_wait": {
+      "max": 4,
+      "n": 50,
+      "p50": 0,
+      "p90": 0
+    },
+    "kill": {
+      "max": 906,
+      "n": 50,
+      "p50": 285,
+      "p90": 314
+    },
+    "run": {
+      "max": 418,
+      "n": 50,
+      "p50": 318,
+      "p90": 361
+    },
+    "total": {
+      "max": 21148,
+      "n": 50,
+      "p50": 19243,
+      "p90": 20689
+    }
+  },
+  "ttl": {
+    "clamped": false,
+    "granted_ms": 286321,
+    "requested_ms": 270000
+  }
+}

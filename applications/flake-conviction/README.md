@@ -107,8 +107,9 @@ run the real SDK over the mock transport, about five seconds of its backoff.
 The transcripts in `proof/` are from this application's own live run on
 2026-09-23 against solari-sandbox 0.2.1 and crux 0.2.0: `attest.txt` (5
 clones), `convict.txt` (the 50-trial investigation followed by its `crux
-verify --recorded` transcript), `convict-report.md` (the bundle's report) and
-`probe-429.txt` (no key). `proof/README.md` names the versions, the commands,
+verify --recorded` transcript), `convict-report.md` (the bundle's report),
+`flake-conviction-seed11/` (the bundle itself, which `crux verify --recorded`
+re-derives with no key) and `probe-429.txt` (no key). `proof/README.md` names the versions, the commands,
 what each file records and the account census on either side of the run.
 Every cost and timing above that names one of those files was measured on
 that run. The one number still cited from crux is the live 429 measurement

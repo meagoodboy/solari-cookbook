@@ -45,11 +45,20 @@ a hyphen, and the salt is drawn per process and never written; the `[crux]`
 lines in convict.txt carry crux's own refs, the same prefixes joined with an
 underscore to exactly 12 hex characters. A real id is longer, so before
 committing run
-`grep -nE "(sbx|snap)_" proof/* | grep -vE "(sbx|snap)_[0-9a-f]{12}([^0-9a-f]|$)"`
-and `grep -n "s[l]r_" proof/*` (bracketed so this file does not match its own
+`grep -rnE "(sbx|snap)_" proof/ | grep -vE "(sbx|snap)_[0-9a-f]{12}([^0-9a-f]|$)"`
+and `grep -rn "s[l]r_" proof/` (recursive, so the bundle directory is scanned
+too; bracketed so this file does not match its own
 check); both must print nothing, and both printed nothing for this run. Run
 tags (`fc-`) are the application's own.
 
-The bundle's `investigation.json` is not committed: at about 56 lines per trial
-it is larger than this whole directory. `convict` regenerates it, and `crux
-verify --recorded` on it is what the transcript in convict.txt records.
+The bundle itself is committed as `flake-conviction-seed11/`, unchanged from
+the run: its `investigation.json` holds all 50 recorded trials, so anyone can
+re-derive the verdict from them with no key, no sandbox and no network:
+
+```
+crux verify --recorded proof/flake-conviction-seed11
+```
+
+convict.txt records the same check, run then against runs/flake-conviction-seed11
+before the bundle was copied here. The bundle carries
+no key and no raw sandbox id; crux redacts ids before it writes anything.

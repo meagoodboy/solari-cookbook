@@ -1,0 +1,89 @@
+{
+  "attest": {
+    "exclude_dirs": [
+      "__pycache__",
+      ".pytest_cache",
+      ".mypy_cache",
+      ".ruff_cache",
+      ".hypothesis",
+      ".tox",
+      ".nox"
+    ],
+    "level": "content",
+    "paths": null
+  },
+  "base_url": null,
+  "cmd": [
+    "python3",
+    "ledger_suite.py"
+  ],
+  "concurrency": 1,
+  "cpu": null,
+  "cwd": "/root/flake-fixture",
+  "env_base": {},
+  "expect_commit": null,
+  "guest_python": "python3",
+  "kind": "solari-command",
+  "mem_mb": null,
+  "order_seed": 0,
+  "path_prepend": [],
+  "provision": null,
+  "runner_sha256": "d7ef587ca0e1ad37686998dce75076ce866e1deddf873410980b9d90d8b70766",
+  "schema": 1,
+  "setup_stages": [
+    {
+      "cwd": null,
+      "env": {
+        "FIXTURE_DIR": "/root/flake-fixture",
+        "SUITE_SOURCE": "\"\"\"The suite under test: three checks on a ledger report, one planted defect.\nsummary_line iterates a set, so its order follows the per-process string hash\nseed. The expected value is not hand-written: the build stage keeps one run of\n`--record` under PYTHONHASHSEED=0, which is how this defect reaches a real\nsuite. FIXTURE_TEST_ORDER shuffles the checks so that \"randomized test order\"\nis a suspect that genuinely varies between trials.\"\"\"\n\nimport os\nimport random\nimport sys\n\nENTRIES = [{\"currency\": \"usd\", \"amount\": 10}, {\"currency\": \"eur\", \"amount\": 20},\n           {\"currency\": \"gbp\", \"amount\": 30}, {\"currency\": \"jpy\", \"amount\": 40}]\nRATES = {\"usd\": 1.0, \"eur\": 1.09, \"gbp\": 1.27, \"jpy\": 0.0067}\n\n\ndef totals(entries):\n    sums = {}\n    for entry in entries:\n        sums[entry[\"currency\"]] = sums.get(entry[\"currency\"], 0.0) + float(entry[\"amount\"])\n    return sums\n\n\ndef summary_line(entries):\n    sums = totals(entries)\n    seen = {code for code in sums}\n    return \" \".join(\"%s=%.2f\" % (code, sums[code]) for code in seen)\n\n\ndef to_usd(entries):\n    return round(sum(float(e[\"amount\"]) * RATES[e[\"currency\"]] for e in entries), 2)\n\n\ndef check_recorded_summary():\n    with open(\"expected.txt\", encoding=\"utf-8\") as fh:\n        expected = fh.read().strip()\n    if summary_line(ENTRIES) != expected:\n        raise AssertionError(\"%r != recorded %r\" % (summary_line(ENTRIES), expected))\n\n\ndef check_every_currency_named():\n    line = summary_line(ENTRIES)\n    if not all(e[\"currency\"] in line for e in ENTRIES):\n        raise AssertionError(\"a currency is missing from %r\" % line)\n\n\ndef check_usd_total_order_independent():\n    if to_usd(ENTRIES) != to_usd(list(reversed(ENTRIES))):\n        raise AssertionError(\"to_usd depends on entry order\")\n\n\ndef main(argv):\n    if argv[1:] == [\"--record\"]:\n        print(summary_line(ENTRIES))\n        return 0\n    checks = [check_recorded_summary, check_every_currency_named, check_usd_total_order_independent]\n    order = os.environ.get(\"FIXTURE_TEST_ORDER\", \"0\")\n    if order != \"0\":\n        random.Random(int(order)).shuffle(checks)\n    failed = 0\n    for check in checks:\n        try:\n            check()\n            print(\"ok   \" + check.__name__)\n        except AssertionError as exc:\n            failed += 1\n            print(\"FAIL \" + check.__name__ + \": \" + str(exc))\n    return 1 if failed else 0\n\n\nif __name__ == \"__main__\":\n    sys.exit(main(sys.argv))\n"
+      },
+      "name": "build",
+      "script": "set -euo pipefail\n# Static: nothing is interpolated into this file. The suite arrives in\n# SUITE_SOURCE and is written with printf '%s', which keeps its bytes.\nrm -rf \"$FIXTURE_DIR\"\nmkdir -p \"$FIXTURE_DIR\"\ncd \"$FIXTURE_DIR\"\nprintf '%s' \"$SUITE_SOURCE\" > ledger_suite.py\nPYTHONHASHSEED=0 python3 ledger_suite.py --record > expected.txt\necho \"recorded: $(cat expected.txt)\"\nif ! PYTHONHASHSEED=0 FIXTURE_TEST_ORDER=0 python3 ledger_suite.py > /dev/null; then\n  echo \"FIXTURE BROKEN: the neutral arm failed\"; exit 1\nfi\necho \"neutral arm passed\"\nfails=0\nfor seed in 1 2 3 4 5 6 7 8 9 10 11 12; do\n  PYTHONHASHSEED=\"$seed\" FIXTURE_TEST_ORDER=0 python3 ledger_suite.py > /dev/null || fails=$((fails + 1))\ndone\necho \"active arm: $fails of 12 seeds failed\"\nif [ \"$fails\" -lt 6 ]; then\n  echo \"FIXTURE TOO WEAK: $fails of 12; the trial budget cannot find this\"; exit 1\nfi\n# Unquoted on purpose: the locale decoy is two assignments in one word.\nfor decoy in FIXTURE_TEST_ORDER=987654321 TZ=Asia/Kolkata \"LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8\"; do\n  if ! env PYTHONHASHSEED=0 $decoy python3 ledger_suite.py > /dev/null; then\n    echo \"FIXTURE BROKEN: $decoy changed the outcome with the seed pinned\"; exit 1\n  fi\n  echo \"decoy inert: $decoy\"\ndone\n",
+      "timeout_s": null
+    }
+  ],
+  "specs": [
+    {
+      "active": {
+        "PYTHONHASHSEED": "{seed32}"
+      },
+      "factor_id": "hash_randomization",
+      "neutral": {
+        "PYTHONHASHSEED": "0"
+      }
+    },
+    {
+      "active": {
+        "FIXTURE_TEST_ORDER": "{seed32}"
+      },
+      "factor_id": "test_order",
+      "neutral": {
+        "FIXTURE_TEST_ORDER": "0"
+      }
+    },
+    {
+      "active": {
+        "TZ": "Asia/Kolkata"
+      },
+      "factor_id": "timezone",
+      "neutral": {
+        "TZ": "UTC"
+      }
+    },
+    {
+      "active": {
+        "LANG": "en_US.UTF-8",
+        "LC_ALL": "en_US.UTF-8"
+      },
+      "factor_id": "locale",
+      "neutral": {
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8"
+      }
+    }
+  ],
+  "stage_timeout_s": 900.0,
+  "template": "base",
+  "timeout_s": 120.0,
+  "trials_per_clone": 1
+}
